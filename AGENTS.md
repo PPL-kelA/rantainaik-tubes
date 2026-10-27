@@ -27,15 +27,14 @@ Bila spec dan kode bertentangan, spec menang. Bila spec kurang jelas atau saling
 Next.js (App Router) + TypeScript + Tailwind CSS + shadcn/ui, Prisma + PostgreSQL, Auth.js (RBAC: INDUSTRY, UMKM, ADMIN), Zod, Vitest, Playwright. File: Cloudinary/Supabase/S3. Email: Resend. Job terjadwal: Vercel Cron/node-cron.
 
 ## Perintah
-<!-- ISI: jalankan /audit untuk mengisi tabel ini dari package.json. Jangan menebak. -->
 | Tujuan | Perintah |
 |---|---|
-| Dev | `ISI` |
-| Lint | `ISI` |
-| Typecheck | `ISI` |
-| Test unit | `ISI` |
-| Test e2e | `ISI` |
-| Migrasi DB | `ISI` |
+| Dev | `pnpm run dev` |
+| Lint | `pnpm run lint` |
+| Typecheck | `pnpm run typecheck` |
+| Test unit | `pnpm run test` |
+| Test e2e | `pnpm run test:e2e` |
+| Migrasi DB | `pnpm run db:migrate` |
 
 ## Konvensi kode
 - Struktur per modul: `src/modules/<modul>/` berisi `rules.ts` (fungsi murni), `service.ts`, `repo.ts` (satu-satunya tempat memakai Prisma), `schema.ts` (Zod), `*.test.ts`. Modul: auth, organizations, capabilities, readiness, rfq, matching, quotations, sampling, orders, escrow, disputes, payouts, reviews, notifications, admin.
@@ -86,3 +85,13 @@ Ikuti P0 di `docs/design/PROMPT_FIGMA.md`: navigasi atas (bukan sidebar), latar 
 - [ ] Otorisasi dan validasi input ada
 - [ ] UI sesuai P0 dan teks Indonesia
 - [ ] `docs/HANDOFF.md` diperbarui, `DECISIONS.md` bila ada keputusan baru
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

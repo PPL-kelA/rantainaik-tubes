@@ -13,6 +13,7 @@ Format: `D-nomor | tanggal | keputusan | alasan | dampak`
 | D-005 | 2026-10 | UI minimalis tetapi padat informasi, gaya Upwork/Fiverr, navigasi atas | Banyak teks dan data, keterbacaan | `docs/design/PROMPT_FIGMA.md` v3.1 |
 | D-006 | 2026-10 | Stack: Next.js (App Router) + TypeScript + Tailwind + shadcn/ui, Prisma, PostgreSQL, Auth.js, Zod | Satu codebase fullstack, cepat untuk proyek kuliah | Spec bagian 11 |
 | D-007 | 2026-10-27 | `AGENTS.md` adalah panduan agen utama, `CLAUDE.md` hanya meng-import-nya | Dua akun/alat AI harus membaca aturan yang sama | Hindari aturan ganda yang tidak sinkron |
+| D-008 | 2026-10-27 | Package manager pnpm (v12.15.0) dan versi paket utama: Next.js 16.4.3, React 19.3.0, Prisma 6.19.3, Tailwind 4, Vitest 5.0.5, Playwright 1.64.1 | Performa instalasi efisien pnpm, Prisma 6 stabil untuk migrate/generate, toolchain modern | Skrip dan lockfile berbasis pnpm, CI menggunakan pnpm/action-setup |
 
 ## Belum diputuskan (dari spec bagian 17)
 - Besaran komisi final, penanggung biaya mitra pembayaran
