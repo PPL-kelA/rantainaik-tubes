@@ -8,7 +8,7 @@
 
 ## Status ringkas
 - Tahap 2 (Autentikasi dan RBAC) selesai lengkap: Skema database (User, Organization, Member), Auth.js v5 credentials, server guards (`requireRole`, `requireVerified`, BR-01), login attempt lockout, reset password.
-- Navbar di-limit dinamis per user: tiap role hanya melihat menu yang relevan (Guest: Beranda/Escrow/Cara Kerja; UMKM: Cari RFQ/Penawaran/Order; Industri: RFQ Saya/Cari UMKM/Status Escrow; Admin: Dashboard/Verifikasi Akun/Ledger/Sengketa).
+- Navbar di-limit dinamis per user: tiap role hanya melihat menu yang relevan (Guest: Beranda/Escrow/Cara Kerja; UMKM: Cari RFQ/Penawaran/Order; Industri: RFQ Saya/Cari UMKMclear/Status Escrow; Admin: Dashboard/Verifikasi Akun/Ledger/Sengketa).
 - Fitur verifikasi admin: Admin dapat melihat antrean akun pending dan langsung meng-ACC (Verifikasi) atau menolak/menangguhkan akun.
 - Seluruh 12 unit test Vitest dan 9 E2E test Playwright hijau 100%. Next.js build berhasil tanpa error.
 
