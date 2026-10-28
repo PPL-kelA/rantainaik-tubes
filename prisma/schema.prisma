@@ -10,3 +10,84 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+enum Role {
+  INDUSTRY
+  UMKM
+  ADMIN
+}
+
+enum AccountStatus {
+  PENDING
+  VERIFIED
+  SUSPENDED
+}
+
+enum OrgType {
+  INDUSTRY
+  UMKM
+  PLATFORM
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  SUSPENDED
+}
+
+enum MemberRole {
+  OWNER
+  MEMBER
+  ADMIN
+}
+
+model User {
+  id                  String               @id @default(cuid())
+  email               String               @unique
+  passwordHash        String               @map("password_hash")
+  role                Role
+  status              AccountStatus        @default(PENDING)
+  failedLoginAttempts Int                  @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime?            @map("locked_until")
+  resetToken          String?              @map("reset_token")
+  resetTokenExpiry    DateTime?            @map("reset_token_expiry")
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @updatedAt @map("updated_at")
+  
+  organizationMembers OrganizationMember[]
+
+  @@map("users")
+}
+
+model Organization {
+  id                 String               @id @default(cuid())
+  type               OrgType
+  name               String
+  city               String
+  province           String
+  address            String?
+  picName            String               @map("pic_name")
+  picPhone           String?              @map("pic_phone")
+  verificationStatus VerificationStatus   @default(PENDING) @map("verification_status")
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+
+  members            OrganizationMember[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String       @id @default(cuid())
+  userId         String       @map("user_id")
+  organizationId String       @map("organization_id")
+  role           MemberRole   @default(OWNER)
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("organization_members")
+}
