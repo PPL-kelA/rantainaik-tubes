@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# rantainaik-tubes
+# rantainaik
 =======
 # RantaiNaik
 
