@@ -42,6 +42,21 @@ enum MemberRole {
   ADMIN
 }
 
+enum DocumentType {
+  NIB
+  NPWP
+  IZIN_USAHA
+  FOTO_BENGKEL
+  AKTA
+  KONTAK_PIC
+}
+
+enum DocumentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
 model User {
   id                  String               @id @default(cuid())
   email               String               @unique
@@ -74,8 +89,42 @@ model Organization {
   updatedAt          DateTime             @updatedAt @map("updated_at")
 
   members            OrganizationMember[]
+  documents          Document[]
 
   @@map("organizations")
+}
+
+model Document {
+  id              String         @id @default(cuid())
+  organizationId  String         @map("organization_id")
+  type            DocumentType
+  fileUrl         String         @map("file_url")
+  fileName        String         @map("file_name")
+  fileSize        Int            @default(0) @map("file_size")
+  status          DocumentStatus @default(PENDING)
+  rejectionReason String?        @map("rejection_reason")
+  validUntil      DateTime?      @map("valid_until")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  organization    Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("documents")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  entity    String
+  entityId  String   @map("entity_id")
+  action    String
+  actorId   String?  @map("actor_id")
+  details   Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([entity, entityId])
+  @@index([actorId])
+  @@map("audit_logs")
 }
 
 model OrganizationMember {

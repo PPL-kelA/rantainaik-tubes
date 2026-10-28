@@ -3,6 +3,8 @@ node_modules
 coverage
 playwright-report
 test-results
+storage
+tests/e2e/fixtures
 dist
 docs
 .claude
