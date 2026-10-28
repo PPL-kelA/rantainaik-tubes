@@ -1,0 +1,300 @@
+Issue Id,Issue Type,Summary,Description,Priority,Story Points,Labels,Labels,Parent Id,Epic Name,Sprint
+1,Epic,"EP-01 Perencanaan dan Perancangan","Menyiapkan kebutuhan, rancangan, dan validasi awal sebelum implementasi.",High,,epic,Fase-1,,"EP-01 Perencanaan dan Perancangan",
+2,Epic,"EP-02 Fondasi Akun dan Verifikasi","Inisiasi proyek, autentikasi berbasis peran, profil organisasi, unggah dokumen, dan verifikasi oleh admin.",High,,epic,Fase-1,,"EP-02 Fondasi Akun dan Verifikasi",
+3,Epic,"EP-03 Kapabilitas UMKM dan Readiness Score","Kapabilitas dan sertifikasi UMKM, perhitungan Readiness Score, dan gap analysis.",High,,epic,Fase-1,,"EP-03 Kapabilitas UMKM dan Readiness Score",
+4,Epic,"EP-04 RFQ dan Supplier Matching","Pembuatan RFQ oleh industri dan matching berbasis aturan beserta daftar kandidat.",High,,epic,Fase-1,,"EP-04 RFQ dan Supplier Matching",
+5,Epic,"EP-05 Penawaran, Order, dan QC","Penawaran UMKM, matriks perbandingan, pemilihan pemenang, order, dan pencatatan QC.",High,,epic,Fase-1,,"EP-05 Penawaran Order dan QC",
+6,Epic,"EP-06 Rating, Dashboard, dan Notifikasi","Ulasan dua arah, dashboard per peran, notifikasi, audit log, dan laporan admin.",High,,epic,Fase-1,,"EP-06 Rating Dashboard dan Notifikasi",
+7,Epic,"EP-07 Pengujian, UAT, dan Finalisasi","Pengujian menyeluruh, UAT, perbaikan, dokumentasi final, dan persiapan demo.",High,,epic,Fase-1,,"EP-07 Pengujian UAT dan Finalisasi",
+8,Epic,"EP-08 Pengayaan Opsional","Fitur tambahan Should/Could yang dikerjakan jika kapasitas tersisa.",Low,,epic,Opsional,,"EP-08 Pengayaan Opsional",
+9,Epic,"EP-09 Fase 2 ML dan AI (di luar lingkup Fase 1)","Spike dan eksperimen ML/AI setelah core business stabil dan data transaksi tersedia.",Low,,epic,Fase-2,,"EP-09 Fase 2 ML dan AI",
+101,Task,"[D-01] Penyusunan SRS dan use case diagram","Menyusun SRS (kebutuhan fungsional dan non-fungsional) dan use case diagram.
+
+Kriteria penerimaan:
+- SRS memuat daftar FR dan NFR yang konsisten dengan dokumen konteks proyek
+- Use case diagram mencakup tiga peran (Industri, UMKM, Admin)
+- Dokumen ditinjau dan disetujui seluruh anggota",High,5,D-01,Must,1,,Sprint 0
+102,Task,"[D-02] Perancangan ERD dan arsitektur sistem","Merancang ERD dan arsitektur sistem.
+
+Kriteria penerimaan:
+- ERD memuat entitas inti (organisasi, dokumen, kapabilitas, RFQ, penawaran, order, ulasan, skor)
+- Diagram arsitektur menjelaskan modul, basis data, dan layanan pendukung
+- Skema dinormalisasi dan disetujui tim",High,5,D-02,Must,1,,Sprint 0
+103,Task,"[D-03] Desain UI/UX (wireframe dan prototipe)","Merancang wireframe dan prototipe UI/UX.
+
+Kriteria penerimaan:
+- Wireframe layar inti untuk tiap peran
+- Prototipe interaktif untuk 3 alur utama
+- Design system dasar (warna, tipografi, komponen)",High,8,D-03,Must,1,,Sprint 0
+104,Task,"[D-04] Validasi awal (wawancara) dan data demo","Melakukan wawancara awal dan menyiapkan data demo.
+
+Kriteria penerimaan:
+- Wawancara 3-5 pelaku UMKM dan 1-2 pihak pengadaan, hasil dirangkum
+- Taksonomi kategori dan daftar sertifikasi awal ditetapkan dari hasil wawancara
+- 20-30 profil UMKM dan 5-8 RFQ simulasi disiapkan dan ditandai sebagai data simulasi",High,5,D-04,Must,1,,Sprint 0
+201,Task,"[T-01] Inisiasi proyek (repositori, struktur, lint)","Inisiasi proyek.
+
+Kriteria penerimaan:
+- Repositori dan struktur modul dibuat
+- Lint, format, dan template environment tersedia
+- README berisi langkah menjalankan proyek di lokal",High,3,T-01,Must,2,,Sprint 1
+202,Task,"[T-06] Setup basis data dan skema awal","Setup basis data dan skema awal (ORM, migrasi, seed).
+
+Kriteria penerimaan:
+- Skema awal (user, organisasi, dokumen) termigrasi
+- Seed berisi peran dan data master dasar
+- Konfigurasi koneksi terpisah per environment",High,3,T-06,Must,2,,Sprint 1
+203,Task,"[T-07] Setup CI dan deployment awal","Setup CI dan deployment awal.
+
+Kriteria penerimaan:
+- Pipeline otomatis menjalankan lint, test, dan build
+- Aplikasi ter-deploy ke lingkungan staging
+- Rahasia (secrets) tidak tersimpan di repositori",Medium,3,T-07,Should,2,,Sprint 1
+204,Story,"[FR-01] Registrasi dan login berbasis peran","Sebagai pengguna, saya ingin mendaftar dan masuk sesuai peran (Industri, UMKM, Admin) agar mengakses fitur yang relevan.
+
+Kriteria penerimaan:
+- Registrasi memilih peran dan memvalidasi email unik
+- Password disimpan ter-hash
+- Setelah login pengguna diarahkan ke dashboard sesuai peran
+- Halaman terlarang menolak akses peran yang tidak berwenang (RBAC)",High,5,FR-01,Must,2,,Sprint 1
+205,Story,"[FR-03] Pengelolaan profil organisasi","Sebagai pengguna organisasi, saya ingin mengelola profil organisasi agar data usaha lengkap.
+
+Kriteria penerimaan:
+- Field wajib tervalidasi (nama, tipe, kota, penanggung jawab)
+- Perubahan tersimpan dan terlihat segera
+- Indikator kelengkapan profil ditampilkan",High,3,FR-03,Must,2,,Sprint 1
+206,Story,"[FR-04] Unggah dokumen verifikasi","Sebagai pengguna, saya ingin mengunggah dokumen verifikasi agar akun dapat ditinjau.
+
+Kriteria penerimaan:
+- Jenis dokumen sesuai peran
+- Validasi tipe dan ukuran file
+- Status dokumen tampil (Menunggu, Terverifikasi, Ditolak) beserta alasan penolakan
+- Dokumen hanya dapat dilihat pemilik dan admin",High,5,FR-04,Must,2,,Sprint 1
+207,Story,"[FR-05] Antrian verifikasi oleh admin","Sebagai admin, saya ingin meninjau antrian verifikasi agar hanya akun sah yang aktif.
+
+Kriteria penerimaan:
+- Daftar antrian dengan filter status
+- Setujui atau tolak per dokumen, penolakan wajib alasan
+- Akun menjadi Terverifikasi jika dokumen minimum terpenuhi
+- Pengguna menerima pemberitahuan hasil",High,5,FR-05,Must,2,,Sprint 1
+208,Story,"[FR-08] Pengelolaan pengguna oleh admin","Sebagai admin, saya ingin mengelola pengguna agar platform terkendali.
+
+Kriteria penerimaan:
+- Daftar pengguna dengan pencarian dan filter
+- Aktifkan atau tangguhkan akun
+- Penangguhan tercatat di audit",High,3,FR-08,Must,2,,Sprint 1
+209,Story,"[FR-02] Reset password lewat email","Sebagai pengguna, saya ingin mengatur ulang password lewat email agar bisa masuk kembali.
+
+Kriteria penerimaan:
+- Tautan reset berlaku terbatas waktu
+- Password baru memenuhi aturan
+- Tautan lama tidak dapat dipakai ulang",Medium,2,FR-02,Should,2,,Sprint 1
+301,Story,"[FR-06] Master kategori produk dan sertifikasi","Sebagai admin, saya ingin mengelola master kategori dan sertifikasi agar taksonomi konsisten.
+
+Kriteria penerimaan:
+- Kategori dua tingkat (kategori, subkategori) dapat ditambah, diubah, dinonaktifkan
+- Master sertifikasi dapat dikelola
+- Data yang sedang dipakai tidak dapat dihapus",High,3,FR-06,Must,3,,Sprint 2
+302,Story,"[FR-10] Pengelolaan kapabilitas UMKM","Sebagai UMKM, saya ingin mengelola kapabilitas produksi agar dapat dicocokkan dengan RFQ.
+
+Kriteria penerimaan:
+- Kapabilitas memuat kategori, kapasitas bulanan, satuan, MOQ, lead time, area layanan
+- Validasi angka dan field wajib
+- Satu UMKM dapat memiliki beberapa kapabilitas",High,5,FR-10,Must,3,,Sprint 2
+303,Story,"[FR-12] Pengelolaan sertifikasi dan masa berlaku","Sebagai UMKM, saya ingin mengelola sertifikasi beserta masa berlaku agar kredibilitas tercatat.
+
+Kriteria penerimaan:
+- Sertifikasi memiliki nomor, masa berlaku, dan dokumen
+- Sertifikasi kedaluwarsa ditandai dan tidak dihitung dalam skor
+- Pengingat 30 hari sebelum kedaluwarsa",High,3,FR-12,Must,3,,Sprint 2
+304,Story,"[FR-13] Readiness Score, rincian, dan tier","Sebagai UMKM, saya ingin melihat Readiness Score beserta rincian dan tier agar tahu tingkat kesiapan.
+
+Kriteria penerimaan:
+- Skor 0-100 dihitung dari enam komponen dengan bobot dari konfigurasi
+- Item terverifikasi bernilai penuh, klaim sendiri 50 persen
+- UMKM tanpa riwayat transaksi memakai nilai awal 50 persen pada komponen rekam jejak
+- Skor dihitung ulang otomatis saat dokumen, profil, atau order berubah
+- Tampilan memuat rincian per komponen dan tier",High,8,FR-13,Must,3,,Sprint 2
+305,Story,"[FR-14] Gap analysis dan 3 langkah tercepat naik tier","Sebagai UMKM, saya ingin mendapat gap analysis agar tahu langkah perbaikan.
+
+Kriteria penerimaan:
+- Item belum terpenuhi dipetakan ke aturan rekomendasi
+- Tampil 3 langkah tercepat berdasarkan tambahan poin dibanding kesulitan
+- Setiap rekomendasi menunjukkan perkiraan tambahan poin",High,5,FR-14,Must,3,,Sprint 2
+306,Story,"[FR-07] Konfigurasi bobot skor dan aturan rekomendasi","Sebagai admin, saya ingin mengonfigurasi bobot skor dan aturan rekomendasi agar penilaian dapat disesuaikan.
+
+Kriteria penerimaan:
+- Total bobot harus 100
+- Perubahan memicu perhitungan ulang skor
+- Aturan rekomendasi dapat ditambah, diubah, dihapus",Medium,3,FR-07,Should,3,,Sprint 2
+307,Task,"[T-08] Unit test fungsi Readiness Score","Menulis unit test untuk fungsi perhitungan Readiness Score.
+
+Kriteria penerimaan:
+- Kasus batas tercakup (UMKM baru, dokumen kedaluwarsa, bobot berubah)
+- Fungsi murni tanpa akses basis data
+- Test berjalan di CI",High,3,T-08,Must,3,,Sprint 2
+401,Story,"[FR-19] Pembuatan RFQ","Sebagai industri, saya ingin membuat RFQ terstruktur agar kebutuhan jelas bagi pemasok.
+
+Kriteria penerimaan:
+- Wizard memuat spesifikasi, volume, sertifikasi wajib, lokasi dan tanggal kirim, tenggat, bobot evaluasi
+- Status Draft, Dibuka, Ditutup, Kedaluwarsa, Dibatalkan mengikuti siklus RFQ
+- Tenggat minimal N hari ke depan saat dipublikasikan
+- Estimasi jumlah kandidat tampil saat syarat diubah",High,8,FR-19,Must,4,,Sprint 3
+402,Story,"[FR-20] Matching rule-based dan daftar kandidat","Sebagai industri, saya ingin melihat kandidat UMKM beserta alasan kecocokan agar bisa memilih pemasok.
+
+Kriteria penerimaan:
+- Filter wajib (verifikasi, kategori, kapasitas, MOQ, sertifikasi, area) diterapkan
+- Skor kecocokan 0-100 dengan rincian per komponen
+- Alasan kecocokan ditampilkan
+- Urutan skor tertinggi, tie-break Readiness lalu respons
+- Kondisi tanpa kandidat memberi saran melonggarkan syarat",High,8,FR-20,Must,4,,Sprint 3
+403,Story,"[FR-15] RFQ rekomendasi dan pencarian untuk UMKM","Sebagai UMKM, saya ingin melihat RFQ yang cocok dan mencari RFQ terbuka agar menemukan peluang.
+
+Kriteria penerimaan:
+- Tab Rekomendasi dan Semua RFQ
+- Filter kategori, lokasi, volume, tenggat
+- Kecocokan dan alasan tampil per RFQ
+- RFQ yang tidak memenuhi syarat menampilkan alasan",High,5,FR-15,Must,4,,Sprint 3
+404,Task,"[T-09] Unit test fungsi matching","Menulis unit test untuk fungsi filter dan skor matching.
+
+Kriteria penerimaan:
+- Setiap filter wajib diuji lolos dan gagal
+- Pembobotan dan tie-break diuji
+- Test berjalan di CI",High,3,T-09,Must,4,,Sprint 3
+405,Story,"[FR-11] Katalog produk UMKM","Sebagai UMKM, saya ingin mengelola katalog produk agar industri melihat produk saya.
+
+Kriteria penerimaan:
+- Produk memuat foto dan spesifikasi
+- Katalog tampil di profil UMKM",Medium,3,FR-11,Should,4,,Sprint 3
+406,Story,"[FR-21] Undang kandidat ke RFQ","Sebagai industri, saya ingin mengundang kandidat ke RFQ agar UMKM terbaik mengetahuinya.
+
+Kriteria penerimaan:
+- Undangan terkirim sebagai notifikasi
+- Status undangan tercatat",Medium,3,FR-21,Should,4,,Sprint 3
+501,Story,"[FR-16] Kirim, revisi, dan tarik penawaran","Sebagai UMKM, saya ingin mengirim, merevisi, dan menarik penawaran agar dapat bersaing.
+
+Kriteria penerimaan:
+- Penawaran memuat harga satuan, lead time, MOQ, catatan, lampiran
+- Satu penawaran aktif per RFQ, dapat direvisi sebelum tenggat
+- Penawaran bersifat rahasia antar-UMKM
+- Penawaran ditolak setelah tenggat",High,5,FR-16,Must,5,,Sprint 4
+502,Story,"[FR-22] Matriks perbandingan penawaran","Sebagai industri, saya ingin membandingkan penawaran di matriks keputusan agar pemilihan objektif.
+
+Kriteria penerimaan:
+- Bobot evaluasi dapat diatur dan totalnya 100
+- Skor total dihitung otomatis (harga, mutu, lead time, readiness dan reputasi)
+- Perbandingan side-by-side dengan header tetap saat scroll",High,8,FR-22,Must,5,,Sprint 4
+503,Story,"[FR-23] Shortlist, revisi/sampel, dan pilih pemenang","Sebagai industri, saya ingin shortlist, meminta revisi atau sampel, dan memilih pemenang agar pengadaan terkendali.
+
+Kriteria penerimaan:
+- Maksimal satu putaran revisi per penawaran
+- Kontak UMKM terbuka setelah shortlist
+- Pemilihan pemenang meminta konfirmasi dan mencatat alasan opsional
+- Status RFQ dan penawaran berubah sesuai siklus",High,5,FR-23,Must,5,,Sprint 4
+504,Story,"[FR-17] Order dan pelacakan status","Sebagai UMKM dan industri, saya ingin melihat dan memperbarui status order agar progres transparan.
+
+Kriteria penerimaan:
+- Order terbentuk dari penawaran diterima dengan snapshot syarat
+- Status mengikuti siklus (Dikonfirmasi sampai Selesai)
+- Setiap perubahan status tercatat waktu dan pelakunya",High,5,FR-17,Must,5,,Sprint 4
+505,Story,"[FR-25] Pencatatan penerimaan dan hasil QC","Sebagai industri, saya ingin mencatat penerimaan dan hasil QC agar kualitas terdokumentasi.
+
+Kriteria penerimaan:
+- Form memuat jumlah diterima, jumlah reject, hasil, catatan, foto bukti
+- Hasil QC memengaruhi status order dan metrik reject rate",High,3,FR-25,Must,5,,Sprint 4
+506,Story,"[FR-24] Ekspor PO dalam PDF","Sebagai industri, saya ingin mengekspor PO dalam PDF agar dapat diarsipkan.
+
+Kriteria penerimaan:
+- PDF memuat ringkasan order, pihak, jadwal, syarat
+- Tombol unduh pada detail order",Medium,3,FR-24,Should,5,,Sprint 4
+601,Story,"[FR-27] Rating dan ulasan dua arah","Sebagai pengguna, saya ingin memberi ulasan setelah order selesai agar rekam jejak terbentuk.
+
+Kriteria penerimaan:
+- Ulasan hanya setelah order Selesai, oleh pihak terlibat, satu kali per order
+- Rating keseluruhan dan per aspek
+- Ulasan memicu perhitungan ulang Readiness Score",High,5,FR-27,Must,6,,Sprint 5
+602,Story,"[FR-28a] Dashboard UMKM","Sebagai UMKM, saya ingin dashboard ringkas agar tahu prioritas hari ini.
+
+Kriteria penerimaan:
+- Kartu skor, penawaran aktif, order berjalan
+- Daftar RFQ yang cocok
+- Peringatan dokumen akan kedaluwarsa",High,3,FR-28,Must,6,,Sprint 5
+603,Story,"[FR-28b] Dashboard Industri","Sebagai industri, saya ingin dashboard ringkas agar memantau pengadaan.
+
+Kriteria penerimaan:
+- Ringkasan RFQ aktif, penawaran masuk, order berjalan
+- Daftar perlu tindakan",High,3,FR-28,Must,6,,Sprint 5
+604,Story,"[FR-29] Notifikasi in-app dan email","Sebagai pengguna, saya ingin notifikasi in-app dan email agar tidak melewatkan kejadian penting.
+
+Kriteria penerimaan:
+- Notifikasi untuk perubahan status penting
+- Indikator belum dibaca
+- Email terkirim untuk kejadian utama",Medium,5,FR-29,Should,6,,Sprint 5
+605,Story,"[FR-18] Notifikasi khusus UMKM","Sebagai UMKM, saya ingin notifikasi RFQ cocok, status penawaran, dan dokumen kedaluwarsa agar bertindak tepat waktu.
+
+Kriteria penerimaan:
+- Notifikasi RFQ cocok saat RFQ terbit
+- Pengingat 30 hari sebelum kedaluwarsa dikirim oleh job terjadwal",Medium,3,FR-18,Should,6,,Sprint 5
+606,Story,"[FR-30] Audit log perubahan status","Sebagai admin, saya ingin audit log perubahan status agar ada jejak.
+
+Kriteria penerimaan:
+- Log memuat waktu, pelaku, objek, perubahan
+- Log tidak dapat diubah dari antarmuka",Medium,3,FR-30,Should,6,,Sprint 5
+607,Story,"[FR-09] Dashboard dan laporan ringkas admin","Sebagai admin, saya ingin dashboard dan laporan ringkas platform agar memantau kesehatan sistem.
+
+Kriteria penerimaan:
+- Jumlah pengguna terverifikasi, RFQ, order, distribusi tier
+- Daftar perlu perhatian (antrian verifikasi lama, RFQ tanpa penawaran)",Medium,3,FR-09,Should,6,,Sprint 5
+701,Task,"[T-02] Regresi dan pelengkapan cakupan unit test","Regresi dan pelengkapan cakupan unit test.
+
+Kriteria penerimaan:
+- Cakupan unit test modul scoring dan matching terpenuhi
+- Bug hasil regresi tercatat dan diperbaiki",High,5,T-02,Must,7,,Sprint 6
+702,Task,"[T-03] Pengujian integrasi dan end-to-end","Pengujian integrasi dan end-to-end.
+
+Kriteria penerimaan:
+- Tiga alur utama lulus (UMKM, industri, admin)
+- Otorisasi antarperan diuji",High,5,T-03,Must,7,,Sprint 6
+703,Task,"[D-05] UAT dan kuesioner SUS","Melaksanakan UAT dan kuesioner SUS.
+
+Kriteria penerimaan:
+- Skenario UAT tertulis dijalankan oleh responden
+- Skor SUS dihitung dan dilaporkan
+- Temuan dicatat sebagai backlog perbaikan",High,5,D-05,Must,7,,Sprint 6
+704,Task,"[T-04] Perbaikan bug, optimasi, dan keamanan dasar","Perbaikan bug, optimasi kinerja, dan pemeriksaan keamanan dasar.
+
+Kriteria penerimaan:
+- Bug prioritas tinggi selesai
+- Kinerja halaman utama memenuhi target
+- Pemeriksaan upload file dan akses dokumen",High,5,T-04,Must,7,,Sprint 6
+705,Task,"[D-06] Finalisasi dokumentasi","Finalisasi dokumentasi (laporan dan manual pengguna).
+
+Kriteria penerimaan:
+- Dokumen akhir lengkap dan konsisten dengan sistem
+- Manual pengguna per peran tersedia",High,3,D-06,Must,7,,Sprint 6
+706,Task,"[T-05] Deployment final dan persiapan demo","Deployment final dan persiapan demo.
+
+Kriteria penerimaan:
+- Aplikasi stabil di lingkungan demo
+- Data demo siap dan skenario demo dilatih",High,3,T-05,Must,7,,Sprint 6
+801,Story,"[FR-31] Tanya jawab pada RFQ","Sebagai UMKM dan industri, saya ingin Tanya Jawab pada RFQ agar spesifikasi jelas.
+
+Kriteria penerimaan:
+- Pertanyaan dan jawaban terlihat sesuai aturan kerahasiaan",Medium,3,FR-31,Should,8,,
+802,Story,"[FR-26] Pemasok favorit","Sebagai industri, saya ingin menyimpan pemasok favorit.
+
+Kriteria penerimaan:
+- Tambah dan hapus favorit, daftar favorit tersedia",Low,2,FR-26,Could,8,,
+803,Story,"[FR-32] Ekspor data CSV/PDF","Sebagai pengguna, saya ingin mengekspor laporan dalam CSV atau PDF.
+
+Kriteria penerimaan:
+- Ekspor daftar RFQ, penawaran, dan order sesuai hak akses",Low,3,FR-32,Could,8,,
+901,Task,"[X-01] Spike: semantic matching RFQ dan kapabilitas","Eksperimen semantic matching (embedding teks, pgvector) sebagai pengganti komponen kata kunci pada matching.
+
+Di luar lingkup Fase 1. Keluaran: laporan eksperimen dan keputusan. Prasyarat: data deskripsi cukup dan log match_event tersedia.",Low,5,X-01,Fase-2,9,,
+902,Task,"[X-02] Spike: ekstraksi spesifikasi RFQ (NLP)","Eksperimen ekstraksi spesifikasi terstruktur dari teks atau lampiran RFQ.
+
+Di luar lingkup Fase 1. Keluaran: laporan eksperimen dan keputusan.",Low,3,X-02,Fase-2,9,,
+903,Task,"[X-03] Spike: prediksi pemenuhan order","Eksperimen model prediksi kemungkinan UMKM memenuhi order (gradient boosting).
+
+Di luar lingkup Fase 1. Prasyarat: riwayat order dan log match_event. Laporkan keterbatasan jika data masih simulasi.",Low,5,X-03,Fase-2,9,,
