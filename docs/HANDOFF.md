@@ -2,34 +2,40 @@
 
 > File ini adalah **memori bersama** antar sesi dan antar akun. Agen membacanya di awal sesi dan memperbaruinya di akhir sesi (`/handoff`). Tulis ringkas dan konkret.
 
-**Terakhir diperbarui:** 2026-10-27, oleh: Antigravity (AI Assistant)
-**Branch aktif:** chore/init-project
-**Fase / sprint:** Fase 1 (core business), Sprint 0 (Setup Proyek)
+**Terakhir diperbarui:** 2026-10-28, oleh: Antigravity (AI Assistant)
+**Branch aktif:** feat/auth-rbac
+**Fase / sprint:** Fase 1 (core business), Sprint 1 (Autentikasi & RBAC)
 
 ## Status ringkas
-- Inisiasi baseline proyek selesai: Next.js (App Router), TypeScript strict, Tailwind v4, Prisma 6 (PostgreSQL), Zod, Auth.js v5 beta, Vitest, Playwright, layout shell 64px max-w 1200px, token desain P0.
-- Skrip lint, typecheck, unit test, build, dan e2e test telah lulus secara lokal.
-- Spec: `docs/spec/` (v3). Desain: `docs/design/PROMPT_FIGMA.md` (v3.1).
+- Tahap 2 (Autentikasi dan RBAC) selesai lengkap: Skema database (User, Organization, Member), Auth.js v5 credentials, server guards (`requireRole`, `requireVerified`, BR-01), login attempt lockout, reset password.
+- Navbar di-limit dinamis per user: tiap role hanya melihat menu yang relevan (Guest: Beranda/Escrow/Cara Kerja; UMKM: Cari RFQ/Penawaran/Order; Industri: RFQ Saya/Cari UMKMclear/Status Escrow; Admin: Dashboard/Verifikasi Akun/Ledger/Sengketa).
+- Fitur verifikasi admin: Admin dapat melihat antrean akun pending dan langsung meng-ACC (Verifikasi) atau menolak/menangguhkan akun.
+- Seluruh 12 unit test Vitest dan 9 E2E test Playwright hijau 100%. Next.js build berhasil tanpa error.
 
 ## Sedang dikerjakan
 | Tugas (ID Jira / FR) | Branch | Sudah | Tersisa | File yang disentuh |
 |---|---|---|---|---|
-| Inisiasi Proyek (Tahap 1) | `chore/init-project` | Setup stack, testing, token desain, shell layout, CI workflow, README | Siap review & lanjut ke Sprint 1 | package.json, prisma/*, src/*, tests/*, .github/*, docs/* |
+| Autentikasi & RBAC (Tahap 2) | `feat/auth-rbac` | Schema, auth service, actions, dynamic navbar, admin ACC verification, E2E & unit tests | Selesai & terverifikasi | prisma/*, src/modules/auth/*, src/app/*, tests/e2e/* |
 
 ## Selesai (terbaru di atas)
-- Inisiasi baseline proyek berjalan dari nol (Next.js 16 + React 19 + Prisma 6 + Vitest + Playwright).
-- Token desain P0 diaplikasikan pada shell layout navigasi atas dan halaman placeholder grup rute.
-- Setup workflow CI di `.github/workflows/ci.yml`.
+- Implementasi fitur Admin verifikasi (ACC) akun pending langsung di `/admin` dengan revalidasi state.
+- Dynamic Role-based Navbar (`RoleNavLinks.tsx`): membatasi tautan navigasi sesuai peran aktif pengguna.
+- Halaman UI kaya data (Upwork/Fiverr style) untuk `/login`, `/register`, `/verifikasi-pending`, `/reset-password`, `/umkm`, `/industri`, dan `/admin`.
+- Skema Prisma User, Organization, OrganizationMember dan seed akun lokal 4 peran (Admin, UMKM Verified, UMKM Pending, Industri Verified).
 
 ## Berikutnya (1-3 langkah konkret)
-1. Perbarui `BACKLOG_JIRA.csv` ke v3 sesuai spec v3.
-2. Mulai implementasi Sprint 1: Modul Autentikasi dan Registrasi Akun (FR-01 s.d. FR-05).
-3. Buat skema Prisma data model untuk model `User`, `Account`, dan `Session`.
+1. Tahap 3: Modul Dokumen Legalitas & Verifikasi Dokumen NIB/NPWP oleh Admin (FR-03 s.d. FR-05).
+2. Modul Taksonomi Tekstil & Profil Kapabilitas UMKM (mesin, kapasitas, jenis produk).
+3. Modul Pembuatan RFQ (mode Tunggal & Split Award per Lot).
 
 ## Blocker dan pertanyaan terbuka
-- Tidak ada blocker teknis.
+- Tidak ada blocker.
 
 ## Catatan teknis penting
-- Cara menjalankan lokal: `pnpm run dev` (buka http://localhost:3000)
-- Testing: `pnpm run test` (Vitest) dan `pnpm run test:e2e` (Playwright)
-- Package manager: pnpm v12.15.0 (dapat diakses via PATH `$HOME/Library/pnpm`)
+- Akun uji coba lokal (password default: `Password123`):
+  - Admin: `admin@rantainaik.id`
+  - Industri: `industri@nusantara.id`
+  - UMKM (Verified): `umkm@karyamandiri.id`
+  - UMKM (Pending): `umkm.pending@sinar.id`
+- Testing: `pnpm run test` (Vitest) & `pnpm run test:e2e` (Playwright)
+- Server-side RBAC: `requireRole(session.user.role, allowedRoles)` dan `canPostRfq()` / `canSubmitQuotation()` (BR-01)
