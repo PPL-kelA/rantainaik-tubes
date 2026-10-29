@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { getUserOrganization } from "@/modules/organizations/service";
 import * as service from "./service";
+import { calculateAndSaveReadiness } from "@/modules/readiness/service";
 import { revalidatePath } from "next/cache";
 
 async function getAuthorizedOrg() {
@@ -27,7 +28,13 @@ export async function saveCapabilityAction(formData: unknown) {
       organization.id,
       formData
     );
+    try {
+      await calculateAndSaveReadiness(organization.id);
+    } catch {
+      // Non-fatal hook error
+    }
     revalidatePath("/umkm/profil");
+    revalidatePath("/umkm/readiness");
     return {
       success: true,
       data: result,

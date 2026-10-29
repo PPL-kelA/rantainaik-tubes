@@ -317,11 +317,18 @@ export default async function UmkmDashboardPage() {
               </div>
             </div>
 
-            <div className="border-t border-[#E5E7EB] pt-3">
+            <div className="border-t border-[#E5E7EB] pt-3 flex flex-col gap-2">
               <p className="text-[11px] text-[#6B7280] leading-normal">
                 Tindakan tercepat naik tier: Unggah SOP QC jahit untuk
                 mendapatkan tambahan +5 poin.
               </p>
+              <Link
+                href="/umkm/readiness"
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[#1D4ED8] bg-[#EFF6FF] px-3 py-2 text-xs font-semibold text-[#1D4ED8] hover:bg-[#DBEAFE] transition-colors"
+              >
+                Lihat Analisis Gap & Cara Naik Tier
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
         </div>

@@ -99,6 +99,7 @@ model Organization {
   machineAssets      MachineAsset[]
   portfolioItems     PortfolioItem[]
   certifications     OrgCertification[]
+  readinessSnapshots ReadinessSnapshot[]
 
   @@map("organizations")
 }
@@ -314,4 +315,18 @@ model PlatformConfig {
   updatedAt                DateTime @updatedAt @map("updated_at")
 
   @@map("platform_configs")
+}
+
+model ReadinessSnapshot {
+  id              String       @id @default(cuid())
+  organizationId  String       @map("organization_id")
+  totalScore      Int          @default(0) @map("total_score")
+  tier            String       @default("TAHAP_AWAL")
+  componentScores Json         @map("component_scores")
+  calculatedAt    DateTime     @default(now()) @map("calculated_at")
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, calculatedAt(sort: Desc)])
+  @@map("readiness_snapshots")
 }
