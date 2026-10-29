@@ -405,6 +405,164 @@ async function main() {
   }
   console.log("✓ Recommendation Rules seeded");
 
+  // 10. Seed Demo RFQ-0007 (Spec 7.3.5)
+  const existingRfq7 = await prisma.rfq.findUnique({
+    where: { rfqNumber: "RFQ-0007" },
+  });
+
+  if (!existingRfq7) {
+    const rfq7 = await prisma.rfq.create({
+      data: {
+        rfqNumber: "RFQ-0007",
+        industryOrgId: industriOrg.id,
+        title: "Seragam Karyawan Kantor 2027",
+        categoryType: "SERAGAM",
+        visibility: "TERBUKA",
+        contextDescription:
+          "Pengadaan kemeja kerja dan rompi operasional untuk seluruh karyawan cabang PT Nusantara Logistik.",
+        allocationMode: "TUNGGAL",
+        maxLotsPerUmkm: 1,
+        needSample: true,
+        sampleCostBearer: "DIKREDITKAN",
+        sampleCount: 1,
+        sampleDeadlineDays: 7,
+        qaDeadline: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+        quotationDeadline: new Date(Date.now() + 22 * 24 * 60 * 60 * 1000),
+        targetDeliveryDate: new Date(Date.now() + 75 * 24 * 60 * 60 * 1000),
+        deliveryLocation: "Gudang Logistik Pusat, Daan Mogot, Tangerang",
+        staggeredDelivery: false,
+        releaseTerms: {
+          stages: [
+            { percentage: 30, trigger: "Bahan tiba di workshop konveksi" },
+            {
+              percentage: 70,
+              trigger: "QC akhir lolos dan barang diterima di gudang",
+            },
+          ],
+          description:
+            "Pembeli mendanai penuh ke escrow sebelum produksi. 30% dirilis saat bahan tiba, 70% setelah QC lolos.",
+        },
+        indicativeBudget: BigInt(35000000),
+        hideBudget: false,
+        evaluationWeights: {
+          price: 35,
+          compliance: 25,
+          timeline: 20,
+          reputation: 20,
+        },
+        status: "OPEN",
+        items: {
+          create: [
+            {
+              name: "Kemeja kerja lengan panjang pria",
+              fabricType: "Katun TC ±140 gsm",
+              gsmMin: 135,
+              gsmMax: 145,
+              color: "Biru Navy",
+              materialProvidedByBuyer: false,
+              referencePhotoUrl:
+                "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600",
+              constructionNotes:
+                "Kerah standar tegak, belahan kancing depan tertutup, kancing lengan ganda.",
+              decorationType: "BORDIR",
+              decorationPlacement: "Dada Kiri",
+              labelPackingNotes:
+                "Packing individual per nama karyawan dengan hangtag.",
+              quantityTolerancePercent: 3.0,
+              dimensionTolerance: "±1 cm",
+              aqlStandard: "AQL 2.5",
+              needLabTest: true,
+              totalQuantity: 200,
+              sizes: {
+                create: [
+                  { size: "S", quantity: 20 },
+                  { size: "M", quantity: 70 },
+                  { size: "L", quantity: 70 },
+                  { size: "XL", quantity: 30 },
+                  { size: "XXL", quantity: 10 },
+                ],
+              },
+            },
+            {
+              name: "Rompi operasional",
+              fabricType: "Drill ±240 gsm",
+              gsmMin: 230,
+              gsmMax: 250,
+              color: "Abu-abu",
+              materialProvidedByBuyer: false,
+              referencePhotoUrl:
+                "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=600",
+              constructionNotes:
+                "Lapisan furing parasut, resleting depan vislon, 2 saku tempel bawah.",
+              decorationType: "SABLON",
+              decorationPlacement: "Punggung",
+              labelPackingNotes: "Packing polybag per lusin.",
+              quantityTolerancePercent: 3.0,
+              dimensionTolerance: "±1.5 cm",
+              aqlStandard: "AQL 2.5",
+              needLabTest: false,
+              totalQuantity: 100,
+              sizes: {
+                create: [
+                  { size: "M", quantity: 40 },
+                  { size: "L", quantity: 40 },
+                  { size: "XL", quantity: 20 },
+                ],
+              },
+            },
+          ],
+        },
+        requirements: {
+          create: [
+            {
+              type: "LEGALITAS",
+              description: "Nomor Induk Berusaha (NIB) terverifikasi",
+              isMandatory: true,
+            },
+            {
+              type: "MUTU",
+              description: "Hasil uji lab kain untuk ketahanan luntur warna",
+              isMandatory: true,
+            },
+            {
+              type: "PENGALAMAN",
+              description:
+                "Pengalaman pengerjaan seragam korporasi minimal 1 order",
+              isMandatory: false,
+            },
+          ],
+        },
+        questions: {
+          create: [
+            {
+              askerOrgId: umkmOrg.id,
+              question:
+                "Apakah merk benang jahit disyaratkan khusus seperti Coats atau Astra?",
+              answer:
+                "Boleh menggunakan Coats atau Astra dengan warna senada bahan utama.",
+              answeredAt: new Date(),
+            },
+          ],
+        },
+        addendums: {
+          create: [
+            {
+              addendumNumber: 1,
+              summary:
+                "Penyesuaian toleransi ukuran panjang lengan kemeja disepakati menjadi ±1.5 cm.",
+              changes: {
+                field: "dimensionTolerance",
+                before: "±1 cm",
+                after: "±1.5 cm",
+              },
+            },
+          ],
+        },
+      },
+    });
+    console.log(`✓ Demo RFQ-0007 seeded: ${rfq7.rfqNumber}`);
+  }
+
   console.log("Seeding completed successfully.");
 }
 
