@@ -194,8 +194,10 @@ export default async function UmkmDashboardPage() {
                     Kecocokan 86%
                   </span>
                 </div>
-                <h3 className="text-sm font-bold text-[#1D4ED8] hover:underline cursor-pointer">
-                  RFQ-0007: Seragam Karyawan Kantor 2027 (Kemeja & Rompi)
+                <h3 className="text-sm font-bold text-[#1D4ED8] hover:underline">
+                  <Link href="/umkm/rfq/RFQ-0007">
+                    RFQ-0007: Seragam Karyawan Kantor 2027 (Kemeja & Rompi)
+                  </Link>
                 </h3>
                 <p className="text-xs text-[#4B5563] leading-relaxed">
                   Total 300 pcs · 2 item · Katun TC 140 gsm & Drill 240 gsm ·
@@ -223,15 +225,13 @@ export default async function UmkmDashboardPage() {
                       ★ 4.9 (Didanai 100%)
                     </span>
                   </div>
-                  <button
-                    disabled={!isVerified}
-                    className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-[#1E40AF] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  <Link
+                    href="/umkm/rfq/RFQ-0007"
+                    className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-[#1E40AF] transition-colors"
                   >
-                    {isVerified
-                      ? "Kirim Penawaran"
-                      : "Terkunci (Butuh VERIFIED)"}
+                    Buka Spesifikasi & Q&A
                     <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
+                  </Link>
                 </div>
               </div>
 

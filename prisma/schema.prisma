@@ -100,6 +100,9 @@ model Organization {
   portfolioItems     PortfolioItem[]
   certifications     OrgCertification[]
   readinessSnapshots ReadinessSnapshot[]
+  rfqs               Rfq[]                @relation("IndustryRfqs")
+  rfqQuestionsAsked  RfqQuestion[]        @relation("RfqQuestionsAsked")
+  rfqInvitations     RfqInvitation[]      @relation("RfqInvitations")
 
   @@map("organizations")
 }
@@ -329,4 +332,181 @@ model ReadinessSnapshot {
 
   @@index([organizationId, calculatedAt(sort: Desc)])
   @@map("readiness_snapshots")
+}
+
+enum RfqCategoryType {
+  SERAGAM
+  MERCHANDISE
+  MAKLON
+}
+
+enum RfqVisibility {
+  TERBUKA
+  UNDANGAN
+}
+
+enum RfqAllocationMode {
+  TUNGGAL
+  LOT
+}
+
+enum RfqStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  EVALUATING
+  SAMPLING
+  AWARDED
+  AWARDED_PARTIAL
+  EXPIRED
+  CANCELLED
+}
+
+model Rfq {
+  id                      String            @id @default(cuid())
+  rfqNumber               String            @unique @map("rfq_number")
+  industryOrgId           String            @map("industry_org_id")
+  title                   String
+  categoryType            RfqCategoryType   @default(SERAGAM) @map("category_type")
+  visibility              RfqVisibility     @default(TERBUKA)
+  contextDescription      String?           @map("context_description") @db.Text
+  allocationMode          RfqAllocationMode @default(TUNGGAL) @map("allocation_mode")
+  maxLotsPerUmkm          Int               @default(1) @map("max_lots_per_umkm")
+  materialConsistencyRule String?           @map("material_consistency_rule")
+  referenceStandard       Json?             @map("reference_standard")
+  pricePolicy             String?           @map("price_policy")
+  needSample              Boolean           @default(false) @map("need_sample")
+  sampleCostBearer        String?           @map("sample_cost_bearer")
+  sampleCount             Int?              @map("sample_count")
+  sampleDeadlineDays      Int?              @map("sample_deadline_days")
+  qaDeadline              DateTime?         @map("qa_deadline")
+  quotationDeadline       DateTime          @map("quotation_deadline")
+  targetDeliveryDate      DateTime          @map("target_delivery_date")
+  deliveryLocation        String            @map("delivery_location")
+  staggeredDelivery       Boolean           @default(false) @map("staggered_delivery")
+  releaseTerms            Json?             @map("release_terms")
+  latePenaltyClause       String?           @map("late_penalty_clause")
+  indicativeBudget        BigInt?           @map("indicative_budget")
+  hideBudget              Boolean           @default(false) @map("hide_budget")
+  evaluationWeights       Json?             @map("evaluation_weights")
+  cancelReason            String?           @map("cancel_reason") @db.Text
+  status                  RfqStatus         @default(DRAFT)
+  createdAt               DateTime          @default(now()) @map("created_at")
+  updatedAt               DateTime          @updatedAt @map("updated_at")
+
+  industryOrg             Organization      @relation("IndustryRfqs", fields: [industryOrgId], references: [id], onDelete: Cascade)
+  items                   RfqItem[]
+  requirements            RfqRequirement[]
+  questions               RfqQuestion[]
+  addendums               RfqAddendum[]
+  invitations             RfqInvitation[]
+
+  @@index([industryOrgId])
+  @@index([status])
+  @@index([quotationDeadline])
+  @@map("rfqs")
+}
+
+model RfqItem {
+  id                       String        @id @default(cuid())
+  rfqId                    String        @map("rfq_id")
+  name                     String
+  categoryId               String?       @map("category_id")
+  fabricType               String        @map("fabric_type")
+  gsmMin                   Int?          @map("gsm_min")
+  gsmMax                   Int?          @map("gsm_max")
+  color                    String
+  materialProvidedByBuyer  Boolean       @default(false) @map("material_provided_by_buyer")
+  techPackUrl              String?       @map("tech_pack_url")
+  referencePhotoUrl        String?       @map("reference_photo_url")
+  constructionNotes        String?       @map("construction_notes") @db.Text
+  decorationType           String?       @map("decoration_type")
+  decorationPlacement      String?       @map("decoration_placement")
+  decorationFileUrl        String?       @map("decoration_file_url")
+  labelPackingNotes        String?       @map("label_packing_notes")
+  quantityTolerancePercent Float?        @map("quantity_tolerance_percent")
+  dimensionTolerance       String?       @map("dimension_tolerance")
+  aqlStandard              String?       @map("aql_standard")
+  needLabTest              Boolean       @default(false) @map("need_lab_test")
+  totalQuantity            Int           @map("total_quantity")
+  createdAt                DateTime      @default(now()) @map("created_at")
+  updatedAt                DateTime      @updatedAt @map("updated_at")
+
+  rfq                      Rfq           @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  sizes                    RfqItemSize[]
+
+  @@index([rfqId])
+  @@map("rfq_items")
+}
+
+model RfqItemSize {
+  id        String  @id @default(cuid())
+  rfqItemId String  @map("rfq_item_id")
+  size      String
+  quantity  Int
+
+  item      RfqItem @relation(fields: [rfqItemId], references: [id], onDelete: Cascade)
+
+  @@index([rfqItemId])
+  @@map("rfq_item_sizes")
+}
+
+model RfqRequirement {
+  id          String  @id @default(cuid())
+  rfqId       String  @map("rfq_id")
+  type        String
+  description String
+  isMandatory Boolean @default(true) @map("is_mandatory")
+
+  rfq         Rfq     @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+
+  @@index([rfqId])
+  @@map("rfq_requirements")
+}
+
+model RfqQuestion {
+  id         String       @id @default(cuid())
+  rfqId      String       @map("rfq_id")
+  askerOrgId String       @map("asker_org_id")
+  question   String       @db.Text
+  answer     String?      @db.Text
+  answeredAt DateTime?    @map("answered_at")
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  rfq        Rfq          @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  askerOrg   Organization @relation("RfqQuestionsAsked", fields: [askerOrgId], references: [id], onDelete: Cascade)
+
+  @@index([rfqId])
+  @@index([askerOrgId])
+  @@map("rfq_questions")
+}
+
+model RfqAddendum {
+  id             String   @id @default(cuid())
+  rfqId          String   @map("rfq_id")
+  addendumNumber Int      @map("addendum_number")
+  summary        String   @db.Text
+  changes        Json?
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  rfq            Rfq      @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+
+  @@unique([rfqId, addendumNumber])
+  @@index([rfqId])
+  @@map("rfq_addendums")
+}
+
+model RfqInvitation {
+  id        String       @id @default(cuid())
+  rfqId     String       @map("rfq_id")
+  umkmOrgId String       @map("umkm_org_id")
+  invitedAt DateTime     @default(now()) @map("invited_at")
+
+  rfq       Rfq          @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  umkmOrg   Organization @relation("RfqInvitations", fields: [umkmOrgId], references: [id], onDelete: Cascade)
+
+  @@unique([rfqId, umkmOrgId])
+  @@index([rfqId])
+  @@index([umkmOrgId])
+  @@map("rfq_invitations")
 }
