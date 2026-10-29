@@ -161,6 +161,250 @@ async function main() {
   });
   console.log(`✓ Industri (Verified) seeded: ${industriUser.email}`);
 
+  // 5. Default Scoring Config
+  await prisma.scoringConfig.upsert({
+    where: { id: "default" },
+    update: {},
+    create: {
+      id: "default",
+      readinessLegalitas: 20,
+      readinessKapasitas: 20,
+      readinessMutu: 20,
+      readinessRekamJejak: 20,
+      readinessAdmin: 10,
+      readinessFinansial: 10,
+
+      matchingKategori: 25,
+      matchingKapasitas: 20,
+      matchingBahan: 15,
+      matchingLeadTime: 10,
+      matchingLokasi: 10,
+      matchingReadiness: 10,
+      matchingReputasi: 10,
+    },
+  });
+  console.log("✓ Default Scoring Config seeded");
+
+  // 6. Default Platform Config
+  await prisma.platformConfig.upsert({
+    where: { id: "default" },
+    update: {},
+    create: {
+      id: "default",
+      commissionPercent: 5,
+      minLots: 2,
+      maxLots: 4,
+      minLotQty: 20,
+      fundingDeadlineHours: 72,
+      autoConfirmMaterialHours: 48,
+      autoConfirmQcDays: 5,
+      umkmInactivityGraceHours: 72,
+      disputeClaimWindowDays: 5,
+      cancellationFeePercent: 2,
+      compensationMatrix: [
+        {
+          stage: "SEBELUM_BAHAN_TIBA",
+          label: "Sebelum bahan tiba (belum ada rilis)",
+          buyerRefundRule: "100% dikurangi biaya administrasi platform (2%)",
+          umkmCompensationRule: "Tidak ada kompensasi",
+        },
+        {
+          stage: "BAHAN_TIBA_ATAU_PRODUKSI",
+          label: "Setelah bahan tiba / produksi berjalan",
+          buyerRefundRule: "Sisa dana escrow setelah kompensasi",
+          umkmCompensationRule:
+            "Sebesar nilai yang terbukti (bahan terbeli & progres milestone)",
+        },
+        {
+          stage: "BARANG_SIAP_KIRIM",
+          label: "Setelah barang siap kirim",
+          buyerRefundRule:
+            "Biaya yang dapat dihemat (ongkir / finishing akhir bila ada)",
+          umkmCompensationRule:
+            "Nilai order penuh dikurangi biaya yang dapat dihemat",
+        },
+      ],
+    },
+  });
+  console.log("✓ Default Platform Config seeded");
+
+  // 7. Textile Product Taxonomy 2-Tingkat (Spec 7.2)
+  const categoriesData = [
+    {
+      name: "Seragam dan Workwear",
+      slug: "seragam-workwear",
+      children: [
+        { name: "Kemeja Kerja", slug: "kemeja-kerja" },
+        { name: "Blazer / Jas", slug: "blazer-jas" },
+        { name: "Batik Kantor", slug: "batik-kantor" },
+        { name: "Wearpack / Coverall", slug: "wearpack-coverall" },
+        { name: "Rompi Lapangan", slug: "rompi-lapangan" },
+        { name: "Seragam Hospitality", slug: "seragam-hospitality" },
+      ],
+    },
+    {
+      name: "Atasan dan Kaos",
+      slug: "atasan-kaos",
+      children: [
+        { name: "Kaos Oblong (T-Shirt)", slug: "kaos-oblong" },
+        { name: "Polo Shirt", slug: "polo-shirt" },
+        { name: "Hoodie & Sweatshirt", slug: "hoodie-sweatshirt" },
+        { name: "Jaket Bomber / Parka", slug: "jaket-bomber-parka" },
+      ],
+    },
+    {
+      name: "Bawahan",
+      slug: "bawahan",
+      children: [
+        { name: "Celana Kerja Formal", slug: "celana-kerja-formal" },
+        { name: "Celana Chino / Cargo", slug: "celana-chino-cargo" },
+        { name: "Rok Kerja", slug: "rok-kerja" },
+      ],
+    },
+    {
+      name: "Aksesori Tekstil",
+      slug: "aksesori-tekstil",
+      children: [
+        { name: "Topi & Headwear", slug: "topi-headwear" },
+        { name: "Tote Bag & Goodie Bag", slug: "tote-bag" },
+        { name: "Apron & Celemek", slug: "apron-celemek" },
+      ],
+    },
+    {
+      name: "Layanan Pendukung",
+      slug: "layanan-pendukung",
+      children: [
+        { name: "Bordir Komputer", slug: "bordir-komputer" },
+        { name: "Sablon Manual & DTF", slug: "sablon-dtf" },
+        { name: "Pembuatan Pola & Sampel", slug: "pola-sampel" },
+        { name: "Finishing & Packing", slug: "finishing-packing" },
+      ],
+    },
+  ];
+
+  for (const cat of categoriesData) {
+    const parent = await prisma.productCategory.upsert({
+      where: { slug: cat.slug },
+      update: { name: cat.name },
+      create: { name: cat.name, slug: cat.slug },
+    });
+
+    for (const sub of cat.children) {
+      await prisma.productCategory.upsert({
+        where: { slug: sub.slug },
+        update: { name: sub.name, parentId: parent.id },
+        create: { name: sub.name, slug: sub.slug, parentId: parent.id },
+      });
+    }
+  }
+  console.log("✓ Textile Product Taxonomy 2-Tingkat seeded");
+
+  // 8. Layanan Produksi (Spec 7.2)
+  const services = [
+    { name: "Potong (Cutting Bahan)", slug: "potong-cutting" },
+    { name: "Jahit CMT (Cut-Make-Trim)", slug: "jahit-cmt" },
+    { name: "Full Package (Termasuk Bahan)", slug: "full-package" },
+    { name: "Bordir Komputer", slug: "bordir" },
+    { name: "Sablon / DTF", slug: "sablon-dtf" },
+    { name: "Pembuatan Pola & Grading", slug: "pola-grading" },
+    { name: "Pembuatan Sampel (Prototipe)", slug: "sampling" },
+    { name: "Finishing dan Packing", slug: "finishing-packing-service" },
+  ];
+
+  for (const s of services) {
+    await prisma.productionService.upsert({
+      where: { slug: s.slug },
+      update: { name: s.name },
+      create: { name: s.name, slug: s.slug },
+    });
+  }
+  console.log("✓ Production Services seeded");
+
+  // 9. Master Sertifikasi & Uji Tekstil (Spec 7.2 & 7.7)
+  const certs = [
+    {
+      name: "OEKO-TEX Standard 100",
+      issuer: "OEKO-TEX Association",
+      description: "Uji keamanan bebas zat kimia berbahaya pada tekstil.",
+    },
+    {
+      name: "Uji Lab Kain SNI",
+      issuer: "Balai Besar Tekstil / Sucofindo",
+      description:
+        "Pengujian komposisi serat, gramasi (GSM), dan ketahanan luntur warna.",
+    },
+    {
+      name: "ISO 9001:2015 Sistem Manajemen Mutu",
+      issuer: "Badan Sertifikasi Terakreditasi",
+      description: "Standar proses kendali mutu industri dan konveksi.",
+    },
+    {
+      name: "Sertifikat Halal Tekstil",
+      issuer: "BPJPH / LPPOM MUI",
+      description:
+        "Sertifikasi kehalalan bahan kain dan proses finishing tekstil.",
+    },
+  ];
+
+  for (const c of certs) {
+    const existing = await prisma.certification.findFirst({
+      where: { name: c.name },
+    });
+    if (!existing) {
+      await prisma.certification.create({ data: c });
+    }
+  }
+  console.log("✓ Master Certifications seeded");
+
+  // 10. Aturan Rekomendasi (Spec 7.8)
+  const rules = [
+    {
+      component: "MUTU",
+      condition: "qc_inline_sop == null",
+      text: "Unggah SOP QC jahit untuk meningkatkan skor mutu (+5)",
+      points: 5,
+      difficulty: "MUDAH",
+    },
+    {
+      component: "LEGALITAS",
+      condition: "nib_verified == false",
+      text: "Lengkapi dan verifikasi NIB dari OSS (+8)",
+      points: 8,
+      difficulty: "SEDANG",
+    },
+    {
+      component: "FASILITAS",
+      condition: "machine_list_count == 0",
+      text: "Tambahkan foto dan daftar mesin bengkel konveksi (+5)",
+      points: 5,
+      difficulty: "MUDAH",
+    },
+    {
+      component: "MUTU",
+      condition: "fabric_lab_test == null",
+      text: "Lakukan uji lab kain untuk bahan utama seragam (+5)",
+      points: 5,
+      difficulty: "SEDANG",
+    },
+    {
+      component: "ADMINISTRASI",
+      condition: "avg_response_time > 24",
+      text: "Pertahankan kecepatan respons penawaran di bawah 24 jam (+3)",
+      points: 3,
+      difficulty: "MUDAH",
+    },
+  ];
+
+  for (const r of rules) {
+    const existing = await prisma.recommendationRule.findFirst({
+      where: { text: r.text },
+    });
+    if (!existing) {
+      await prisma.recommendationRule.create({ data: r });
+    }
+  }
+  console.log("✓ Recommendation Rules seeded");
+
   console.log("Seeding completed successfully.");
 }
 

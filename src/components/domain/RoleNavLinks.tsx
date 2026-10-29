@@ -41,6 +41,12 @@ export function RoleNavLinks() {
           Verifikasi Akun
         </Link>
         <Link
+          href="/admin#konfigurasi"
+          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+        >
+          Konfigurasi & Master Data
+        </Link>
+        <Link
           href="/admin#sengketa"
           className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
         >

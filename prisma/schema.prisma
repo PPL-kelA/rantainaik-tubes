@@ -140,3 +140,91 @@ model OrganizationMember {
   @@unique([userId, organizationId])
   @@map("organization_members")
 }
+
+model ProductCategory {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String?
+  parentId    String?           @map("parent_id")
+  parent      ProductCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children    ProductCategory[] @relation("CategoryHierarchy")
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  @@map("product_categories")
+}
+
+model ProductionService {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("production_services")
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  name        String
+  issuer      String?
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("certifications")
+}
+
+model ScoringConfig {
+  id                  String   @id @default("default")
+  // Readiness Weights (Total 100)
+  readinessLegalitas  Int      @default(20) @map("readiness_legalitas")
+  readinessKapasitas  Int      @default(20) @map("readiness_kapasitas")
+  readinessMutu       Int      @default(20) @map("readiness_mutu")
+  readinessRekamJejak Int      @default(20) @map("readiness_rekam_jejak")
+  readinessAdmin      Int      @default(10) @map("readiness_admin")
+  readinessFinansial  Int      @default(10) @map("readiness_finansial")
+
+  // Matching Weights (Total 100)
+  matchingKategori    Int      @default(25) @map("matching_kategori")
+  matchingKapasitas   Int      @default(20) @map("matching_kapasitas")
+  matchingBahan       Int      @default(15) @map("matching_bahan")
+  matchingLeadTime    Int      @default(10) @map("matching_lead_time")
+  matchingLokasi      Int      @default(10) @map("matching_lokasi")
+  matchingReadiness   Int      @default(10) @map("matching_readiness")
+  matchingReputasi    Int      @default(10) @map("matching_reputasi")
+
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("scoring_configs")
+}
+
+model RecommendationRule {
+  id         String   @id @default(cuid())
+  component  String
+  condition  String
+  text       String
+  points     Int
+  difficulty String
+  link       String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("recommendation_rules")
+}
+
+model PlatformConfig {
+  id                       String   @id @default("default")
+  commissionPercent        Int      @default(5) @map("commission_percent")
+  minLots                  Int      @default(2) @map("min_lots")
+  maxLots                  Int      @default(4) @map("max_lots")
+  minLotQty                Int      @default(20) @map("min_lot_qty")
+  fundingDeadlineHours     Int      @default(72) @map("funding_deadline_hours")
+  autoConfirmMaterialHours Int      @default(48) @map("auto_confirm_material_hours")
+  autoConfirmQcDays        Int      @default(5) @map("auto_confirm_qc_days")
+  umkmInactivityGraceHours Int      @default(72) @map("umkm_inactivity_grace_hours")
+  disputeClaimWindowDays   Int      @default(5) @map("dispute_claim_window_days")
+  cancellationFeePercent   Int      @default(2) @map("cancellation_fee_percent")
+  compensationMatrix       Json?    @map("compensation_matrix")
+  updatedAt                DateTime @updatedAt @map("updated_at")
+
+  @@map("platform_configs")
+}

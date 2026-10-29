@@ -4,8 +4,17 @@ import { redirect } from "next/navigation";
 import { ShieldAlert, Users, Scale, FileText, CheckCircle } from "lucide-react";
 import { listUsersForAdmin } from "@/modules/auth/service";
 import { listVerificationQueue } from "@/modules/documents/repo";
+import {
+  loadScoringConfig,
+  loadPlatformConfig,
+  listCategoriesHierarchy,
+  listProductionServices,
+  listCertifications,
+  listRecommendationRules,
+} from "@/modules/admin/service";
 import { AdminVerificationTable } from "./AdminVerificationTable";
 import { AdminVerificationQueue } from "./AdminVerificationQueue";
+import { AdminConfigPanel } from "./AdminConfigPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -22,14 +31,62 @@ export default async function AdminDashboardPage() {
     redirect("/?error=unauthorized");
   }
 
-  const [rawUsers, rawQueue] = await Promise.all([
+  const [
+    rawUsers,
+    rawQueue,
+    scoringConfig,
+    platformConfig,
+    rawCategories,
+    rawServices,
+    rawCertifications,
+    rawRules,
+  ] = await Promise.all([
     listUsersForAdmin(),
     listVerificationQueue(),
+    loadScoringConfig(),
+    loadPlatformConfig(),
+    listCategoriesHierarchy(),
+    listProductionServices(),
+    listCertifications(),
+    listRecommendationRules(),
   ]);
 
   const serializedUsers = rawUsers.map((u) => ({
     ...u,
     createdAt: u.createdAt.toISOString(),
+  }));
+
+  const serializedCategories = rawCategories.map((c) => ({
+    id: c.id,
+    name: c.name,
+    slug: c.slug,
+    children: (c.children || []).map((child) => ({
+      id: child.id,
+      name: child.name,
+      slug: child.slug,
+    })),
+  }));
+
+  const serializedServices = rawServices.map((s) => ({
+    id: s.id,
+    name: s.name,
+    slug: s.slug,
+  }));
+
+  const serializedCertifications = rawCertifications.map((cert) => ({
+    id: cert.id,
+    name: cert.name,
+    issuer: cert.issuer,
+    description: cert.description,
+  }));
+
+  const serializedRules = rawRules.map((r) => ({
+    id: r.id,
+    component: r.component,
+    condition: r.condition,
+    text: r.text,
+    points: r.points,
+    difficulty: r.difficulty,
   }));
 
   const serializedQueue = rawQueue.map((org) => ({
@@ -161,6 +218,18 @@ export default async function AdminDashboardPage() {
 
       {/* Interactive Verification Component */}
       <AdminVerificationTable initialUsers={serializedUsers} />
+
+      {/* P23.2 Master Data & Konfigurasi Platform */}
+      <div id="konfigurasi" className="pt-2">
+        <AdminConfigPanel
+          initialScoring={scoringConfig}
+          initialPlatform={platformConfig}
+          categories={serializedCategories}
+          services={serializedServices}
+          certifications={serializedCertifications}
+          rules={serializedRules}
+        />
+      </div>
     </div>
   );
 }
