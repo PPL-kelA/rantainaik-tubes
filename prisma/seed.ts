@@ -88,7 +88,10 @@ async function main() {
   // 3. UMKM Pending (Konveksi Sinar Jaya)
   const umkmPendingOrg = await prisma.organization.upsert({
     where: { id: "org-umkm-sinarjaya" },
-    update: {},
+    update: {
+      name: "Konveksi Sinar Jaya",
+      verificationStatus: VerificationStatus.PENDING,
+    },
     create: {
       id: "org-umkm-sinarjaya",
       name: "Konveksi Sinar Jaya",

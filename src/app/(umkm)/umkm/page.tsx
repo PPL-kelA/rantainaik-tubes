@@ -1,12 +1,14 @@
 import { auth } from "@/lib/auth";
 import { requireRole } from "@/modules/auth/rules";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import {
   Clock,
   ShieldCheck,
   TrendingUp,
   AlertTriangle,
   ArrowRight,
+  FileCheck,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -42,10 +44,18 @@ export default async function UmkmDashboardPage() {
               <p className="mt-1 text-xs text-[#B45309] leading-relaxed">
                 Sesuai aturan bisnis <strong>BR-01</strong>, hanya akun UMKM
                 dengan status <strong>VERIFIED</strong> yang diizinkan untuk
-                mengirim penawaran harga pada RFQ yang terbuka. Akun Anda dapat
-                diverifikasi langsung oleh Admin platform pada portal
-                administrasi.
+                mengirim penawaran harga pada RFQ yang terbuka. Lengkapi berkas
+                legalitas Anda agar segera ditinjau dan disetujui Admin.
               </p>
+              <div className="mt-3">
+                <Link
+                  href="/umkm/profil"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#B45309] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#92400E] transition-colors"
+                >
+                  <FileCheck className="h-3.5 w-3.5" />
+                  Lengkapi Dokumen Legalitas Sekarang
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -67,7 +77,7 @@ export default async function UmkmDashboardPage() {
               ) : (
                 <span className="inline-flex items-center gap-1 rounded-full bg-[#FFFBEB] px-2.5 py-0.5 text-[11px] font-semibold text-[#B45309] border border-[#FDE68A]">
                   <Clock className="h-3 w-3" />
-                  Menunggu Verifikasi Admin
+                  Menunggu Verifikasi
                 </span>
               )}
             </div>
@@ -81,6 +91,13 @@ export default async function UmkmDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/umkm/profil"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3 py-1.5 text-xs font-semibold text-[#374151] hover:bg-[#F9FAFB] transition-colors"
+            >
+              <FileCheck className="h-3.5 w-3.5 text-[#1D4ED8]" />
+              Profil & Dokumen
+            </Link>
             <span className="rounded-lg bg-[#EFF6FF] px-3 py-1.5 text-xs font-semibold text-[#1D4ED8] border border-[#BFDBFE]">
               Readiness Tier: Siap Kemitraan (68/100)
             </span>

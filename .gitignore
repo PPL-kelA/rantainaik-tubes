@@ -36,5 +36,7 @@ node_modules
 npm-debug.log*
 playwright-report
 test-results
+storage/
+tests/e2e/fixtures/
 yarn-debug.log*
 yarn-error.log*

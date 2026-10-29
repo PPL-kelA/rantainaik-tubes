@@ -71,6 +71,16 @@ export function RoleNavLinks() {
           Dashboard Pengadaan
         </Link>
         <Link
+          href="/industri/profil"
+          className={`transition-colors ${
+            pathname === "/industri/profil"
+              ? "font-semibold text-[#1D4ED8]"
+              : "text-[#4B5563] hover:text-[#1D4ED8]"
+          }`}
+        >
+          Profil & Legalitas
+        </Link>
+        <Link
           href="/industri#rfq"
           className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
         >
@@ -105,6 +115,16 @@ export function RoleNavLinks() {
           }`}
         >
           Dashboard UMKM
+        </Link>
+        <Link
+          href="/umkm/profil"
+          className={`transition-colors ${
+            pathname === "/umkm/profil"
+              ? "font-semibold text-[#1D4ED8]"
+              : "text-[#4B5563] hover:text-[#1D4ED8]"
+          }`}
+        >
+          Profil & Dokumen
         </Link>
         <Link
           href="/umkm#cari-rfq"

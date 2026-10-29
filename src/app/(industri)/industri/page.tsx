@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { requireRole } from "@/modules/auth/rules";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import {
   ShieldCheck,
   Clock,
@@ -8,6 +9,7 @@ import {
   AlertTriangle,
   Layers,
   ArrowRight,
+  Building2,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -82,6 +84,13 @@ export default async function IndustriDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/industri/profil"
+              className="flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3 py-2 text-xs font-semibold text-[#374151] hover:bg-[#F9FAFB] transition-colors"
+            >
+              <Building2 className="h-4 w-4 text-[#1D4ED8]" />
+              Profil & Legalitas
+            </Link>
             <button
               disabled={!isVerified}
               className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#1E40AF] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

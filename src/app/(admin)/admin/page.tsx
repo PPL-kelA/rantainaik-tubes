@@ -3,7 +3,9 @@ import { requireRole } from "@/modules/auth/rules";
 import { redirect } from "next/navigation";
 import { ShieldAlert, Users, Scale, FileText, CheckCircle } from "lucide-react";
 import { listUsersForAdmin } from "@/modules/auth/service";
+import { listVerificationQueue } from "@/modules/documents/repo";
 import { AdminVerificationTable } from "./AdminVerificationTable";
+import { AdminVerificationQueue } from "./AdminVerificationQueue";
 
 export const dynamic = "force-dynamic";
 
@@ -20,10 +22,44 @@ export default async function AdminDashboardPage() {
     redirect("/?error=unauthorized");
   }
 
-  const rawUsers = await listUsersForAdmin();
+  const [rawUsers, rawQueue] = await Promise.all([
+    listUsersForAdmin(),
+    listVerificationQueue(),
+  ]);
+
   const serializedUsers = rawUsers.map((u) => ({
     ...u,
     createdAt: u.createdAt.toISOString(),
+  }));
+
+  const serializedQueue = rawQueue.map((org) => ({
+    id: org.id,
+    name: org.name,
+    type: org.type,
+    city: org.city,
+    province: org.province,
+    picName: org.picName,
+    picPhone: org.picPhone,
+    verificationStatus: org.verificationStatus,
+    createdAt: org.createdAt.toISOString(),
+    documents: org.documents.map((d) => ({
+      id: d.id,
+      type: d.type,
+      fileName: d.fileName,
+      fileSize: d.fileSize,
+      status: d.status,
+      rejectionReason: d.rejectionReason,
+      validUntil: d.validUntil ? d.validUntil.toISOString() : null,
+      createdAt: d.createdAt.toISOString(),
+    })),
+    members: org.members.map((m) => ({
+      userId: m.userId,
+      user: {
+        id: m.user.id,
+        email: m.user.email,
+        status: m.user.status,
+      },
+    })),
   }));
 
   const pendingCount = serializedUsers.filter(
@@ -119,6 +155,9 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* P23 Kurasi Dokumen & Antrean Organisasi */}
+      <AdminVerificationQueue initialQueue={serializedQueue} />
 
       {/* Interactive Verification Component */}
       <AdminVerificationTable initialUsers={serializedUsers} />
