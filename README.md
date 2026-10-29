@@ -26,7 +26,7 @@ Sebelum menjalankan proyek, pastikan komputer Anda telah terpasang:
 ### 1. Klon Repositori & Masuk ke Direktori
 ```bash
 git clone <url-repo>
-cd rantainaik-agent-kit
+cd rantainaik
 ```
 
 ### 2. Instalasi Dependensi
