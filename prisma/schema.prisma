@@ -82,6 +82,11 @@ model Organization {
   city               String
   province           String
   address            String?
+  description        String?
+  yearEstablished    Int?                 @map("year_established")
+  operatorCount      Int?                 @map("operator_count")
+  shiftCount         Int?                 @map("shift_count")
+  logoUrl            String?              @map("logo_url")
   picName            String               @map("pic_name")
   picPhone           String?              @map("pic_phone")
   verificationStatus VerificationStatus   @default(PENDING) @map("verification_status")
@@ -90,6 +95,11 @@ model Organization {
 
   members            OrganizationMember[]
   documents          Document[]
+  capabilities       Capability[]
+  machineAssets      MachineAsset[]
+  portfolioItems     PortfolioItem[]
+  certifications     OrgCertification[]
+  readinessSnapshots ReadinessSnapshot[]
 
   @@map("organizations")
 }
@@ -149,6 +159,7 @@ model ProductCategory {
   parentId    String?           @map("parent_id")
   parent      ProductCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children    ProductCategory[] @relation("CategoryHierarchy")
+  capabilities Capability[]
   createdAt   DateTime          @default(now()) @map("created_at")
 
   @@map("product_categories")
@@ -165,13 +176,90 @@ model ProductionService {
 }
 
 model Certification {
-  id          String   @id @default(cuid())
-  name        String
-  issuer      String?
-  description String?
-  createdAt   DateTime @default(now()) @map("created_at")
+  id                 String             @id @default(cuid())
+  name               String
+  issuer             String?
+  description        String?
+  orgCertifications  OrgCertification[]
+  createdAt          DateTime           @default(now()) @map("created_at")
 
   @@map("certifications")
+}
+
+model Capability {
+  id              String          @id @default(cuid())
+  organizationId  String          @map("organization_id")
+  categoryId      String          @map("category_id")
+  services        String[]        @default([])
+  materials       String[]        @default([])
+  decorations     String[]        @default([])
+  monthlyCapacity Int             @default(0) @map("monthly_capacity")
+  minOrderQty     Int             @default(0) @map("min_order_qty")
+  leadTimeDays    Int             @default(14) @map("lead_time_days")
+  serviceArea     String?         @map("service_area")
+  notes           String?
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  category        ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, categoryId])
+  @@index([organizationId])
+  @@index([categoryId])
+  @@map("capabilities")
+}
+
+model MachineAsset {
+  id              String       @id @default(cuid())
+  organizationId  String       @map("organization_id")
+  machineType     String       @map("machine_type")
+  brand           String?
+  quantity        Int          @default(1)
+  condition       String?      @default("BAIK")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("machine_assets")
+}
+
+model PortfolioItem {
+  id              String       @id @default(cuid())
+  organizationId  String       @map("organization_id")
+  title           String
+  description     String?
+  productType     String       @map("product_type")
+  clientType      String?      @map("client_type")
+  largestOrderQty Int?         @map("largest_order_qty")
+  imageUrl        String       @map("image_url")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("portfolio_items")
+}
+
+model OrgCertification {
+  id                String        @id @default(cuid())
+  organizationId    String        @map("organization_id")
+  certificationId   String        @map("certification_id")
+  certificateNumber String?       @map("certificate_number")
+  documentUrl       String?       @map("document_url")
+  validUntil        DateTime?     @map("valid_until")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  organization      Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  certification     Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([certificationId])
+  @@map("org_certifications")
 }
 
 model ScoringConfig {
@@ -227,4 +315,18 @@ model PlatformConfig {
   updatedAt                DateTime @updatedAt @map("updated_at")
 
   @@map("platform_configs")
+}
+
+model ReadinessSnapshot {
+  id              String       @id @default(cuid())
+  organizationId  String       @map("organization_id")
+  totalScore      Int          @default(0) @map("total_score")
+  tier            String       @default("TAHAP_AWAL")
+  componentScores Json         @map("component_scores")
+  calculatedAt    DateTime     @default(now()) @map("calculated_at")
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, calculatedAt(sort: Desc)])
+  @@map("readiness_snapshots")
 }

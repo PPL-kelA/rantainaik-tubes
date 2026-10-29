@@ -133,6 +133,16 @@ export function RoleNavLinks() {
           Profil & Dokumen
         </Link>
         <Link
+          href="/umkm/readiness"
+          className={`transition-colors ${
+            pathname === "/umkm/readiness"
+              ? "font-semibold text-[#1D4ED8]"
+              : "text-[#4B5563] hover:text-[#1D4ED8]"
+          }`}
+        >
+          Readiness Score
+        </Link>
+        <Link
           href="/umkm#cari-rfq"
           className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
         >

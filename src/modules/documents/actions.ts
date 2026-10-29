@@ -10,6 +10,7 @@ import {
 import { ReviewDocumentSchema } from "./schema";
 import { DocumentType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { calculateAndSaveReadiness } from "@/modules/readiness/service";
 
 export async function uploadDocumentAction(formData: FormData) {
   const session = await auth();
@@ -82,6 +83,14 @@ export async function reviewDocumentAction(input: {
   try {
     const validated = ReviewDocumentSchema.parse(input);
     const result = await reviewDocument(session.user.id, validated);
+
+    try {
+      if (result.document?.organizationId) {
+        await calculateAndSaveReadiness(result.document.organizationId);
+      }
+    } catch {
+      // Non-fatal hook error
+    }
 
     revalidatePath("/admin");
     revalidatePath("/admin/verifikasi");
