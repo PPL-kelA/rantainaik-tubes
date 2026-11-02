@@ -3,13 +3,13 @@ import { requireRole } from "@/modules/auth/rules";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
-  Clock,
-  ShieldCheck,
   TrendingUp,
   AlertTriangle,
   ArrowRight,
   FileCheck,
+  Search,
 } from "lucide-react";
+import { Badge, Button, PageHeader } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -29,16 +29,14 @@ export default async function UmkmDashboardPage() {
   const isVerified = session.user.status === "VERIFIED";
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-0 divide-y divide-[#E5E7EB] border border-[#E5E7EB] bg-white">
       {/* PENDING Warning Banner (BR-01 Guard Info) */}
       {!isVerified && (
-        <div className="rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-5 shadow-sm">
-          <div className="flex items-start gap-3.5">
-            <div className="rounded-lg bg-[#FEF3C7] p-2 text-[#B45309]">
-              <AlertTriangle className="h-5 w-5" />
-            </div>
+        <div className="bg-[#FFFBEB] p-4 sm:p-5 text-[#92400E]">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 shrink-0 text-[#B45309] mt-0.5" />
             <div>
-              <h2 className="text-sm font-bold text-[#92400E]">
+              <h2 className="font-heading text-sm font-semibold text-[#92400E]">
                 Akun Anda Sedang Dalam Tahap Verifikasi (Status: PENDING)
               </h2>
               <p className="mt-1 text-xs text-[#B45309] leading-relaxed">
@@ -48,288 +46,338 @@ export default async function UmkmDashboardPage() {
                 legalitas Anda agar segera ditinjau dan disetujui Admin.
               </p>
               <div className="mt-3">
-                <Link
-                  href="/umkm/profil"
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#B45309] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#92400E] transition-colors"
-                >
-                  <FileCheck className="h-3.5 w-3.5" />
-                  Lengkapi Dokumen Legalitas Sekarang
-                </Link>
+                <Button variant="default" size="sm" asChild>
+                  <Link
+                    href="/umkm/profil"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-[4px]"
+                  >
+                    <FileCheck className="h-3.5 w-3.5" />
+                    Lengkapi Dokumen Legalitas Sekarang
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Main UMKM Portal Header */}
-      <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E5E7EB] pb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#6B7280]">
-                Portal Mitra UMKM Konveksi
-              </span>
-              {isVerified ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDF4] px-2.5 py-0.5 text-[11px] font-semibold text-[#15803D] border border-[#DCFCE7]">
-                  <ShieldCheck className="h-3 w-3" />
-                  Terverifikasi
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#FFFBEB] px-2.5 py-0.5 text-[11px] font-semibold text-[#B45309] border border-[#FDE68A]">
-                  <Clock className="h-3 w-3" />
-                  Menunggu Verifikasi
-                </span>
-              )}
+      {/* Main UMKM Portal Header (P0 Kompartemen) */}
+      <div className="p-6 sm:p-8">
+        <PageHeader
+          className="border-b-0 pb-0"
+          category="Portal Mitra UMKM Konveksi"
+          title={session.user.organizationName || "Mitra UMKM Konveksi"}
+          description={`Akun penawaran: ${session.user.email} · Spesialisasi: Seragam Kerja, Kemeja & Polo Maklon`}
+          actions={
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="secondary" size="sm" asChild>
+                <Link
+                  href="/umkm/profil"
+                  className="flex items-center gap-1.5 text-xs"
+                >
+                  <FileCheck className="h-3.5 w-3.5 text-[#2862E0]" />
+                  Profil & Dokumen
+                </Link>
+              </Button>
+              <Badge
+                variant="default"
+                className="px-2.5 py-1 font-mono text-xs rounded-[2px]"
+              >
+                Readiness: 68/100 (Tier B)
+              </Badge>
             </div>
-            <h1 className="mt-1.5 text-2xl font-bold tracking-tight text-[#111827]">
-              {session.user.organizationName || "Mitra UMKM Konveksi"}
-            </h1>
-            <p className="text-xs text-[#6B7280] mt-0.5">
-              Email Akun: {session.user.email} · Spesialisasi: Seragam Kerja,
-              Kemeja & Polo Maklon
-            </p>
-          </div>
+          }
+        />
 
-          <div className="flex items-center gap-2">
-            <Link
-              href="/umkm/profil"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3 py-1.5 text-xs font-semibold text-[#374151] hover:bg-[#F9FAFB] transition-colors"
-            >
-              <FileCheck className="h-3.5 w-3.5 text-[#1D4ED8]" />
-              Profil & Dokumen
-            </Link>
-            <span className="rounded-lg bg-[#EFF6FF] px-3 py-1.5 text-xs font-semibold text-[#1D4ED8] border border-[#BFDBFE]">
-              Readiness Tier: Siap Kemitraan (68/100)
-            </span>
-          </div>
+        {/* In-Page Search Bar under Header */}
+        <div className="mt-5 relative w-full">
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5B6475]" />
+          <input
+            type="text"
+            placeholder="Cari RFQ terbuka, tender seragam kantor, atau kebutuhan maklon tekstil..."
+            className="h-10 w-full rounded-[4px] border border-[#8B93A1] bg-white pl-10 pr-4 text-xs sm:text-sm text-[#0E1422] placeholder:text-[#5B6475] focus:border-[#2862E0] focus:outline-none focus:ring-1 focus:ring-[#2862E0]"
+          />
+        </div>
+      </div>
+
+      {/* Stat Strip 4-Kolom Instrumen Kompartemen (Seamless Grid) */}
+      <div className="grid grid-cols-1 divide-y divide-[#E5E7EB] bg-white sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+            Penawaran Aktif
+          </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {isVerified ? "3" : "0"}
+          </p>
+          <span className="font-mono text-[11px] text-[#5B6475]">
+            {isVerified
+              ? "1 perlu respons sampel"
+              : "Fitur penawaran terkunci (BR-01)"}
+          </span>
         </div>
 
-        {/* Stat Strip 4-Kolom (P0 Anatomi Upwork) */}
-        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <span className="text-xs font-medium text-[#6B7280]">
-              Penawaran Aktif
-            </span>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {isVerified ? "3" : "0"}
-            </p>
-            <span className="text-[11px] text-[#6B7280]">
-              {isVerified
-                ? "1 perlu respons sampel"
-                : "Fitur penawaran terkunci (BR-01)"}
-            </span>
-          </div>
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+            Order Berjalan
+          </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {isVerified ? "2" : "0"}
+          </p>
+          <span className="font-mono text-[11px] font-medium text-[#15803D]">
+            Dalam produksi & QC
+          </span>
+        </div>
 
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <span className="text-xs font-medium text-[#6B7280]">
-              Order Berjalan
-            </span>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {isVerified ? "2" : "0"}
-            </p>
-            <span className="text-[11px] text-[#15803D] font-medium">
-              Dalam produksi & QC
-            </span>
-          </div>
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+            Dana di Escrow
+          </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {isVerified ? "Rp23.625.000" : "Rp0"}
+          </p>
+          <span className="font-mono text-[11px] font-medium text-[#2862E0]">
+            Dijamin sistem platform
+          </span>
+        </div>
 
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <span className="text-xs font-medium text-[#6B7280]">
-              Dana di Escrow
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <div className="flex items-center justify-between text-[#5B6475]">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em]">
+              Kapasitas Terpakai
             </span>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {isVerified ? "Rp23.625.000" : "Rp0"}
-            </p>
-            <span className="text-[11px] text-[#1D4ED8] font-medium">
-              Dijamin sistem platform
-            </span>
+            <TrendingUp className="h-4 w-4 text-[#2862E0]" />
           </div>
-
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <div className="flex items-center justify-between text-[#6B7280]">
-              <span className="text-xs font-medium">Kapasitas Terpakai</span>
-              <TrendingUp className="h-4 w-4" />
-            </div>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">62%</p>
-            <div className="mt-2 h-1.5 w-full rounded-full bg-[#E5E7EB]">
-              <div
-                className="h-1.5 rounded-full bg-[#1D4ED8]"
-                style={{ width: "62%" }}
-              />
-            </div>
-            <span className="text-[11px] text-[#6B7280] mt-1 block">
-              1.860 dari 3.000 pcs/bulan
-            </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            62%
+          </p>
+          <div className="mt-2 h-1.5 w-full bg-[#E5E7EB] rounded-[2px] overflow-hidden">
+            <div
+              className="h-full bg-[#2862E0] rounded-[2px]"
+              style={{ width: "62%" }}
+            />
           </div>
+          <span className="font-mono text-[10px] text-[#5B6475] mt-1 block">
+            1.860 dari 3.000 pcs/bulan
+          </span>
         </div>
       </div>
 
       {/* Grid 2 Kolom: Kolom Utama (Daftar RFQ) & Kolom Samping (Readiness Score & Kapasitas) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Kolom Kiri: RFQ Rekomendasi Terkini */}
-        <div className="lg:col-span-8 space-y-4">
-          <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
-              <div>
-                <h2 className="text-base font-bold text-[#111827]">
-                  RFQ Tekstil yang Cocok Untuk Anda
-                </h2>
-                <p className="text-xs text-[#6B7280]">
-                  Permintaan penawaran dari industri terverifikasi sesuai
-                  spesifikasi dan kapasitas konveksi Anda.
-                </p>
-              </div>
-              <span className="text-xs text-[#1D4ED8] font-semibold">
-                2 RFQ Tersedia
-              </span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#E5E7EB]">
+        {/* Kolom Kiri: RFQ Rekomendasi Terkini (Upwork Job Feed Style) */}
+        <div className="lg:col-span-8 bg-white">
+          <div className="p-6 border-b border-[#E5E7EB] flex items-center justify-between">
+            <div>
+              <h2 className="font-heading text-base sm:text-lg font-semibold text-[#0E1422]">
+                RFQ Tekstil yang Cocok Untuk Anda
+              </h2>
+              <p className="text-xs text-[#5B6475] mt-0.5">
+                Permintaan penawaran dari industri terverifikasi sesuai
+                spesifikasi dan kapasitas konveksi Anda.
+              </p>
             </div>
+            <Badge
+              variant="default"
+              className="font-mono text-[11px] rounded-[2px]"
+            >
+              2 RFQ Tersedia
+            </Badge>
+          </div>
 
-            <div className="mt-4 divide-y divide-[#E5E7EB]">
-              {/* Card RFQ 1 */}
-              <div className="py-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-[#6B7280]">
-                    Diposting 2 jam lalu · Seragam Kerja · Alokasi Tunggal
+          <div className="divide-y divide-[#E5E7EB]">
+            {/* Card RFQ 1 */}
+            <div className="p-6 sm:p-7 space-y-3.5 transition-colors hover:bg-[#FAFBFC]">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-mono text-[11px] text-[#5B6475]">
+                  Diposting 2 jam lalu · Seragam Kerja · Alokasi Tunggal
+                </span>
+                <Badge
+                  variant="success"
+                  dot
+                  className="font-mono text-[11px] rounded-[2px]"
+                >
+                  Kecocokan 86%
+                </Badge>
+              </div>
+
+              <h3 className="font-heading text-base font-semibold text-[#0E1422] hover:text-[#2862E0] transition-colors">
+                <Link href="/umkm/rfq/RFQ-0007">
+                  RFQ-0007: Seragam Karyawan Kantor 2027 (Kemeja & Rompi)
+                </Link>
+              </h3>
+
+              <p className="text-xs text-[#5B6475] leading-relaxed">
+                Total 300 pcs · 2 item · Katun TC 140 gsm & Drill 240 gsm ·
+                Bordir & Sablon · Anggaran{" "}
+                <span className="font-mono font-medium text-[#0E1422]">
+                  Rp30.000.000 - Rp35.000.000
+                </span>
+              </p>
+
+              {/* Tags: Strictly Square rounded-[2px], No Pill, No Stroke */}
+              <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                <span className="bg-[#F1F3F5] text-[#374151] px-2 py-0.5 font-mono text-[11px] rounded-[2px]">
+                  Kemeja Kerja
+                </span>
+                <span className="bg-[#F1F3F5] text-[#374151] px-2 py-0.5 font-mono text-[11px] rounded-[2px]">
+                  Katun TC
+                </span>
+                <span className="bg-[#F1F3F5] text-[#374151] px-2 py-0.5 font-mono text-[11px] rounded-[2px]">
+                  Bordir Dada
+                </span>
+                <span className="bg-[#F1F3F5] text-[#374151] px-2 py-0.5 font-mono text-[11px] rounded-[2px]">
+                  Full Package
+                </span>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-[#5B6475]">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-[#0E1422]">
+                    PT Nusantara Logistik
                   </span>
-                  <span className="inline-flex items-center rounded-full bg-[#EFF6FF] px-2.5 py-0.5 text-[11px] font-semibold text-[#1D4ED8]">
-                    Kecocokan 86%
+                  <span>·</span>
+                  <span className="text-[#15803D] font-medium">
+                    ★ 4.9 (Didanai 100%)
                   </span>
                 </div>
-                <h3 className="text-sm font-bold text-[#1D4ED8] hover:underline">
-                  <Link href="/umkm/rfq/RFQ-0007">
-                    RFQ-0007: Seragam Karyawan Kantor 2027 (Kemeja & Rompi)
-                  </Link>
-                </h3>
-                <p className="text-xs text-[#4B5563] leading-relaxed">
-                  Total 300 pcs · 2 item · Katun TC 140 gsm & Drill 240 gsm ·
-                  Bordir & Sablon · Anggaran Rp30.000.000 - Rp35.000.000
-                </p>
-                <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                  <span className="rounded bg-[#F3F4F6] px-2 py-0.5 text-[11px] text-[#4B5563]">
-                    Kemeja Kerja
-                  </span>
-                  <span className="rounded bg-[#F3F4F6] px-2 py-0.5 text-[11px] text-[#4B5563]">
-                    Katun TC
-                  </span>
-                  <span className="rounded bg-[#F3F4F6] px-2 py-0.5 text-[11px] text-[#4B5563]">
-                    Bordir Dada
-                  </span>
-                  <span className="rounded bg-[#F3F4F6] px-2 py-0.5 text-[11px] text-[#4B5563]">
-                    Full Package
-                  </span>
-                </div>
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-2 text-xs text-[#6B7280]">
-                    <span>PT Nusantara Logistik</span>
-                    <span>·</span>
-                    <span className="text-[#15803D] font-medium">
-                      ★ 4.9 (Didanai 100%)
-                    </span>
-                  </div>
+                <Button variant="default" size="sm" asChild>
                   <Link
                     href="/umkm/rfq/RFQ-0007"
-                    className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-[#1E40AF] transition-colors"
+                    className="flex items-center gap-1 font-semibold rounded-[4px]"
                   >
                     Buka Spesifikasi & Q&A
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
-                </div>
+                </Button>
+              </div>
+            </div>
+
+            {/* Card RFQ 2 */}
+            <div className="p-6 sm:p-7 space-y-3.5 transition-colors hover:bg-[#FAFBFC]">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-mono text-[11px] text-[#5B6475]">
+                  Diposting 1 hari lalu · Merchandise Promosi · Mode LOT (4 Lot
+                  x 50 pcs)
+                </span>
+                <Badge
+                  variant="default"
+                  className="font-mono text-[11px] rounded-[2px]"
+                >
+                  Kecocokan 81% (Lot B & D)
+                </Badge>
               </div>
 
-              {/* Card RFQ 2 */}
-              <div className="py-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-[#6B7280]">
-                    Diposting 1 hari lalu · Merchandise Promosi · Mode LOT (4
-                    Lot x 50 pcs)
+              <h3 className="font-heading text-base font-semibold text-[#0E1422] hover:text-[#2862E0] transition-colors">
+                RFQ-0008: Kemeja Seragam Panitia Event Nasional
+              </h3>
+
+              <p className="text-xs text-[#5B6475] leading-relaxed">
+                Total 200 pcs dibagi 4 lot @ 50 pcs · Maksimal 1 lot per UMKM ·
+                Toleransi ±1 cm · AQL 2.5
+              </p>
+
+              {/* Tags: Strictly Square rounded-[2px], No Pill, No Stroke */}
+              <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                <span className="bg-[#F1F3F5] text-[#374151] px-2 py-0.5 font-mono text-[11px] rounded-[2px]">
+                  Split Award Lot
+                </span>
+                <span className="bg-[#F1F3F5] text-[#374151] px-2 py-0.5 font-mono text-[11px] rounded-[2px]">
+                  Standar Golden Sample
+                </span>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-[#5B6475]">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-[#0E1422]">
+                    Studio Rimba
                   </span>
-                  <span className="inline-flex items-center rounded-full bg-[#EFF6FF] px-2.5 py-0.5 text-[11px] font-semibold text-[#1D4ED8]">
-                    Kecocokan 81% (Lot B & D)
+                  <span>·</span>
+                  <span className="text-[#15803D] font-medium">
+                    ★ 5.0 (Jakarta)
                   </span>
                 </div>
-                <h3 className="text-sm font-bold text-[#1D4ED8] hover:underline cursor-pointer">
-                  RFQ-0008: Kemeja Seragam Panitia Event Nasional
-                </h3>
-                <p className="text-xs text-[#4B5563] leading-relaxed">
-                  Total 200 pcs dibagi 4 lot @ 50 pcs · Maksimal 1 lot per UMKM
-                  · Toleransi ±1 cm · AQL 2.5
-                </p>
-                <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                  <span className="rounded bg-[#F3F4F6] px-2 py-0.5 text-[11px] text-[#4B5563]">
-                    Split Award Lot
-                  </span>
-                  <span className="rounded bg-[#F3F4F6] px-2 py-0.5 text-[11px] text-[#4B5563]">
-                    Standar Golden Sample
-                  </span>
-                </div>
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-2 text-xs text-[#6B7280]">
-                    <span>Studio Rimba</span>
-                    <span>·</span>
-                    <span className="text-[#15803D] font-medium">
-                      ★ 5.0 (Jakarta)
-                    </span>
-                  </div>
-                  <button
-                    disabled={!isVerified}
-                    className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-[#1E40AF] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {isVerified
-                      ? "Tawar Lot Tertentu"
-                      : "Terkunci (Butuh VERIFIED)"}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={!isVerified}
+                  className="flex items-center gap-1 rounded-[4px]"
+                >
+                  {isVerified
+                    ? "Tawar Lot Tertentu"
+                    : "Terkunci (Butuh VERIFIED)"}
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Kolom Kanan: Detail Readiness Score & Verifikasi */}
-        <div className="lg:col-span-4 space-y-4">
-          <div className="rounded-xl border border-[#E5E7EB] bg-white p-5 shadow-sm space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
+        <div className="lg:col-span-4 bg-[#FAFBFC] p-6 sm:p-7 space-y-4">
+          <div className="space-y-3">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
               Industrial Readiness Score
-            </h3>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold text-[#111827]">68</span>
-              <span className="text-xs text-[#6B7280]">/ 100</span>
-              <span className="ml-auto inline-block rounded-full bg-[#EFF6FF] px-2 py-0.5 text-[11px] font-semibold text-[#1D4ED8]">
+            </span>
+            <div className="flex items-baseline gap-2 mt-1">
+              <span className="font-heading text-3xl font-semibold tabular-nums text-[#0E1422]">
+                68
+              </span>
+              <span className="font-mono text-xs text-[#5B6475]">/ 100</span>
+              <Badge
+                variant="default"
+                className="ml-auto rounded-[2px] font-mono text-[11px]"
+              >
                 Siap Kemitraan
+              </Badge>
+            </div>
+          </div>
+
+          <div className="space-y-2.5 pt-2 text-xs bg-white p-4 border border-[#E5E7EB] rounded-[4px]">
+            <div className="flex justify-between border-b border-[#E5E7EB] pb-2 text-[#5B6475]">
+              <span>Legalitas & Profil Usaha</span>
+              <span className="font-mono font-semibold text-[#0E1422]">
+                17 / 20
               </span>
             </div>
-
-            <div className="space-y-2 pt-2 text-xs">
-              <div className="flex justify-between text-[#4B5563]">
-                <span>Legalitas & Profil Usaha</span>
-                <span className="font-semibold text-[#111827]">17 / 20</span>
-              </div>
-              <div className="flex justify-between text-[#4B5563]">
-                <span>Fasilitas & Mesin Jahit</span>
-                <span className="font-semibold text-[#111827]">15 / 20</span>
-              </div>
-              <div className="flex justify-between text-[#4B5563]">
-                <span>SOP Mutu & Kontrol QC</span>
-                <span className="font-semibold text-[#111827]">12 / 20</span>
-              </div>
-              <div className="flex justify-between text-[#4B5563]">
-                <span>Rekam Jejak Transaksi</span>
-                <span className="font-semibold text-[#111827]">10 / 20</span>
-              </div>
+            <div className="flex justify-between border-b border-[#E5E7EB] pb-2 text-[#5B6475]">
+              <span>Fasilitas & Mesin Jahit</span>
+              <span className="font-mono font-semibold text-[#0E1422]">
+                15 / 20
+              </span>
             </div>
+            <div className="flex justify-between border-b border-[#E5E7EB] pb-2 text-[#5B6475]">
+              <span>SOP Mutu & Kontrol QC</span>
+              <span className="font-mono font-semibold text-[#0E1422]">
+                12 / 20
+              </span>
+            </div>
+            <div className="flex justify-between text-[#5B6475]">
+              <span>Rekam Jejak Transaksi</span>
+              <span className="font-mono font-semibold text-[#0E1422]">
+                10 / 20
+              </span>
+            </div>
+          </div>
 
-            <div className="border-t border-[#E5E7EB] pt-3 flex flex-col gap-2">
-              <p className="text-[11px] text-[#6B7280] leading-normal">
-                Tindakan tercepat naik tier: Unggah SOP QC jahit untuk
-                mendapatkan tambahan +5 poin.
-              </p>
+          <div className="space-y-2.5 pt-2">
+            <p className="text-[11px] text-[#5B6475] leading-normal">
+              Tindakan tercepat naik tier: Unggah SOP QC jahit untuk mendapatkan
+              tambahan +5 poin.
+            </p>
+            <Button
+              variant="secondary"
+              size="sm"
+              asChild
+              className="w-full text-xs rounded-[4px]"
+            >
               <Link
                 href="/umkm/readiness"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[#1D4ED8] bg-[#EFF6FF] px-3 py-2 text-xs font-semibold text-[#1D4ED8] hover:bg-[#DBEAFE] transition-colors"
+                className="flex items-center justify-center gap-1.5 font-semibold"
               >
                 Lihat Analisis Gap & Cara Naik Tier
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
-            </div>
+            </Button>
           </div>
         </div>
       </div>

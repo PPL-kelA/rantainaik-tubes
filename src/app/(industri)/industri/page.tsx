@@ -3,16 +3,17 @@ import { requireRole } from "@/modules/auth/rules";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
-  ShieldCheck,
-  Clock,
   FilePlus2,
   AlertTriangle,
   Layers,
   ArrowRight,
   Building2,
   Plus,
+  Lock,
+  Search,
 } from "lucide-react";
 import { listRfqs } from "@/modules/rfq/repo";
+import { Badge, Button, PageHeader } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -60,17 +61,15 @@ export default async function IndustriDashboardPage({
   if (currentTab === "selesai") displayedRfqs = finishedRfqs;
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-0 divide-y divide-[#E5E7EB] border border-[#E5E7EB] bg-white">
       {/* PENDING Warning Banner (BR-01 Guard Info) */}
       {!isVerified && (
-        <div className="rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-5 shadow-xs">
-          <div className="flex items-start gap-3.5">
-            <div className="rounded-lg bg-[#FEF3C7] p-2 text-[#B45309]">
-              <AlertTriangle className="h-5 w-5" />
-            </div>
+        <div className="bg-[#FFFBEB] p-4 sm:p-5 text-[#92400E]">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 shrink-0 text-[#B45309] mt-0.5" />
             <div>
-              <h2 className="text-sm font-bold text-[#92400E]">
-                Akun Perusahaan Menunggu Verifikasi (Status: PENDING)
+              <h2 className="font-heading text-sm font-semibold text-[#92400E]">
+                Akun perusahaan menunggu verifikasi (Status: PENDING)
               </h2>
               <p className="mt-1 text-xs text-[#B45309] leading-relaxed">
                 Sesuai aturan bisnis <strong>BR-01</strong>, hanya akun industri
@@ -84,274 +83,305 @@ export default async function IndustriDashboardPage({
         </div>
       )}
 
-      {/* Main Industri Portal Header (P12) */}
-      <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-xs">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E5E7EB] pb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#6B7280]">
-                Portal Pengadaan Industri & Korporasi
-              </span>
+      {/* Main Page Header Compartment (P12) */}
+      <div className="p-6 sm:p-8">
+        <PageHeader
+          className="border-b-0 pb-0"
+          category="Portal Pengadaan Industri & Korporasi"
+          title={session.user.organizationName || "Mitra Industri Pengadaan"}
+          description={`Akun pengadaan tekstil: ${session.user.email} · Divisi Pengadaan & Logistik Tekstil`}
+          actions={
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="secondary" size="sm" asChild>
+                <Link
+                  href="/industri/profil"
+                  className="flex items-center gap-2 text-xs"
+                >
+                  <Building2 className="h-4 w-4 text-[#2862E0]" />
+                  Profil & Legalitas
+                </Link>
+              </Button>
               {isVerified ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#F0FDF4] px-2.5 py-0.5 text-[11px] font-semibold text-[#15803D] border border-[#DCFCE7]">
-                  <ShieldCheck className="h-3 w-3" />
-                  Terverifikasi
-                </span>
+                <Button variant="default" size="sm" asChild>
+                  <Link
+                    href="/industri/rfq/baru"
+                    className="flex items-center gap-2 font-semibold text-xs"
+                  >
+                    <FilePlus2 className="h-4 w-4" />
+                    Buat RFQ Baru
+                  </Link>
+                </Button>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#FFFBEB] px-2.5 py-0.5 text-[11px] font-semibold text-[#B45309] border border-[#FDE68A]">
-                  <Clock className="h-3 w-3" />
-                  Menunggu Verifikasi Admin
-                </span>
+                <Button
+                  variant="neutral"
+                  size="sm"
+                  disabled
+                  className="opacity-50 cursor-not-allowed text-xs"
+                >
+                  <Lock className="h-4 w-4" />
+                  Posting Terkunci (BR-01)
+                </Button>
               )}
             </div>
-            <h1 className="mt-1.5 text-2xl font-bold tracking-tight text-[#111827]">
-              {session.user.organizationName || "Mitra Industri Pengadaan"}
-            </h1>
-            <p className="text-xs text-[#6B7280] mt-0.5">
-              Email Akun: {session.user.email} · Divisi Pengadaan & Logistik
-              Tekstil
-            </p>
-          </div>
+          }
+        />
 
-          <div className="flex items-center gap-2">
-            <Link
-              href="/industri/profil"
-              className="flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3 py-2 text-xs font-semibold text-[#374151] hover:bg-[#F9FAFB] transition-colors"
-            >
-              <Building2 className="h-4 w-4 text-[#1D4ED8]" />
-              Profil & Legalitas
-            </Link>
-            {isVerified ? (
-              <Link
-                href="/industri/rfq/baru"
-                className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#1E40AF] transition-colors"
-              >
-                <FilePlus2 className="h-4 w-4" />
-                Buat RFQ Baru
-              </Link>
-            ) : (
-              <button
-                disabled
-                className="flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white shadow-xs opacity-50 cursor-not-allowed"
-              >
-                <FilePlus2 className="h-4 w-4" />
-                Posting Terkunci (BR-01)
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Stat Strip 4-Kolom (P12) */}
-        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <span className="text-xs font-medium text-[#6B7280]">
-              RFQ Aktif Diposting
-            </span>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {activeRfqs.length}
-            </p>
-            <span className="text-[11px] text-[#6B7280]">
-              {draftRfqs.length} draft tersimpan
-            </span>
-          </div>
-
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <span className="text-xs font-medium text-[#6B7280]">
-              Total Item Dipesan
-            </span>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {activeRfqs.reduce((s, r) => s + r.items.length, 0)}
-            </p>
-            <span className="text-[11px] text-[#1D4ED8] font-medium">
-              Dari seluruh RFQ aktif
-            </span>
-          </div>
-
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <span className="text-xs font-medium text-[#6B7280]">
-              Order Berjalan
-            </span>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {isVerified ? "1" : "0"}
-            </p>
-            <span className="text-[11px] text-[#15803D] font-medium">
-              Milestone: Pemotongan bahan
-            </span>
-          </div>
-
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <div className="flex items-center justify-between text-[#6B7280]">
-              <span className="text-xs font-medium">Dana Escrow Diamankan</span>
-              <Layers className="h-4 w-4 text-[#1D4ED8]" />
-            </div>
-            <p className="mt-2 text-2xl font-bold text-[#111827]">
-              {isVerified ? "Rp33.750.000" : "Rp0"}
-            </p>
-            <span className="text-[11px] text-[#6B7280]">
-              100% didanai di awal
-            </span>
-          </div>
+        {/* In-Page Search Bar under Header */}
+        <div className="mt-5 relative w-full">
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5B6475]" />
+          <input
+            type="text"
+            placeholder="Cari RFQ saya, nomor tender, atau kategori pesanan..."
+            className="h-10 w-full rounded-[4px] border border-[#8B93A1] bg-white pl-10 pr-4 text-xs sm:text-sm text-[#0E1422] placeholder:text-[#5B6475] focus:border-[#2862E0] focus:outline-none focus:ring-1 focus:ring-[#2862E0]"
+          />
         </div>
       </div>
 
-      {/* Grid 2 Kolom: RFQ Pengadaan & Status Dana Escrow */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Stat Strip 4-Kolom Instrumen Kompartemen (Seamless Grid) */}
+      <div className="grid grid-cols-1 divide-y divide-[#E5E7EB] bg-white sm:grid-cols-2 sm:divide-y-0 sm:divide-x lg:grid-cols-4">
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+            RFQ Aktif Diposting
+          </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {activeRfqs.length}
+          </p>
+          <span className="font-mono text-[11px] text-[#5B6475]">
+            {draftRfqs.length} draft tersimpan
+          </span>
+        </div>
+
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+            Total Item Dipesan
+          </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {activeRfqs.reduce((s, r) => s + r.items.length, 0)}
+          </p>
+          <span className="font-mono text-[11px] font-medium text-[#2862E0]">
+            Dari seluruh RFQ aktif
+          </span>
+        </div>
+
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+            Order Berjalan
+          </span>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {isVerified ? "1" : "0"}
+          </p>
+          <span className="font-mono text-[11px] font-medium text-[#15803D]">
+            Milestone: Pemotongan bahan
+          </span>
+        </div>
+
+        <div className="p-5 bg-white transition-colors hover:bg-[#FAFBFC]">
+          <div className="flex items-center justify-between text-[#5B6475]">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em]">
+              Dana Escrow Diamankan
+            </span>
+            <Layers className="h-4 w-4 text-[#2862E0]" />
+          </div>
+          <p className="mt-1 font-heading text-2xl font-semibold tabular-nums text-[#0E1422]">
+            {isVerified ? "Rp33.750.000" : "Rp0"}
+          </p>
+          <span className="font-mono text-[11px] text-[#5B6475]">
+            100% didanai di awal
+          </span>
+        </div>
+      </div>
+
+      {/* Grid 2 Kolom Kompartemen Bergaris Bersama */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#E5E7EB]">
         {/* Kolom Kiri: RFQ Saya (P12) */}
-        <div className="lg:col-span-8 space-y-4">
-          <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-xs">
-            <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
+        <div className="lg:col-span-8 bg-white">
+          <div className="p-6 border-b border-[#E5E7EB]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-base font-bold text-[#111827]">
+                <h2 className="text-base sm:text-lg font-heading font-semibold text-[#0E1422]">
                   Daftar RFQ Saya (P12)
                 </h2>
-                <p className="text-xs text-[#6B7280]">
+                <p className="text-xs text-[#5B6475] mt-0.5">
                   Kelola spesifikasi, pantau penawaran UMKM yang masuk, dan
                   terbitkan addendum.
                 </p>
               </div>
 
-              {/* Tab Garis Bawah (Aktif, Draft, Selesai) */}
-              <div className="flex items-center gap-4 text-xs font-semibold">
+              {/* Underline Tabs: Strictly No Pill */}
+              <div
+                className="flex items-center gap-4 border-b border-[#E5E7EB] sm:border-b-0 self-start sm:self-auto"
+                role="tablist"
+              >
                 <Link
                   href="/industri?tab=aktif"
-                  className={`pb-1 border-b-2 transition-colors ${
+                  className={`pb-2 text-xs transition-colors border-b-2 font-medium ${
                     currentTab === "aktif"
-                      ? "border-[#1D4ED8] text-[#1D4ED8]"
-                      : "border-transparent text-[#6B7280] hover:text-[#111827]"
+                      ? "border-[#2862E0] text-[#0E1422] font-semibold"
+                      : "border-transparent text-[#5B6475] hover:text-[#0E1422] hover:border-[#8B93A1]"
                   }`}
                 >
                   Aktif ({activeRfqs.length})
                 </Link>
                 <Link
                   href="/industri?tab=draft"
-                  className={`pb-1 border-b-2 transition-colors ${
+                  className={`pb-2 text-xs transition-colors border-b-2 font-medium ${
                     currentTab === "draft"
-                      ? "border-[#1D4ED8] text-[#1D4ED8]"
-                      : "border-transparent text-[#6B7280] hover:text-[#111827]"
+                      ? "border-[#2862E0] text-[#0E1422] font-semibold"
+                      : "border-transparent text-[#5B6475] hover:text-[#0E1422] hover:border-[#8B93A1]"
                   }`}
                 >
                   Draft ({draftRfqs.length})
                 </Link>
                 <Link
                   href="/industri?tab=selesai"
-                  className={`pb-1 border-b-2 transition-colors ${
+                  className={`pb-2 text-xs transition-colors border-b-2 font-medium ${
                     currentTab === "selesai"
-                      ? "border-[#1D4ED8] text-[#1D4ED8]"
-                      : "border-transparent text-[#6B7280] hover:text-[#111827]"
+                      ? "border-[#2862E0] text-[#0E1422] font-semibold"
+                      : "border-transparent text-[#5B6475] hover:text-[#0E1422] hover:border-[#8B93A1]"
                   }`}
                 >
                   Selesai ({finishedRfqs.length})
                 </Link>
               </div>
             </div>
+          </div>
 
-            <div className="mt-4 divide-y divide-[#E5E7EB]">
-              {displayedRfqs.length > 0 ? (
-                displayedRfqs.map((rfq) => {
-                  const totalPcs = rfq.items.reduce(
-                    (sum, it) => sum + it.totalQuantity,
-                    0
-                  );
-                  return (
-                    <div key={rfq.id} className="py-4 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono text-[#6B7280]">
-                          {rfq.rfqNumber} · Mode {rfq.allocationMode}
+          {/* List RFQ dengan border divide dan padding kanan-kiri yang lega */}
+          <div className="divide-y divide-[#E5E7EB]">
+            {displayedRfqs.length > 0 ? (
+              displayedRfqs.map((rfq) => {
+                const totalPcs = rfq.items.reduce(
+                  (sum, it) => sum + it.totalQuantity,
+                  0
+                );
+                return (
+                  <div
+                    key={rfq.id}
+                    className="p-6 sm:p-7 space-y-3.5 transition-colors hover:bg-[#FAFBFC]"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-semibold text-[#2862E0] bg-[#EFF4FE] px-2 py-0.5 rounded-[2px]">
+                          {rfq.rfqNumber}
                         </span>
-                        <span
-                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
-                            rfq.status === "OPEN"
-                              ? "bg-[#F0FDF4] text-[#15803D]"
-                              : rfq.status === "DRAFT"
-                                ? "bg-[#F3F4F6] text-[#4B5563]"
-                                : "bg-[#EFF6FF] text-[#1D4ED8]"
-                          }`}
-                        >
-                          Status: {rfq.status}
+                        <span className="font-mono text-xs text-[#5B6475]">
+                          Mode {rfq.allocationMode}
                         </span>
                       </div>
 
-                      <h3 className="text-sm font-bold text-[#111827] hover:text-[#1D4ED8] transition-colors">
-                        <Link href={`/umkm/rfq/${rfq.id}`}>{rfq.title}</Link>
-                      </h3>
+                      <Badge
+                        variant={
+                          rfq.status === "OPEN"
+                            ? "success"
+                            : rfq.status === "DRAFT"
+                              ? "secondary"
+                              : "default"
+                        }
+                        dot
+                        className="rounded-[2px] font-mono text-[11px]"
+                      >
+                        Status: {rfq.status}
+                      </Badge>
+                    </div>
 
-                      <p className="text-xs text-[#4B5563]">
-                        {totalPcs} pcs ({rfq.items.length} item) · Kategori:{" "}
-                        {rfq.categoryType} · Lokasi: {rfq.deliveryLocation}
-                      </p>
+                    <h3 className="font-heading text-base font-semibold text-[#0E1422] hover:text-[#2862E0] transition-colors">
+                      <Link href={`/umkm/rfq/${rfq.id}`}>{rfq.title}</Link>
+                    </h3>
 
-                      <div className="flex items-center justify-between pt-2">
-                        <span className="text-xs text-[#6B7280]">
-                          Tenggat:{" "}
+                    <p className="text-xs sm:text-sm text-[#5B6475] leading-relaxed">
+                      <span className="font-mono font-medium text-[#0E1422]">
+                        {totalPcs}
+                      </span>{" "}
+                      pcs ({rfq.items.length} item) · Kategori:{" "}
+                      <span className="font-medium text-[#0E1422]">
+                        {rfq.categoryType}
+                      </span>{" "}
+                      · Lokasi:{" "}
+                      <span className="font-medium text-[#0E1422]">
+                        {rfq.deliveryLocation}
+                      </span>
+                    </p>
+
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-[#5B6475]">
+                      <span>
+                        Tenggat penawaran:{" "}
+                        <span className="font-medium text-[#0E1422]">
                           {new Date(rfq.quotationDeadline).toLocaleDateString(
-                            "id-ID"
+                            "id-ID",
+                            { day: "numeric", month: "long", year: "numeric" }
                           )}
                         </span>
+                      </span>
 
-                        <div className="flex items-center gap-3">
-                          <Link
-                            href={`/umkm/rfq/${rfq.id}`}
-                            className="flex items-center gap-1 text-xs font-semibold text-[#1D4ED8] hover:underline"
-                          >
-                            Buka Detail RFQ
-                            <ArrowRight className="h-3.5 w-3.5" />
-                          </Link>
-                        </div>
-                      </div>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link
+                          href={`/umkm/rfq/${rfq.id}`}
+                          className="flex items-center gap-1 font-semibold text-[#2862E0] hover:text-[#2858B8]"
+                        >
+                          Buka Detail RFQ
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
+                      </Button>
                     </div>
-                  );
-                })
-              ) : (
-                <div className="py-8 text-center text-xs text-[#6B7280] space-y-2">
-                  <p>Tidak ada RFQ pada kategori tab ini.</p>
-                  {isVerified && (
+                  </div>
+                );
+              })
+            ) : (
+              <div className="py-12 text-center text-xs sm:text-sm text-[#5B6475] space-y-3">
+                <p>Tidak ada RFQ pada kategori tab ini.</p>
+                {isVerified && (
+                  <Button variant="secondary" size="sm" asChild>
                     <Link
                       href="/industri/rfq/baru"
-                      className="inline-flex items-center gap-1 font-semibold text-[#1D4ED8] hover:underline"
+                      className="inline-flex items-center gap-1.5 rounded-[4px]"
                     >
-                      <Plus className="h-3.5 w-3.5" /> Buat RFQ Baru Sekarang
+                      <Plus className="h-3.5 w-3.5 text-[#2862E0]" />
+                      Buat RFQ Baru Sekarang
                     </Link>
-                  )}
-                </div>
-              )}
-            </div>
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Kolom Kanan: Ringkasan Perlindungan Escrow */}
-        <div className="lg:col-span-4 space-y-4">
-          <div className="rounded-xl border border-[#E5E7EB] bg-white p-5 shadow-xs space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
+        {/* Kolom Kanan: Ringkasan Rekening Escrow Kompartemen */}
+        <div className="lg:col-span-4 bg-[#FAFBFC] p-6 sm:p-7 space-y-4">
+          <div className="space-y-1 border-b border-[#E5E7EB] pb-4">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
               Ringkasan Rekening Escrow
-            </h3>
-            <p className="text-2xl font-bold text-[#111827]">Rp33.750.000</p>
-            <p className="text-xs text-[#6B7280]">
-              Total dana diamankan untuk Order RFQ-0007 (CV Karya Mandiri
-              Konveksi).
+            </span>
+            <p className="mt-1 font-heading text-2xl sm:text-3xl font-semibold tabular-nums text-[#0E1422]">
+              Rp33.750.000
             </p>
+            <p className="mt-1 text-xs text-[#5B6475] leading-relaxed">
+              Total dana diamankan untuk Order{" "}
+              <span className="font-mono text-xs font-semibold text-[#2862E0]">
+                RFQ-0007
+              </span>{" "}
+              (CV Karya Mandiri Konveksi).
+            </p>
+          </div>
 
-            <div className="space-y-2 pt-2 text-xs border-t border-[#E5E7EB]">
-              <div className="flex justify-between">
-                <span className="text-[#4B5563]">
-                  Tahap 1 (Bahan Tiba 30%):
-                </span>
-                <span className="font-semibold text-[#111827]">
-                  Rp10.125.000
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#4B5563]">Tahap 2 (Lolos QC 70%):</span>
-                <span className="font-semibold text-[#111827]">
-                  Rp23.625.000
-                </span>
-              </div>
+          <div className="space-y-2.5 pt-1 text-xs bg-white p-4 border border-[#E5E7EB] rounded-[4px]">
+            <div className="flex justify-between border-b border-[#E5E7EB] pb-2 text-[#5B6475]">
+              <span>Tahap 1 (Bahan Tiba 30%):</span>
+              <span className="font-mono font-semibold tabular-nums text-[#0E1422]">
+                Rp10.125.000
+              </span>
             </div>
+            <div className="flex justify-between text-[#5B6475]">
+              <span>Tahap 2 (Lolos QC 70%):</span>
+              <span className="font-mono font-semibold tabular-nums text-[#0E1422]">
+                Rp23.625.000
+              </span>
+            </div>
+          </div>
 
-            <div className="rounded-lg bg-[#EFF6FF] p-3 text-[11px] text-[#1E40AF]">
-              Dana Anda dilindungi penuh. Jika terjadi ketidaksesuaian
-              spesifikasi atau gagal QC, dana dapat direfund atau ditahan
-              melalui mediasi sengketa admin.
-            </div>
+          <div className="bg-[#EFF4FE] p-3.5 text-xs text-[#1E40AF] leading-relaxed rounded-[4px]">
+            Dana Anda dilindungi penuh di bawah simulasi escrow RantaiNaik. Dana
+            hanya dirilis setelah QC lolos atau diselesaikan lewat mediasi
+            sengketa admin.
           </div>
         </div>
       </div>

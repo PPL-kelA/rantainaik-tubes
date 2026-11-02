@@ -11,9 +11,9 @@ export function RoleNavLinks() {
   if (status === "loading") {
     return (
       <div className="hidden md:flex items-center gap-6 text-sm">
-        <div className="h-4 w-16 animate-pulse rounded bg-[#E5E7EB]" />
-        <div className="h-4 w-20 animate-pulse rounded bg-[#E5E7EB]" />
-        <div className="h-4 w-16 animate-pulse rounded bg-[#E5E7EB]" />
+        <div className="h-4 w-16 animate-pulse rounded bg-[#EAEFF8]" />
+        <div className="h-4 w-20 animate-pulse rounded bg-[#EAEFF8]" />
+        <div className="h-4 w-16 animate-pulse rounded bg-[#EAEFF8]" />
       </div>
     );
   }
@@ -28,33 +28,33 @@ export function RoleNavLinks() {
           href="/admin"
           className={`transition-colors ${
             pathname === "/admin"
-              ? "font-semibold text-[#1D4ED8]"
-              : "text-[#4B5563] hover:text-[#1D4ED8]"
+              ? "font-semibold text-[#2862E0]"
+              : "text-[#475569] hover:text-[#0E1422]"
           }`}
         >
           Dashboard Admin
         </Link>
         <Link
           href="/admin#verifikasi"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Verifikasi Akun
         </Link>
         <Link
           href="/admin#konfigurasi"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Konfigurasi & Master Data
         </Link>
         <Link
           href="/admin#sengketa"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Sengketa
         </Link>
         <Link
           href="/admin#ledger"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Ledger Escrow
         </Link>
@@ -70,8 +70,8 @@ export function RoleNavLinks() {
           href="/industri"
           className={`transition-colors ${
             pathname === "/industri"
-              ? "font-semibold text-[#1D4ED8]"
-              : "text-[#4B5563] hover:text-[#1D4ED8]"
+              ? "font-semibold text-[#2862E0]"
+              : "text-[#475569] hover:text-[#0E1422]"
           }`}
         >
           Dashboard Pengadaan
@@ -80,35 +80,35 @@ export function RoleNavLinks() {
           href="/industri/profil"
           className={`transition-colors ${
             pathname === "/industri/profil"
-              ? "font-semibold text-[#1D4ED8]"
-              : "text-[#4B5563] hover:text-[#1D4ED8]"
+              ? "font-semibold text-[#2862E0]"
+              : "text-[#475569] hover:text-[#0E1422]"
           }`}
         >
           Profil & Legalitas
         </Link>
         <Link
           href="/industri#rfq"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           RFQ Saya
         </Link>
         <Link
           href="/industri#mitra"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Cari UMKM
         </Link>
         <Link
-          href="/industri#escrow"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          href="/industri#order"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
-          Status Dana Escrow
+          Order & Escrow
         </Link>
       </nav>
     );
   }
 
-  // 3. Menu Khusus UMKM Konveksi
+  // 3. Menu Khusus UMKM / Pemasok
   if (role === "UMKM") {
     return (
       <nav className="hidden md:flex items-center gap-5 text-sm font-medium">
@@ -116,75 +116,84 @@ export function RoleNavLinks() {
           href="/umkm"
           className={`transition-colors ${
             pathname === "/umkm"
-              ? "font-semibold text-[#1D4ED8]"
-              : "text-[#4B5563] hover:text-[#1D4ED8]"
+              ? "font-semibold text-[#2862E0]"
+              : "text-[#475569] hover:text-[#0E1422]"
           }`}
         >
-          Dashboard UMKM
-        </Link>
-        <Link
-          href="/umkm/profil"
-          className={`transition-colors ${
-            pathname === "/umkm/profil"
-              ? "font-semibold text-[#1D4ED8]"
-              : "text-[#4B5563] hover:text-[#1D4ED8]"
-          }`}
-        >
-          Profil & Dokumen
+          Beranda Mitra
         </Link>
         <Link
           href="/umkm/readiness"
           className={`transition-colors ${
             pathname === "/umkm/readiness"
-              ? "font-semibold text-[#1D4ED8]"
-              : "text-[#4B5563] hover:text-[#1D4ED8]"
+              ? "font-semibold text-[#2862E0]"
+              : "text-[#475569] hover:text-[#0E1422]"
           }`}
         >
           Readiness Score
         </Link>
         <Link
+          href="/umkm/profil"
+          className={`transition-colors ${
+            pathname === "/umkm/profil"
+              ? "font-semibold text-[#2862E0]"
+              : "text-[#475569] hover:text-[#0E1422]"
+          }`}
+        >
+          Profil & Portofolio
+        </Link>
+        <Link
           href="/umkm#cari-rfq"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Cari RFQ
         </Link>
         <Link
           href="/umkm#penawaran"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
           Penawaran Saya
         </Link>
         <Link
-          href="/umkm#order"
-          className="text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
+          href="/umkm#dana"
+          className="text-[#475569] hover:text-[#0E1422] transition-colors"
         >
-          Order & Produksi
+          Dana & Escrow
         </Link>
       </nav>
     );
   }
 
-  // 4. Menu Publik (Belum Login / Tamu)
+  // 4. Menu Publik (Belum Login)
   return (
-    <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[#4B5563]">
+    <nav className="hidden md:flex items-center gap-5 text-sm font-medium text-[#475569]">
       <Link
         href="/"
         className={`transition-colors ${
           pathname === "/"
-            ? "font-semibold text-[#1D4ED8]"
-            : "hover:text-[#1D4ED8]"
+            ? "font-semibold text-[#2862E0]"
+            : "hover:text-[#0E1422]"
         }`}
       >
         Beranda
       </Link>
-      <Link href="/#escrow" className="hover:text-[#1D4ED8] transition-colors">
-        Alur Escrow
+      <Link
+        href="/#alur-kerja"
+        className="hover:text-[#0E1422] transition-colors"
+      >
+        Alur Kerja Broker
       </Link>
       <Link
-        href="/#cara-kerja"
-        className="hover:text-[#1D4ED8] transition-colors"
+        href="/#keamanan"
+        className="hover:text-[#0E1422] transition-colors"
       >
-        Cara Kerja
+        Keamanan Escrow
+      </Link>
+      <Link
+        href="/#mitra-umkm"
+        className="hover:text-[#0E1422] transition-colors"
+      >
+        Mitra UMKM
       </Link>
     </nav>
   );
