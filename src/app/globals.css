@@ -1,65 +1,150 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f9;
-  --foreground: #111827;
+  /* Surface & Canvas (Clean White Modern Industrial) */
+  --background: #ffffff;
+  --surface-subtle: #fafbfc;
+  --foreground: #0e1422;
   --card: #ffffff;
-  --card-foreground: #111827;
+  --card-foreground: #0e1422;
+  --card-secondary: #fafbfc;
   --popover: #ffffff;
-  --popover-foreground: #111827;
-  --primary: #1d4ed8;
+  --popover-foreground: #0e1422;
+
+  /* Typography Colors */
+  --text-primary: #0e1422;
+  --text-secondary: #5b6475; /* Contrast 5.3:1 on #FFFFFF */
+  --text-tertiary: #8b93a1;
+  --text-muted: #8b93a1;
+
+  /* Single Blue Accent */
+  --primary: #2862e0;
   --primary-foreground: #ffffff;
-  --primary-hover: #1e40af;
-  --primary-tint: #eff6ff;
-  --secondary: #f3f4f6;
-  --secondary-foreground: #111827;
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
-  --accent: #eff6ff;
-  --accent-foreground: #1d4ed8;
+  --primary-hover: #2858b8;
+  --primary-tint: #eff4fe;
+
+  /* Neutral Dark (Orca Industrial) */
+  --neutral-dark: #0e1422;
+  --neutral-dark-foreground: #ffffff;
+  --neutral-dark-hover: #1e293b;
+
+  /* Secondary Surface & Muted */
+  --secondary: #ffffff;
+  --secondary-foreground: #0e1422;
+  --secondary-border: #8b93a1;
+  --secondary-hover: #fafbfc;
+
+  --muted: #fafbfc;
+  --muted-foreground: #5b6475;
+  --accent: #eff4fe;
+  --accent-foreground: #2862e0;
+
+  /* Semantic Status Colors (Only for Status) */
   --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
   --destructive-tint: #fef2f2;
+  --destructive-border: #fee2e2;
+
   --success: #15803d;
   --success-foreground: #ffffff;
   --success-tint: #f0fdf4;
+  --success-border: #dcfce7;
+
   --warning: #b45309;
   --warning-foreground: #ffffff;
   --warning-tint: #fffbeb;
+  --warning-border: #fef3c7;
+
+  /* Borders & Dividers */
   --border: #e5e7eb;
-  --border-strong: #d1d5db;
-  --input: #e5e7eb;
-  --ring: #1d4ed8;
-  --radius-card: 12px;
-  --radius-button: 8px;
-  --radius-badge: 9999px;
+  --border-strong: #8b93a1; /* Controls (>= 3:1) */
+  --border-hairline: #e5e7eb;
+  --input: #8b93a1;
+  --ring: #2862e0;
+
+  /* Tokyo Night Palette (Only for Code Blocks / Terminal) */
+  --tokyo-bg: #1a1b26;
+  --tokyo-fg: #a9b1d6;
+  --tokyo-accent: #c0caf5;
+  --tokyo-border: rgba(192, 202, 245, 0.15);
+
+  /* Corner Radii (No Pill: Control 4px, Panel 0px, Badge 2px) */
+  --radius-control: 4px;
+  --radius-card: 0px;
+  --radius-window: 4px;
+  --radius-badge: 2px;
+
+  /* Shadows (Only for floating popovers, dialogs, tooltips) */
+  --shadow-floating: 0 4px 16px 0 rgba(14, 20, 34, 0.08);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface-subtle: var(--surface-subtle);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-card-secondary: var(--card-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-muted: var(--text-muted);
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-hover: var(--primary-hover);
   --color-primary-tint: var(--primary-tint);
+
+  --color-neutral-dark: var(--neutral-dark);
+  --color-neutral-dark-foreground: var(--neutral-dark-foreground);
+  --color-neutral-dark-hover: var(--neutral-dark-hover);
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-border: var(--secondary-border);
+  --color-secondary-hover: var(--secondary-hover);
+
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-tint: var(--destructive-tint);
+  --color-destructive-border: var(--destructive-border);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-tint: var(--success-tint);
+  --color-success-border: var(--success-border);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-tint: var(--warning-tint);
+  --color-warning-border: var(--warning-border);
+
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  --color-border-hairline: var(--border-hairline);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-tokyo-bg: var(--tokyo-bg);
+  --color-tokyo-fg: var(--tokyo-fg);
+  --color-tokyo-accent: var(--tokyo-accent);
+  --color-tokyo-border: var(--tokyo-border);
+
+  --font-heading: var(--font-geist), system-ui, -apple-system, sans-serif;
   --font-sans:
     var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
-  --font-mono: var(--font-ibm-plex-mono), monospace;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
 }
 
+/* Base Body (Pure White Background, No Gradient) */
 body {
   background-color: var(--background);
   color: var(--foreground);
@@ -67,4 +152,43 @@ body {
   min-height: 100vh;
   margin: 0;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings: Geist, tracking -0.02em, font-weight 600, natural sentence-case feel */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* Reading max width */
+p {
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+/* Dev-Tool Tokyo Night Accent (Code / Terminal Only) */
+.dev-terminal-accent {
+  background-color: var(--tokyo-bg);
+  color: var(--tokyo-fg);
+  border: 1px solid var(--tokyo-border);
+  font-family: var(--font-mono);
+}
+
+/* Smooth motion with prefers-reduced-motion honor */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

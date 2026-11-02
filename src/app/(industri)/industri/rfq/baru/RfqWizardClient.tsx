@@ -319,49 +319,50 @@ export function RfqWizardClient({ userName }: Partial<WizardProps>) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F6F7F9] py-8 pb-24">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 space-y-6">
+    <div className="w-full space-y-0 divide-y divide-[#E5E7EB] border border-[#E5E7EB] bg-white">
+      {/* 1. Header & Progress Compartment */}
+      <div className="p-6 sm:p-8 space-y-4">
         {/* Breadcrumb & Header */}
-        <div className="space-y-1">
+        <div className="space-y-2">
           <Link
             href="/industri"
-            className="inline-flex items-center gap-1.5 text-xs text-[#6B7280] hover:text-[#111827] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-[#5B6475] hover:text-[#0E1422] transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Kembali ke Dashboard Industri
           </Link>
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold tracking-tight text-[#111827]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h1 className="font-heading text-xl sm:text-2xl font-semibold tracking-tight text-[#0E1422]">
               Buat RFQ Baru {userName ? `· ${userName}` : ""}
             </h1>
-            <span className="text-xs font-semibold text-[#1D4ED8] bg-[#EFF6FF] px-2.5 py-1 rounded-md border border-[#DBEAFE]">
+            <span className="font-mono text-xs font-semibold text-[#2862E0] bg-[#EFF4FE] px-2.5 py-1 rounded-[2px] self-start sm:self-auto">
               Langkah {currentStep} dari {totalSteps}:{" "}
               {stepTitles[currentStep - 1]}
             </span>
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="h-1.5 w-full rounded-full bg-[#E5E7EB] overflow-hidden">
+        {/* Progress Bar (Strictly No Pill) */}
+        <div className="h-2 w-full rounded-[2px] bg-[#E5E7EB] overflow-hidden">
           <div
-            className="h-full bg-[#1D4ED8] transition-all duration-300"
+            className="h-full bg-[#2862E0] transition-all duration-300 rounded-[2px]"
             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
           />
         </div>
 
         {/* Notifikasi Error / Sukses */}
         {errorMsg && (
-          <div className="rounded-lg bg-[#FEF2F2] border border-[#FECACA] p-4 text-xs text-[#B91C1C] flex items-start gap-2.5">
+          <div className="rounded-[4px] bg-[#FEE2E2] p-4 text-xs text-[#B91C1C] flex items-start gap-2.5">
             <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
             <div>
-              <p className="font-bold">Periksa Kembali Data Anda:</p>
+              <p className="font-semibold">Periksa Kembali Data Anda:</p>
               <p className="mt-0.5">{errorMsg}</p>
             </div>
           </div>
         )}
 
         {successDraftNumber && (
-          <div className="rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] p-4 text-xs text-[#15803D] flex items-center justify-between">
+          <div className="rounded-[4px] bg-[#DCFCE7] p-4 text-xs text-[#15803D] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 shrink-0" />
               <span>
@@ -370,15 +371,17 @@ export function RfqWizardClient({ userName }: Partial<WizardProps>) {
             </div>
             <Link
               href="/industri"
-              className="font-bold underline hover:text-[#14532D]"
+              className="font-semibold underline hover:text-[#166534]"
             >
               Lihat di Daftar Draft
             </Link>
           </div>
         )}
+      </div>
 
-        {/* Step Container */}
-        <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-xs space-y-6">
+      {/* 2. Step Form Compartment with Consistent Padding */}
+      <div className="p-6 sm:p-8">
+        <div className="rounded-[4px] border border-[#E5E7EB] bg-white p-6 space-y-6">
           {/* LANGKAH 1: JENIS KEBUTUHAN */}
           {currentStep === 1 && (
             <div className="space-y-4">
@@ -1210,51 +1213,49 @@ export function RfqWizardClient({ userName }: Partial<WizardProps>) {
           )}
         </div>
 
-        {/* Sticky Footer Wizard */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E5E7EB] p-4 shadow-md">
-          <div className="mx-auto max-w-3xl flex items-center justify-between">
+        {/* Footer Navigation Bar within Step Container */}
+        <div className="flex items-center justify-between border-t border-[#E5E7EB] pt-5 mt-6">
+          <button
+            type="button"
+            disabled={currentStep === 1}
+            onClick={handlePrev}
+            className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#8B93A1] bg-white px-4 py-2 text-xs font-semibold text-[#0E1422] hover:bg-[#FAFBFC] disabled:opacity-40 transition-colors"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Kembali
+          </button>
+
+          <div className="flex items-center gap-3">
             <button
               type="button"
-              disabled={currentStep === 1}
-              onClick={handlePrev}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-4 py-2 text-xs font-semibold text-[#374151] hover:bg-[#F9FAFB] disabled:opacity-40 transition-colors"
+              disabled={savingDraft || publishing}
+              onClick={handleSaveDraft}
+              className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#8B93A1] bg-white px-4 py-2 text-xs font-semibold text-[#0E1422] hover:bg-[#FAFBFC] disabled:opacity-50 transition-colors"
             >
-              <ArrowLeft className="h-3.5 w-3.5" />
-              Kembali
+              <Save className="h-3.5 w-3.5 text-[#2862E0]" />
+              {savingDraft ? "Menyimpan..." : "Simpan Draft"}
             </button>
 
-            <div className="flex items-center gap-3">
+            {currentStep < totalSteps ? (
               <button
                 type="button"
-                disabled={savingDraft || publishing}
-                onClick={handleSaveDraft}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-4 py-2 text-xs font-semibold text-[#374151] hover:bg-[#F9FAFB] disabled:opacity-50 transition-colors"
+                onClick={handleNext}
+                className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#2862E0] px-5 py-2 text-xs font-semibold text-white hover:bg-[#2858B8] transition-colors"
               >
-                <Save className="h-3.5 w-3.5 text-[#1D4ED8]" />
-                {savingDraft ? "Menyimpan..." : "Simpan Draft"}
+                Lanjut
+                <ArrowRight className="h-3.5 w-3.5" />
               </button>
-
-              {currentStep < totalSteps ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#1E40AF] transition-colors"
-                >
-                  Lanjut
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  disabled={publishing}
-                  onClick={handlePublish}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#15803D] px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#166534] disabled:opacity-50 transition-colors"
-                >
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  {publishing ? "Menerbitkan..." : "Terbitkan RFQ Sekarang"}
-                </button>
-              )}
-            </div>
+            ) : (
+              <button
+                type="button"
+                disabled={publishing}
+                onClick={handlePublish}
+                className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#15803D] px-5 py-2 text-xs font-semibold text-white hover:bg-[#166534] disabled:opacity-50 transition-colors"
+              >
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                {publishing ? "Menerbitkan..." : "Terbitkan RFQ Sekarang"}
+              </button>
+            )}
           </div>
         </div>
       </div>
