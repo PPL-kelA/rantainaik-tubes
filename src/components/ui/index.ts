@@ -10,3 +10,4 @@ export * from "./dialog";
 export * from "./tooltip";
 export * from "./panel";
 export * from "./page-header";
+export * from "./search-bar";

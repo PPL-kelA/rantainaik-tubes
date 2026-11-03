@@ -1,26 +1,30 @@
-# PROMPT_FIGMA: Prompt Desain UI RantaiNaik (v4.0, Modern Industrial Kompartemen Bergaris)
+# PROMPT_FIGMA: Prompt Desain UI RantaiNaik (v4, putih, kompartemen bergaris, navigasi sidebar)
 
 > Pasangan dari `PROJECT_CONTEXT.md` **v3** (fokus tekstil/konveksi, model broker, escrow, split award per lot).
-> **Arah desain (Modern Industrial):** bersih, teknis, tenang, dan **padat informasi terstruktur ala Upwork**, bukan halaman lengang. Halaman dibagi menjadi kompartemen (panel) bergaris 1px #E5E7EB di atas latar putih murni #FFFFFF (tanpa latar abu, kartu bertumpuk, efek transparansi, atau elemen kapsul/lonjong). Navigasi utama berada di sidebar kiri 240px, bukan di header.
+> **Arah desain (v4, "industrial modern"):** latar **putih murni**, halaman dibagi menjadi **kompartemen yang menempel satu sama lain dan dipisah garis tipis 1px** (tanpa jarak, tanpa kartu melayang, tanpa pil). Tanpa gradien, tanpa kaca, tanpa bayangan pada panel. Navigasi lewat **sidebar kiri** (seperti Upwork), **tanpa navbar atas**: akun dan notifikasi ada di dasar sidebar, pencarian ada di dalam konten tepat di bawah judul halaman. Tetap padat informasi dan mudah dibaca.
+> Referensi struktur: Upwork dan Fiverr (kepadatan), Ghostex dan Orca (ketenangan, garis, tipografi). Yang dipinjam hanya struktur dan nuansanya, bukan warna, logo, atau elemen merek.
 > Nama "RantaiNaik" adalah nama kerja.
 
-**Perubahan dari prompt v2:** wizard RFQ menjadi 10 langkah (ada langkah Alokasi dan standar acuan), papan alokasi lot, halaman pendanaan escrow, status dana, dana dan pencairan UMKM, pembatalan order, sengketa (pembeli, UMKM, admin), ledger escrow admin, direktori UMKM, kapasitas terpakai, rekam jejak pembeli, dan order induk + sub-order.
+**Perubahan v4 dari v3.1:** latar abu muda + kartu putih diganti putih + kompartemen bergaris; pil diganti badge dan chip persegi; navigasi atas diganti sidebar; navbar atas dihapus; badge status hanya berlatar warna (tanpa garis); font Geist/Inter + Geist Mono.
+
+**Perubahan dari prompt v2 (tetap berlaku):** wizard RFQ 10 langkah (ada Alokasi dan standar acuan), papan alokasi lot, halaman pendanaan escrow, status dana, dana dan pencairan UMKM, pembatalan order, sengketa, ledger escrow admin, direktori UMKM, kapasitas terpakai, rekam jejak pembeli, order induk + sub-order.
 
 ---
 
 ## 0. Cara memakai
 
 1. **Mulai dari P0 (design system)** dan tempel di awal setiap sesi atau prompt baru supaya gaya antarlayar konsisten.
-2. **Bangun variables dan komponen dasar di Figma lebih dulu** (warna, tipografi, spacing, tombol, input, badge, baris daftar, tabel). Layar lain tinggal memakainya.
+2. **Bangun variables dan komponen dasar di Figma lebih dulu** (warna, tipografi, spacing, sidebar, kompartemen, tombol, input, badge, baris daftar, tabel). Layar lain tinggal memakainya.
 3. **Satu prompt = satu layar atau satu alur pendek.**
 4. **Perbaiki lewat prompt iterasi** (bagian 5), jangan membuat ulang dari nol.
 5. Semua teks UI dalam **Bahasa Indonesia**.
+6. Frame lama (v3.1: abu muda, kartu putih, navbar atas) **harus dibuat ulang**; jangan dicampur dengan v4.
 
 **Urutan pengerjaan yang disarankan:**
 
 | Urutan | Prompt | Alasan |
 |---|---|---|
-| 1 | P0 Design system | Fondasi |
+| 1 | P0 Design system (termasuk shell: sidebar, PageHeader, pencarian) | Fondasi |
 | 2 | P7 Detail RFQ, P8 Form penawaran | Inti proses RFQ dan penawaran |
 | 3 | P13 Wizard RFQ, P16 Perbandingan, P17 Papan alokasi lot | Sisi industri dan pembeda utama |
 | 4 | P19 Pendanaan escrow, P10 Detail order, P22 Sengketa | Inti model broker |
@@ -34,27 +38,22 @@
 
 ---
 
-## 0.1 Peta pola: apa yang dipinjam dari Upwork dan Fiverr
+## 0.1 Peta pola
 
-Pakai tabel ini sebagai pegangan gaya. Tujuannya mirip secara struktur dan kepadatan, tidak menyalin tampilan.
-
-| Pola yang dipinjam | Dipakai di RantaiNaik |
+| Pola | Dipakai di RantaiNaik |
 |---|---|
-| Header ringkas 56px (logo, cari, notifikasi, akun) + Sidebar kiri 240px per peran (Upwork) | Semua peran |
-| Latar putih murni #FFFFFF dengan **kompartemen (panel) bergaris 1px #E5E7EB** (Upwork) | Seluruh halaman aplikasi, kompartemen bersebelahan berbagi satu garis |
-| **Baris pekerjaan padat**: meta posting, judul biru, ringkasan, deskripsi 3 baris, chip keahlian, info klien (Upwork) | Cari RFQ, RFQ yang cocok, RFQ saya |
+| **Sidebar kiri** dengan menu per peran, notifikasi dan akun di dasar (Upwork) | Semua peran, setelah login |
+| **Kompartemen**: panel penuh lebar yang menempel dan dipisah garis 1px (industrial) | Seluruh halaman aplikasi |
+| **PageHeader** (judul halaman, keterangan, aksi) lalu **bar pencarian** tepat di bawahnya | Semua halaman daftar |
+| **Baris pekerjaan padat**: meta, judul, ringkasan, deskripsi, chip, info pembeli (Upwork) | Cari RFQ, RFQ yang cocok, RFQ saya |
 | **Rail filter** kiri dengan grup yang dapat dilipat dan jumlah hasil (Upwork) | Cari RFQ, Cari UMKM |
-| Detail pekerjaan: strip fakta kunci, bagian bertingkat, **"Aktivitas pada pekerjaan ini"**, panel aksi dan **"Tentang klien"** di kanan (Upwork) | Detail RFQ dan **Rekam Jejak Pembeli** |
-| Daftar proposal dengan avatar, rating, ringkasan, tombol Shortlist dan Message (Upwork) | Penawaran masuk, kandidat |
+| Detail pekerjaan: strip fakta kunci, bagian bertingkat, "Aktivitas", panel aksi dan "Tentang pembeli" di kanan (Upwork) | Detail RFQ, Rekam Jejak Pembeli |
+| Daftar proposal dengan avatar, rating, ringkasan, aksi (Upwork) | Penawaran masuk, kandidat |
 | Halaman kontrak dengan milestone dan dana di escrow (Upwork) | Detail order, pendanaan, rilis dana |
-| **Grid kartu berfoto**: foto atas, avatar dan level penjual, judul 2 baris, rating, harga "Mulai dari" (Fiverr) | Direktori UMKM, UMKM populer di landing |
-| Hero berfoto dengan pencarian besar dan chip "Populer" (Fiverr) | Landing |
-| **Strip kategori** dengan ikon dan carousel kartu (Fiverr) | Landing, Cari UMKM |
-| Pita gelap bergantian dengan bagian putih (Fiverr) | Landing: pembayaran escrow, CTA, footer |
-| Kotak paket Basic/Standard/Premium dengan harga dan tombol (Fiverr) | Ringkasan penawaran dan ringkasan dana |
-| Badge persegi radius 2px, filter chip persegi radius 4px, tab garis bawah, tanpa elemen lonjong | Tier Readiness, layanan, bahan |
+| **Grid sel berfoto** dipisah garis: foto atas, nama, rating, "Mulai dari" (Fiverr) | Direktori UMKM, landing |
+| Hero berfoto dengan pencarian besar (Fiverr) | Landing (halaman publik memakai bar atas tipis, bukan sidebar) |
 
-**Aturan kepadatan:** tiap baris daftar membawa 5 sampai 7 potong informasi. Tidak ada halaman desktop satu kolom yang lengang: bila konten utama sempit, tambahkan panel samping yang relevan (ringkasan, rekam jejak, langkah berikutnya). Kerapian dijaga dengan grid, tiga tingkat teks, garis tipis, dan satu warna aksen.
+**Aturan kepadatan:** tiap baris daftar membawa 5 sampai 7 potong informasi. Bila konten utama sempit, tambahkan kompartemen samping yang relevan. Kerapian dijaga dengan grid, tiga tingkat teks, garis tipis, dan satu warna aksen.
 
 ---
 
@@ -68,68 +67,83 @@ Kamu adalah desainer UI/UX senior. Rancang UI web app B2B bernama "RantaiNaik".
 TENTANG PRODUK
 Platform pengadaan tekstil berbentuk broker, mirip marketplace jasa. Industri/pembeli (perusahaan, brand lokal) memposting RFQ (permintaan penawaran) untuk seragam, merchandise, atau maklon. UMKM konveksi mengirim penawaran terstruktur. Satu RFQ bisa dikerjakan satu UMKM (tunggal) atau dibagi 2-4 lot ke beberapa UMKM dengan standar yang sama. Pembayaran lewat escrow: pembeli mendanai penuh di awal, dana dirilis per milestone dan QC, sengketa diputus admin. Ada Readiness Score (0-100) yang menunjukkan kesiapan UMKM menjadi pemasok. Tiga peran: Industri (pembeli), UMKM (pemasok), Admin.
 
-ARAH GAYA (penting)
-Modern industrial, bersih, teknis, tenang, dan nyaman dibaca lama. Halaman dibagi menjadi kompartemen (panel) bergaris 1px #E5E7EB di atas latar putih murni #FFFFFF, bukan kartu bertumpuk. Kompartemen bersebelahan berbagi satu garis pembatas. Kompartemen sekunder menggunakan #FAFBFC. Kepadatan data terstruktur ala Upwork: baris daftar kaya metadata (judul, ringkasan, chip persegi, rating, lokasi, badge status persegi), avatar, panel samping ringkasan, strip angka, dan filter rail di kiri. Nuansa industrial teknis yang tenang: garis tipis tegas, border kontrol kontras minimal 3:1 (#8B93A1), satu warna aksen biru.
-Kepadatan: tiap baris daftar membawa 5 sampai 7 potong informasi. Tidak boleh ada layar yang lengang. Bila satu kolom terlihat kosong, isi dengan panel samping yang relevan.
-JANGAN: bentuk lonjong/kapsul di mana pun, latar abu-abu di halaman, kartu bertumpuk dengan bayangan, efek transparansi atau filter blur, gradien warna-warni, bayangan tebal, banyak warna aksen, warna hardcode di komponen, navigasi utama di header.
+ARAH GAYA (penting): "industrial modern"
+Latar putih murni #FFFFFF. Halaman dibagi menjadi KOMPARTEMEN: panel yang menempel satu sama lain tanpa jarak, dipisah garis 1px #E5E7EB, seperti panel instrumen. Padat informasi tetapi rapi: baris daftar kaya metadata, foto dan avatar, kompartemen samping berisi ringkasan dan rekam jejak, strip angka, filter di kiri. Sudut tegas (radius 4px, 0 untuk panel yang menempel), satu warna aksen. Label bagian memakai huruf kapital kecil monospace.
+Kepadatan: tiap baris daftar membawa 5 sampai 7 potong informasi. Tidak boleh ada layar yang lengang.
+JANGAN: latar abu-abu, kartu putih melayang, pil (bentuk kapsul), jarak antarkompartemen, gradien, efek kaca, bayangan pada panel, ilustrasi kartun, banyak warna aksen, kartu di dalam kartu, animasi berlebihan, widget grafik yang tidak membawa keputusan. Jangan menyalin warna, logo, atau elemen merek Upwork, Fiverr, Ghostex, atau Orca.
 
 BAHASA UI
 Bahasa Indonesia yang sederhana dan lugas. Hindari istilah teknis atau beri keterangan singkat.
 
-UKURAN DAN LAYOUT
-Desktop 1440. Header ringkas 56px putih solid dengan garis bawah 1px #E5E7EB: logo di kiri, kolom pencarian (lebar 280), ikon notifikasi, avatar akun (tanpa menu navigasi). Navigasi utama berada di SIDEBAR kiri selebar 240px (dapat diciutkan 64px) per peran; item aktif bergaris aksen kiri 2px biru #2862E0. Konten kerja fleksibel, gutter 24px. Latar kanvas putih #FFFFFF dengan kompartemen bergaris 1px #E5E7EB; kompartemen sekunder #FAFBFC. Mobile 390 dengan drawer sidebar dari tombol menu header. Irama spasi 4/8/12/16/24/32/48.
+UKURAN DAN LAYOUT (shell aplikasi)
+Desktop 1440. TIDAK ADA navbar atas. Navigasi hanya SIDEBAR kiri, lebar 248px (ciut 64px, hanya ikon dengan tooltip), putih, garis kanan 1px, tinggi penuh dan lengket. Susunan sidebar dari atas ke bawah:
+1. Blok logo: tinggi 56, padding kiri-kanan 16, logo teks "RantaiNaik", garis bawah 1px.
+2. Label peran kecil (mis. "PORTAL MITRA"): mono kapital 11/16, tersier, padding 16 kiri-kanan, atas 16, bawah 8.
+3. Daftar menu: padding kiri-kanan 12, jarak antaritem 2px. Tiap item tinggi 40, padding kiri-kanan 12, ikon outline 20 + jarak 12 + label 14/20 medium, radius 4, rata kiri vertikal tengah, semua ikon dan label sejajar satu garis lurus. Hover: latar #F4F6FA. Aktif: latar #EEF3FD, teks dan ikon aksen, garis aksen 2px di tepi kiri item. Angka penghitung (bila ada) rata kanan, badge persegi kecil.
+4. Pemisah fleksibel (mendorong bagian bawah ke dasar sidebar).
+5. Dasar sidebar (garis atas 1px, padding 12): item "Notifikasi" (ikon lonceng, label, badge angka merah muda bila ada yang belum dibaca) dan blok "Akun": avatar 32, nama 14/20 semibold terpotong satu baris, peran 12/16 tersier, chevron; klik membuka menu ke atas (Profil, Pengaturan, Keluar). Panel notifikasi terbuka sebagai panel di sisi kanan sidebar (lebar 360), bukan popup melayang di navbar.
+Tidak boleh ada elemen yang menempel tanpa padding, teks terpotong, atau item yang tidak sejajar.
+Area konten di kanan sidebar: kompartemen penuh lebar area konten, tanpa jarak antarkompartemen. Urutan di setiap halaman: (1) PAGEHEADER, tinggi 88, padding 24: judul H1 + keterangan satu baris di kiri, aksi utama di kanan (judul halaman UMKM: "Portal Mitra"; Industri: "Portal Industri"; Admin: "Panel Admin"; halaman lain memakai nama halamannya); (2) BAR PENCARIAN tepat di bawah PageHeader pada halaman daftar (tinggi 64, padding 12 24, input penuh lebar 40 dengan ikon cari, tombol "Filter" dan pilihan urut di kanan); (3) kompartemen isi.
+Padding dalam setiap kompartemen 24 (kiri, kanan, atas, bawah). Baris daftar di dalam kompartemen: padding kiri-kanan 24, atas-bawah 20, dipisah garis 1px; konten baris TIDAK BOLEH menempel ke tepi. Gutter antarkolom di dalam grid 24. Konten tidak dipusatkan dengan lebar maksimal; kompartemen mengisi area konten, teks panjang dibatasi 72 karakter.
+Landing dan halaman publik (sebelum login) memakai bar atas tipis 56px (logo, tautan, Masuk, Daftar) karena belum ada sidebar. Mobile 390: tanpa sidebar permanen; bar atas 56 berisi tombol menu (membuka sidebar sebagai laci), logo, dan lonceng; navigasi utama lewat tab bawah (P26). Gunakan Auto Layout dan komponen yang dapat dipakai ulang. Irama spasi 4/8/12/16/24/32/48.
 Menu sidebar: UMKM (Beranda, Cari RFQ, Penawaran, Order, Dana), Industri (Beranda, RFQ Saya, Cari UMKM, Order, Dana), Admin (Verifikasi, Sengketa, Ledger, Konfigurasi, Pengguna).
 
 DESIGN TOKENS
-- Teks utama #0E1422, sekunder #5B6475 (kontras 5.3:1), tersier/border kontrol #8B93A1 (kontras 3.1:1)
-- Garis pembagi #E5E7EB, garis kontrol tegas #8B93A1
-- Latar halaman aplikasi #FFFFFF, panel kompartemen #FFFFFF, permukaan halus #FAFBFC, pita gelap #0E1422 (landing dan footer)
-- Aksen tunggal: biru #2862E0, hover #2858B8, tint #EFF4FE (badge info, baris terpilih, banner info)
-- Semantik status: sukses #15803D / #F0FDF4, peringatan #B45309 / #FFFBEB, bahaya #B91C1C / #FEF2F2. Bintang rating #F59E0B.
-- Tokyo Night (hanya blok kode/terminal): background #1A1B26, teks #A9B1D6, aksen #C0CAF5.
-- Tipografi: Geist (judul), Inter (isi teks), Geist Mono (kode RFQ-0007, nomor order, label bagian, harga tabular).
-  Judul baris daftar 18/26 semibold biru. Isi daftar 14/22. Isi halaman detail 16/26. Meta 13/18 tersier. H1 28/36 semibold, H2 22/30 semibold, H3 18/26 semibold. Angka stat 28/36 semibold. Label bagian huruf kapital kecil 11-12px font mono, letter-spacing 0.06em, warna sekunder.
-  Nominal rupiah penuh dengan titik ribuan (Rp33.750.000), tabular figures. Lebar paragraf maksimal sekitar 70 karakter.
-- Radius: panel 0px bersambung, tombol dan input 4px, badge persegi 2px, dialog 4px, foto 4px. DILARANG bentuk kapsul atau lonjong.
-- Bayangan: tanpa bayangan pada panel kompartemen atau tombol. Bayangan hanya untuk elemen mengambang (dropdown, dialog, tooltip: 0 4px 16px rgba(14,20,34,0.08)).
-- Ikon outline 1.5px: 16px di baris meta (lokasi, jam, centang terverifikasi, simpan), 20px di sidebar, 24px di strip kategori.
-- Avatar kotak radius 4px atau bulat 32/40/56/96. Logo usaha kotak radius 4px. Foto: pakai placeholder konveksi di direktori UMKM, portofolio, dan hero landing.
-- Spasi: padding kompartemen 20-24, jarak antarbagian 24-32.
+- Teks utama #0E1422, sekunder #5B6475, tersier #6B7280 (hanya untuk teks 13px ke atas)
+- Garis pemisah #E5E7EB (1px), garis kontrol (input, kotak centang) #8B93A1 (kontras minimal 3:1)
+- Latar halaman dan kompartemen #FFFFFF. Permukaan halus (hover, baris terpilih netral) #F4F6FA. Pita gelap hanya di landing dan footer: #0E1422.
+- Aksen tunggal (tombol utama, tautan judul, fokus, terpilih): biru #2862E0, hover #2858B8, tint #EEF3FD
+- Blok kode atau data teknis saja boleh gelap (Tokyo Night #1A1B26, teks #C0CAF5).
+- Tipografi: Geist (cadangan Inter) untuk semua teks, Geist Mono untuk kode (RFQ-0007, nomor order) dan label bagian.
+  Judul baris daftar 18/26 semibold aksen. Isi daftar 14/22. Isi halaman detail 16/26. Meta 13/18 sekunder. H1 28/36 semibold, H2 22/30 semibold, H3 18/26 semibold. Angka stat 28/36 semibold. Label bagian mono kapital 12/16, letter-spacing 0.06em, sekunder.
+  Nominal rupiah penuh dengan titik ribuan (Rp33.750.000), tabular figures. Lebar paragraf maksimal sekitar 72 karakter.
+- Radius: tombol, input, badge, chip 4px; panel yang menempel 0; modal 8px; foto 4px. Tidak ada bentuk kapsul (kecuali avatar bulat).
+- Bayangan: tidak ada. Hanya dropdown, menu akun, panel notifikasi, dan modal yang boleh bayangan lembut (0 4px 16px rgba(14,20,34,0.10)).
+- Ikon outline 1.5px: 16px di baris meta, 20px di sidebar, 24px di strip kategori.
+- Avatar bulat 32/40/56/96. Logo usaha kotak radius 4. Foto: foto stok placeholder bertema konveksi (mesin jahit, gulungan kain, polo bordir, seragam) di sel UMKM, portofolio, dan hero landing.
+- Spasi: padding kompartemen 24, padding baris daftar 24 kiri-kanan dan 20 atas-bawah, jarak antarkompartemen 0 (hanya garis 1px), jarak antarelemen di dalam kompartemen 12-16.
 
 KOMPONEN (padat dan konsisten)
-- Tombol: utama (biru solid, tanpa bayangan), netral (#0E1422), sekunder (putih, border 1px #8B93A1), teks, bahaya. Radius 4px, tinggi 40px, kecil 32px.
-- Input 40px, border 1px #8B93A1, fokus ring 2px #2862E0. Radius 4px. Label di atas, teks bantu di bawah.
-- Chip filter: persegi radius 4px abu #FAFBFC border #E5E7EB 13px untuk layanan, bahan, kategori. Chip filter aktif: border #2862E0 tint biru dengan tanda silang.
-- Tab garis bawah dengan jumlah di sebelah label (mis. "Penawaran (3)").
-- Tabel: pemisah baris tipis 1px #E5E7EB, header latar #FAFBFC, teks angka tabular-nums font mono.
-- BARIS RFQ (gaya baris pekerjaan Upwork), di dalam kompartemen bergaris 1px #E5E7EB, padding 20-24, ikon simpan di kanan atas:
+- Tombol: utama (biru solid), sekunder (putih, garis 1px #8B93A1), teks, bahaya. Radius 4, tinggi 40, kecil 32.
+- Input 40px, garis 1px #8B93A1, fokus cincin 2px aksen. Label di atas, teks bantu di bawah.
+- Chip (layanan, bahan, kategori): persegi radius 4, latar #F4F6FA, tanpa garis, teks 13px. Chip filter aktif: tint aksen dengan tanda silang.
+- Tab garis bawah (bukan pil) dengan jumlah di sebelah label (mis. "Penawaran (3)").
+- Tabel: pemisah baris tipis, header lengket, tanpa zebra.
+- BADGE STATUS: persegi radius 4, tinggi 24, padding 8, teks 12/16 medium, HANYA LATAR WARNA (tanpa garis tepi, tanpa titik), warna sesuai arti:
+  netral (Draft, Ditutup, Kedaluwarsa, Dibatalkan, Menunggu dana): latar #EEF0F3 teks #3F4756;
+  info/berjalan (Dibuka, Terkirim, Evaluasi, Produksi, Dikirim, Didanai): latar #E6EEFC teks #1D4ED8;
+  sukses (Dimenangkan, Diterima, Selesai, QC lolos, Dirilis penuh): latar #DDF3E4 teks #116132;
+  perlu tindakan (Revisi diminta, Perlu konfirmasi, Menunggu tanggapan, QC lolos dengan catatan, Dirilis sebagian): latar #FCEBC8 teks #7A3E00;
+  bahaya (Ditolak, QC gagal, Gagal, Dikembalikan): latar #FBE0E0 teks #9B1C1C;
+  sengketa (Disengketakan, Ditelaah admin): latar #EDE5FB teks #5B21B6.
+  Semua pasangan lolos kontras 4,5:1. Badge tier Readiness memakai aturan yang sama: Tahap Awal netral, Berkembang peringatan, Siap Kemitraan info, Siap Industri sukses.
+- BARIS RFQ (gaya baris pekerjaan Upwork), di dalam kompartemen, dipisah garis, padding 24 kiri-kanan dan 20 atas-bawah, ikon simpan (bookmark) di kanan atas:
   1 meta kecil: "Diposting 2 jam lalu · Seragam · Tunggal"
-  2 judul biru 18/26 semibold (tautan)
+  2 judul aksen 18/26 semibold (tautan)
   3 ringkasan: "Total 300 pcs · 2 item · Target kirim 15 Jan 2027 · Anggaran Rp30-35 juta"
   4 deskripsi 2-3 baris dengan "selengkapnya"
-  5 chip persegi: Kemeja kerja, Katun TC, Bordir, Sablon, Full package
-  6 baris pembeli: centang "Terverifikasi", ★ 4,9, "Didanai tepat waktu 100%", lokasi, "Penawaran: 3 dari 11"; di kanan badge persegi tint biru "Kecocokan 86%".
-- KOMPARTEMEN UMKM: foto 4:3 di atas dengan ikon simpan di pojok; avatar, nama, badge tier persegi 2px; judul 2 baris ("Konveksi seragam kantor, bordir dan sablon"); ★ 4,7 (12); garis tipis; footer "Kapasitas 3.000 pcs/bulan" di kiri dan "MOQ 50 pcs" di kanan.
-- BARIS PENAWARAN/KANDIDAT (gaya proposal Upwork): avatar 56, nama (tautan), badge tier persegi 2px, ★ rating, lokasi; deret 3 foto portofolio 72px; chip alasan; strip metrik 4 kolom bergaris; skor besar di kanan; tombol Shortlist, Lihat, Undang.
-- PANEL SAMPING (gaya "Tentang klien"): kompartemen putih bergaris 1px, judul label kapital kecil font mono, baris label-nilai dengan ikon 16px.
-- STRIP STAT: satu kompartemen bergaris, 3-4 kolom dipisah garis vertikal tipis, angka 28/36 di atas, label 13 di bawah.
-- RAIL FILTER: lebar 260, grup dapat dilipat dengan chevron, kotak centang dengan jumlah hasil di kanan ("Seragam (24)"), tautan "Hapus semua".
-- Badge status: persegi kecil radius 2px dengan titik warna dan teks.
-- Stepper wizard: "Langkah 3 dari 10" dengan bilah progres tipis. Stepper order: 8 titik dengan label.
-- Banner: kotak dengan tint, border 1px, garis kiri 3px, ikon 16px, satu atau dua baris teks.
+  5 chip: Kemeja kerja, Katun TC, Bordir, Sablon, Full package
+  6 baris pembeli: centang "Terverifikasi", ★ 4,9, "Didanai tepat waktu 100%", lokasi, "Penawaran: 3 dari 11"; di kanan badge info "Kecocokan 86%".
+- SEL UMKM (gaya kartu Fiverr, tanpa kartu melayang): sel dalam grid yang dipisah garis 1px tanpa jarak; foto 4:3 di atas dengan ikon simpan di pojok; avatar 32, nama, badge tier; judul 2 baris ("Konveksi seragam kantor, bordir dan sablon"); ★ 4,7 (12); garis tipis; footer "Kapasitas 3.000 pcs/bulan" di kiri dan "MOQ 50 pcs" di kanan. Padding sel 16. Hover: latar #F4F6FA.
+- BARIS PENAWARAN/KANDIDAT (gaya proposal Upwork): avatar 56, nama (tautan), badge tier, ★ rating, lokasi; deret 3 foto portofolio 72px; chip alasan; strip metrik 4 kolom bergaris; skor besar di kanan; tombol Shortlist, Lihat, Undang. Padding baris 24/20.
+- KOMPARTEMEN SAMPING (gaya "Tentang pembeli"): kompartemen putih, bagian dipisah garis, judul label mono kapital, baris label-nilai dengan ikon 16px, padding 24.
+- STRIP STAT: satu kompartemen, 3-4 kolom dipisah garis vertikal tipis, angka 28/36 di atas, label 13 di bawah, padding 24.
+- RAIL FILTER: lebar 260, garis kanan 1px, grup dapat dilipat dengan chevron, kotak centang dengan jumlah hasil di kanan ("Seragam (24)"), tautan "Hapus semua", padding 24.
+- Stepper wizard: "Langkah 3 dari 10" dengan bilah progres tipis persegi. Stepper order: 8 titik dengan label.
+- Banner: kotak dengan tint, garis kiri 3px, ikon 16px, satu atau dua baris teks, padding 16, tombol teks di kanan bila perlu.
 - Empty state: ikon outline 32px abu, satu kalimat, satu tombol. Toast kecil di kanan bawah.
 
-STATUS (konsisten di seluruh aplikasi)
+STATUS (konsisten di seluruh aplikasi; warna badge lihat BADGE STATUS)
 RFQ: Draft, Dibuka, Ditutup, Evaluasi, Sampel, Dimenangkan, Dimenangkan sebagian, Dipesan, Kedaluwarsa, Dibatalkan.
 Penawaran: Draft, Terkirim, Shortlist, Revisi diminta, Sampel diminta, Sampel dikirim, Sampel disetujui, Sampel ditolak, Diterima, Ditolak, Ditarik, Perlu konfirmasi (setelah addendum).
 Status lot dalam penawaran: Terkirim, Shortlist, Menang, Cadangan, Ditolak.
 Order: Menunggu pendanaan, Dikonfirmasi, Bahan siap, Produksi, Siap kirim, Dikirim, Diterima, QC lolos, QC lolos dengan catatan, QC gagal, Rework, Selesai, Dibatalkan, Gagal.
 STATUS DANA (label terpisah dari status order, selalu tampil berdampingan): Menunggu dana, Didanai, Dirilis sebagian, Dirilis penuh, Disengketakan, Dikembalikan sebagian, Dikembalikan.
 Sengketa: Dibuka, Menunggu tanggapan, Ditelaah admin, Diputus.
-Tier Readiness: Tahap Awal (abu), Berkembang (amber), Siap Kemitraan (biru), Siap Industri (hijau), tampil sebagai badge persegi radius 2px dengan titik warna.
+Tier Readiness: Tahap Awal, Berkembang, Siap Kemitraan, Siap Industri (badge persegi berlatar warna).
 
 AKSESIBILITAS
-Kontras WCAG AA, area sentuh mobile minimal 44px, jangan hanya mengandalkan warna untuk status (sertakan teks).
+Kontras WCAG AA (teks 4,5:1, garis kontrol 3:1), area sentuh mobile minimal 44px, jangan hanya mengandalkan warna untuk status (sertakan teks), fokus keyboard terlihat.
 
 DATA CONTOH (pakai konsisten, jangan diganti-ganti)
 - UMKM utama: "CV Karya Mandiri Konveksi", Bekasi. Layanan: Jahit CMT, Full package, Bordir, Sablon. Kapasitas 3.000 pcs/bulan, 22 penjahit, 24 mesin. Readiness 68 (Siap Kemitraan). Rating 4,7 (12 ulasan), tepat waktu 92%.
@@ -157,18 +171,18 @@ Konfirmasi dulu dengan merangkum design system dalam 5 baris, lalu tunggu instru
 
 ### P1. Landing
 ```
-Rancang "Landing Page" (desktop 1440). Pakai P0. Gaya Fiverr: hero berfoto, strip kategori, baris kartu penyedia, pita gelap bergantian. Padat dan terisi.
+Rancang "Landing Page" (desktop 1440). Pakai P0. Gaya Fiverr: hero berfoto, strip kategori, baris sel penyedia, pita gelap bergantian. Padat dan terisi.
 
 Susunan:
-1. Navbar putih 64px: logo, kolom pencarian kecil, tautan (Cari RFQ, Cari UMKM, Cara kerja), "Masuk" dan tombol biru "Daftar".
+1. Bar atas tipis putih 56px (halaman publik, belum ada sidebar): logo, tautan (Cari RFQ, Cari UMKM, Cara kerja), "Masuk" dan tombol biru "Daftar".
 2. Hero tinggi 560px: foto placeholder konveksi (mesin jahit dan gulungan kain) dengan overlay gelap 60%, teks putih rata kiri. Judul 48/56 "Temukan konveksi yang siap untuk seragam, merchandise, dan maklon Anda", satu kalimat penjelas, kolom pencarian besar (tinggi 56) dengan pilihan jenis dan tombol biru "Cari". Di bawahnya baris "Populer:" dengan 5 chip outline putih (Seragam kantor, Wearpack, Polo bordir, Jaket, Tote bag). Di bagian bawah hero, tiga butir centang kecil: Pemasok terverifikasi, Dana dilindungi escrow, Penawaran mudah dibandingkan.
 3. Strip kategori: 10 item horizontal, tiap item ikon outline 24px dan label (Seragam kantor, Wearpack, Hospitality, Kaos dan polo, Jaket, Topi, Tote bag, Bordir, Sablon, Maklon).
-4. Bagian "UMKM konveksi terverifikasi": baris carousel 4 kartu UMKM (anatomi Kartu UMKM di P0), panah kiri dan kanan, tautan "Lihat semua".
+4. Bagian "UMKM konveksi terverifikasi": baris carousel 4 sel UMKM (anatomi Sel UMKM di P0), panah kiri dan kanan, tautan "Lihat semua".
 5. Pita gelap #111827: kiri judul putih "Pembayaran terlindungi lewat escrow" dan satu paragraf, kanan tiga langkah bernomor dengan ikon (Didanai di awal, Dirilis per milestone dan QC, Sengketa diputus admin berdasarkan bukti), tombol putih "Pelajari alur dana".
 6. "Cara kerja": tab "Untuk industri | Untuk UMKM", di bawahnya 4 kolom bernomor dengan ikon 24px, judul, dan dua baris teks, serta satu foto samping.
-7. Strip stat dalam satu kartu, diberi label kecil "Data contoh": UMKM terverifikasi 28, RFQ terbuka 8, Rata-rata penawaran per RFQ 3,4, Order selesai 38.
-8. "Readiness Score": dua kolom. Kiri tiga poin teks dengan ikon centang. Kanan panel contoh skor 68/100 dengan badge tier persegi 2px dan enam bilah komponen.
-9. Pita CTA biru #1D4ED8 dengan dua tombol ("Buat RFQ", "Daftar sebagai UMKM"), lalu footer gelap 4 kolom (Produk, Untuk UMKM, Untuk Industri, Bantuan) dan baris hak cipta.
+7. Strip stat dalam satu kompartemen, diberi label kecil "Data contoh": UMKM terverifikasi 28, RFQ terbuka 8, Rata-rata penawaran per RFQ 3,4, Order selesai 38.
+8. "Readiness Score": dua kolom. Kiri tiga poin teks dengan ikon centang. Kanan panel contoh skor 68/100 dengan badge tier dan enam bilah komponen.
+9. Pita CTA biru #2862E0 dengan dua tombol ("Buat RFQ", "Daftar sebagai UMKM"), lalu footer gelap 4 kolom (Produk, Untuk UMKM, Untuk Industri, Bantuan) dan baris hak cipta.
 ```
 
 ### P2. Registrasi dan login
@@ -187,18 +201,18 @@ Rancang alur "Autentikasi" (desktop 1440, form di tengah lebar maksimal 440px). 
 
 ### P3. Beranda UMKM
 ```
-Rancang "UMKM / Beranda" (desktop 1440, latar putih murni, semua konten dalam kompartemen bergaris 1px #E5E7EB dengan sidebar kiri 240px). Pakai P0 dan pola Upwork "Find work".
+Rancang "UMKM / Beranda" (desktop 1440, latar putih, konten dalam kompartemen bergaris yang menempel). Pakai P0 dan pola Upwork "Find work".
 
 Susunan:
-- Baris atas: logo usaha 56, "Selamat pagi, CV Karya Mandiri Konveksi", badge tier persegi "Siap Kemitraan", tombol "Cari RFQ" di kanan.
-- Strip stat dalam satu kartu (4 kolom bergaris): Penawaran aktif 3, Order berjalan 2, Dana di escrow Rp23.625.000, Kapasitas terpakai 62% (dengan bilah tipis).
+- Baris atas: logo usaha 56, "Selamat pagi, CV Karya Mandiri Konveksi", badge tier "Siap Kemitraan", tombol "Cari RFQ" di kanan.
+- Strip stat dalam satu kompartemen (4 kolom bergaris): Penawaran aktif 3, Order berjalan 2, Dana di escrow Rp23.625.000, Kapasitas terpakai 62% (dengan bilah tipis).
 - Dua kolom: utama 2/3 dan samping 1/3.
 - Kolom utama:
-  - Kompartemen "RFQ yang cocok untukmu" dengan tab garis bawah (Rekomendasi, Terbaru, Tersimpan). Isi 4 Baris RFQ lengkap sesuai anatomi di P0 (meta, judul, ringkasan, deskripsi, chip persegi, baris pembeli, badge kecocokan persegi). Tautan "Lihat semua RFQ".
-  - Kartu "Penawaran aktif": 3 baris berisi kode RFQ, judul, pembeli, total, versi, badge status, dan tombol aksi bila perlu (Revisi sekarang, Kirim sampel).
-  - Kartu "Order berjalan": 2 baris berisi nomor order, pembeli, nilai, stepper mini 8 titik, badge status order dan badge status dana berdampingan.
-- Kolom samping (kartu terpisah, berurutan):
-  - "Readiness Score": angka besar 68/100, badge tier persegi, bilah tersegmen empat tier, tautan "Lihat rincian", dan satu baris "Langkah tercepat: Unggah SOP QC jahit (+5)".
+  - Kompartemen "RFQ yang cocok untukmu" dengan tab garis bawah (Rekomendasi, Terbaru, Tersimpan). Isi 4 Baris RFQ lengkap sesuai anatomi di P0 (meta, judul, ringkasan, deskripsi, chip, baris pembeli, badge kecocokan). Tautan "Lihat semua RFQ".
+  - Kompartemen "Penawaran aktif": 3 baris berisi kode RFQ, judul, pembeli, total, versi, badge status, dan tombol aksi bila perlu (Revisi sekarang, Kirim sampel).
+  - Kompartemen "Order berjalan": 2 baris berisi nomor order, pembeli, nilai, stepper mini 8 titik, badge status order dan badge status dana berdampingan.
+- Kolom samping (kompartemen berurutan, dipisah garis):
+  - "Readiness Score": angka besar 68/100, badge tier, bilah tersegmen empat tier, tautan "Lihat rincian", dan satu baris "Langkah tercepat: Unggah SOP QC jahit (+5)".
   - "Kapasitas bulan ini": bilah 62%, keterangan "dari penawaran aktif dan order berjalan".
   - "Dana": di escrow, sudah dirilis, tautan "Lihat dana".
   - "Perlu perhatian": 3 item dengan ikon peringatan kecil dan tombol teks (sertifikat akan kedaluwarsa, penawaran diminta revisi, addendum baru).
@@ -206,11 +220,11 @@ Susunan:
 
 ### P4. Profil dan kapabilitas
 ```
-Rancang "UMKM / Profil dan Kapabilitas" (desktop 1440, latar putih murni, kompartemen bergaris dengan sidebar kiri 240px). Pakai P0 dan pola profil penyedia Upwork.
+Rancang "UMKM / Profil dan Kapabilitas" (desktop 1440, latar putih, kompartemen bergaris yang menempel). Pakai P0 dan pola profil penyedia Fiverr/Upwork.
 
-Susunan dua kolom: kiri kartu profil 320px (lengket), kanan konten.
-- Panel profil kiri: logo usaha 96, nama, lokasi, badge tier persegi, ★ 4,7 (12 ulasan), tombol "Edit profil". Di bawah garis: daftar label-nilai dengan ikon (Anggota sejak 2026, Tepat waktu 92%, 38 order selesai, Waktu respons < 24 jam, Kapasitas 3.000 pcs/bulan). Lalu "Layanan" (chip: Jahit CMT, Full package, Bordir, Sablon), "Kelengkapan profil 80%" dengan bilah dan daftar yang belum diisi, "Dokumen dan uji" (daftar dengan status), dan "Rekening pencairan" (bank, nomor tersamar •••• 4821, status verifikasi, tombol "Ubah").
-- Kanan, tiap bagian satu kartu: Tentang usaha (paragraf); Portofolio (grid foto 3 kolom, tiap foto dengan keterangan dan chip jenis produk, tombol "Tambah"); Kapabilitas produk (tabel: produk, kapasitas per bulan, MOQ, lead time, bahan); Mesin dan tenaga kerja (strip stat: 24 mesin, 22 penjahit, 1 shift, lalu daftar jenis mesin); Ulasan (rating ringkas dengan rincian tiga aspek, lalu 3 ulasan dengan avatar, nama pembeli, bintang, tanggal, komentar).
+Susunan dua kolom: kiri kompartemen profil 320px (lengket), kanan konten.
+- Kompartemen profil kiri: logo usaha 96, nama, lokasi, badge tier, ★ 4,7 (12 ulasan), tombol "Edit profil". Di bawah garis: daftar label-nilai dengan ikon (Anggota sejak 2026, Tepat waktu 92%, 38 order selesai, Waktu respons < 24 jam, Kapasitas 3.000 pcs/bulan). Lalu "Layanan" (chip: Jahit CMT, Full package, Bordir, Sablon), "Kelengkapan profil 80%" dengan bilah dan daftar yang belum diisi, "Dokumen dan uji" (daftar dengan status), dan "Rekening pencairan" (bank, nomor tersamar •••• 4821, status verifikasi, tombol "Ubah").
+- Kanan, tiap bagian satu kompartemen: Tentang usaha (paragraf); Portofolio (grid foto 3 kolom, tiap foto dengan keterangan dan chip jenis produk, tombol "Tambah"); Kapabilitas produk (tabel: produk, kapasitas per bulan, MOQ, lead time, bahan); Mesin dan tenaga kerja (strip stat: 24 mesin, 22 penjahit, 1 shift, lalu daftar jenis mesin); Ulasan (rating ringkas dengan rincian tiga aspek, lalu 3 ulasan dengan avatar, nama pembeli, bintang, tanggal, komentar).
 Sertakan state edit: panel samping formulir "Tambah kapabilitas" (kategori, layanan, bahan, dekorasi, kapasitas bulanan, MOQ, lead time) dengan satu contoh error validasi.
 ```
 
@@ -219,7 +233,7 @@ Sertakan state edit: panel samping formulir "Tambah kapabilitas" (kategori, laya
 Rancang "UMKM / Readiness Score" (desktop 1440). Pakai P0. Tampilan sederhana berbasis teks dan bilah tipis, tanpa radar chart dan tanpa gauge.
 
 Susunan:
-1. Judul dan tanggal hitung terakhir. Angka besar "68/100" dengan badge tier persegi "Siap Kemitraan". Di bawahnya satu bilah tipis bersegmen empat tier (0-39, 40-59, 60-79, 80-100) dengan penanda posisi.
+1. Judul dan tanggal hitung terakhir. Angka besar "68/100" dengan badge tier "Siap Kemitraan". Di bawahnya satu bilah tipis bersegmen empat tier (0-39, 40-59, 60-79, 80-100) dengan penanda posisi.
 2. Bagian "Rincian skor": enam baris, tiap baris berisi nama komponen, bilah tipis, dan nilai:
    Legalitas dan profil 17/20, Kapasitas dan fasilitas produksi 15/20, Mutu dan kompetensi 12/20, Rekam jejak transaksi 10/20 (keterangan kecil "belum ada riwayat, memakai nilai awal"), Administrasi dan digital 8/10, Finansial dan sumber bahan 6/10.
    Tiap baris dapat dibuka (accordion) menampilkan item penilaian dengan label "Terverifikasi" atau "Dinyatakan sendiri (bernilai 50%)". Pada komponen Rekam jejak, tampilkan catatan "Mundur sepihak setelah diterima dan sengketa yang merugikan UMKM mengurangi poin".
@@ -231,32 +245,32 @@ Nada teks mendukung dan memotivasi.
 
 ### P6. Cari RFQ
 ```
-Rancang "UMKM / Cari RFQ" (desktop 1440, latar putih murni dengan sidebar kiri 240px). Pakai P0 dan pola Upwork "Find work".
+Rancang "UMKM / Cari RFQ" (desktop 1440, latar putih). Pakai P0 dan pola Upwork "Find work".
 
 Susunan:
 - Kolom pencarian lebar di atas dengan tombol biru "Cari", lalu baris chip filter aktif (mis. "Seragam" ×, "Bekasi" ×) dan tautan "Hapus semua".
 - Tab garis bawah: Rekomendasi untukmu (24) | Terbaru | Tersimpan (3).
 - Rail filter kiri 260px (anatomi Rail Filter di P0): jenis kebutuhan (Seragam 24, Merchandise 11, Maklon 6), mode (Tunggal, Dibagi per lot), kategori produk, jumlah total (rentang), dekorasi (Bordir, Sablon, DTF), lokasi pengiriman, tenggat penawaran, toggle "Hanya yang sesuai kapabilitasku".
-- Kolom hasil: baris di dalam kompartemen bergaris, bar atas "41 RFQ" dan pilihan urut. Tiap baris memakai anatomi Baris RFQ di P0 secara lengkap. Pada RFQ lot, ringkasan menulis "4 lot x 50 pcs" dan badge kecocokan menulis "Cocok untuk Lot A, C".
+- Kolom hasil: baris di dalam satu kompartemen, bar atas "41 RFQ" dan pilihan urut. Tiap baris memakai anatomi Baris RFQ di P0 secara lengkap. Pada RFQ lot, ringkasan menulis "4 lot x 50 pcs" dan badge kecocokan menulis "Cocok untuk Lot A, C".
 - Satu baris RFQ yang belum memenuhi syarat memakai tint amber dan teks "Belum memenuhi: butuh hasil uji lab kain" dengan tautan "Cara memenuhinya".
 - Paginasi.
 ```
 
 ### P7. Detail RFQ (sisi UMKM)
 ```
-Rancang "UMKM / Detail RFQ" (desktop 1440, latar putih murni, kompartemen bergaris dengan sidebar kiri 240px). Pakai P0 dan pola halaman detail pekerjaan Upwork. Padat tetapi mudah dibaca.
+Rancang "UMKM / Detail RFQ" (desktop 1440, latar putih, kompartemen bergaris yang menempel). Pakai P0 dan pola halaman detail pekerjaan Upwork. Padat tetapi mudah dibaca.
 
 Susunan dua kolom: konten 2/3 dan panel kanan 1/3 (lengket).
-- Kartu header: breadcrumb, kode "RFQ-0007" (mono), judul H1 "Seragam Karyawan Kantor 2027", nama pembeli, badge "Dibuka", ikon simpan dan bagikan, sisa waktu penawaran.
-- Strip fakta kunci dalam satu kartu (4 kolom dengan ikon): Total 300 pcs, Target kirim 15 Jan 2027, Sampel: Ya, Tenggat penawaran 25 Nov 2026.
+- Kompartemen header: breadcrumb, kode "RFQ-0007" (mono), judul H1 "Seragam Karyawan Kantor 2027", nama pembeli, badge "Dibuka", ikon simpan dan bagikan, sisa waktu penawaran.
+- Strip fakta kunci dalam satu kompartemen (4 kolom dengan ikon): Total 300 pcs, Target kirim 15 Jan 2027, Sampel: Ya, Tenggat penawaran 25 Nov 2026.
 - Tab garis bawah: Spesifikasi (aktif) | Tanya Jawab (4) | Addendum (1).
-- Tab Spesifikasi, tiap bagian satu kartu: "Ringkasan" (daftar label-nilai: jenis, mode alokasi, lokasi, pengiriman bertahap, sampel dan biaya dikreditkan, kebijakan harga); "Item" (dua blok bergaris, tiap blok berisi daftar label-nilai bahan, gsm, warna, dekorasi, catatan konstruksi, label dan packing, standar mutu, tabel kecil rincian ukuran, dan lampiran file dengan ikon dan ukuran); "Keahlian dan layanan yang dibutuhkan" (chip: Full package, Bordir, Sablon, Katun TC, Drill); "Persyaratan" (daftar centang NIB dan uji lab kain dengan penanda wajib, dan nilai tambah); "Pembayaran" ("Pembeli mendanai penuh ke escrow sebelum produksi. 30% dirilis saat bahan tiba, 70% setelah QC lolos. Komisi platform 5% dipotong dari dana yang dirilis.").
-- Kartu "Aktivitas pada RFQ ini" (gaya Upwork): Penawaran 11, Terakhir dilihat 2 jam lalu, UMKM diundang 5, Pertanyaan 4.
+- Tab Spesifikasi, tiap bagian satu kompartemen: "Ringkasan" (daftar label-nilai: jenis, mode alokasi, lokasi, pengiriman bertahap, sampel dan biaya dikreditkan, kebijakan harga); "Item" (dua blok bergaris, tiap blok berisi daftar label-nilai bahan, gsm, warna, dekorasi, catatan konstruksi, label dan packing, standar mutu, tabel kecil rincian ukuran, dan lampiran file dengan ikon dan ukuran); "Keahlian dan layanan yang dibutuhkan" (chip: Full package, Bordir, Sablon, Katun TC, Drill); "Persyaratan" (daftar centang NIB dan uji lab kain dengan penanda wajib, dan nilai tambah); "Pembayaran" ("Pembeli mendanai penuh ke escrow sebelum produksi. 30% dirilis saat bahan tiba, 70% setelah QC lolos. Komisi platform 5% dipotong dari dana yang dirilis.").
+- Kompartemen "Aktivitas pada RFQ ini" (gaya Upwork): Penawaran 11, Terakhir dilihat 2 jam lalu, UMKM diundang 5, Pertanyaan 4.
 - Di bawah, "RFQ serupa": 3 baris ringkas.
-- Panel kanan (kartu bertumpuk): (1) aksi: hitung mundur tenggat, "Kecocokan 86%", daftar periksa kelayakan dengan ikon centang (Kapasitas sesuai, Dekorasi sesuai, Uji lab: belum ada, Jadwal: dapat dipenuhi), tombol utama "Ajukan penawaran", tombol sekunder "Simpan RFQ", tautan "Ajukan pertanyaan"; (2) **"Rekam Jejak Pembeli"** ala "Tentang klien" Upwork: PT Nusantara Logistik, centang Terverifikasi, ★ 4,9, Didanai tepat waktu 100%, Pembatalan sepihak 0, Sengketa 1 dari 14 order, Jakarta Selatan, anggota sejak 2026; (3) "Lampiran" dengan daftar file.
+- Panel kanan (kompartemen bertumpuk, dipisah garis): (1) aksi: hitung mundur tenggat, "Kecocokan 86%", daftar periksa kelayakan dengan ikon centang (Kapasitas sesuai, Dekorasi sesuai, Uji lab: belum ada, Jadwal: dapat dipenuhi), tombol utama "Ajukan penawaran", tombol sekunder "Simpan RFQ", tautan "Ajukan pertanyaan"; (2) **"Rekam Jejak Pembeli"** ala "Tentang klien" Upwork: PT Nusantara Logistik, centang Terverifikasi, ★ 4,9, Didanai tepat waktu 100%, Pembatalan sepihak 0, Sengketa 1 dari 14 order, Jakarta Selatan, anggota sejak 2026; (3) "Lampiran" dengan daftar file.
 - Variasi tab Tanya Jawab: daftar tanya jawab dengan penanya anonim dan kolom "Ajukan pertanyaan".
 - Variasi banner Addendum: "Addendum 1 mengubah tenggat. Periksa penawaranmu."
-- **Variasi RFQ-0008 (mode lot):** tab tambahan "Lot (4)": tabel lot (Lot A-D, rincian ukuran, qty 50) dan kartu "Standar acuan bersama" (konsistensi bahan satu sumber kode KTC-140-NVY, tech pack terkunci, sampel acuan fisik, toleransi ±1 cm, AQL 2,5, maksimal 1 lot per UMKM, kebijakan harga). Panel kanan menampilkan "Cocok untuk Lot A, C" dan tombol "Pilih lot dan ajukan penawaran".
+- **Variasi RFQ-0008 (mode lot):** tab tambahan "Lot (4)": tabel lot (Lot A-D, rincian ukuran, qty 50) dan kompartemen "Standar acuan bersama" (konsistensi bahan satu sumber kode KTC-140-NVY, tech pack terkunci, sampel acuan fisik, toleransi ±1 cm, AQL 2,5, maksimal 1 lot per UMKM, kebijakan harga). Panel kanan menampilkan "Cocok untuk Lot A, C" dan tombol "Pilih lot dan ajukan penawaran".
 ```
 
 ### P8. Form penawaran
@@ -279,12 +293,12 @@ Sertakan variasi dengan peringatan "Tanggal kirim melewati target 15 Jan 2027" (
 
 ### P9. Penawaran dan order saya
 ```
-Rancang "UMKM / Penawaran dan Order Saya" (desktop 1440, latar putih murni dengan sidebar kiri 240px). Pakai P0 dan pola "My jobs" Upwork.
+Rancang "UMKM / Penawaran dan Order Saya" (desktop 1440, latar putih). Pakai P0 dan pola "My jobs" Upwork.
 
 Susunan:
-- Judul, dua tab garis bawah: Penawaran (6) | Order (3), dan satu kartu strip stat: Aktif 3, Perlu tindakan 2, Menang bulan ini 1, Kapasitas terpakai 62% (bilah tipis).
+- Judul, dua tab garis bawah: Penawaran (6) | Order (3), dan satu kompartemen strip stat: Aktif 3, Perlu tindakan 2, Menang bulan ini 1, Kapasitas terpakai 62% (bilah tipis).
 - Baris chip filter status (Semua, Perlu tindakan, Shortlist, Menang) dan kolom cari.
-- Tab Penawaran: baris di dalam satu kartu. Tiap baris: kode RFQ, judul (tautan), pembeli dengan ★, total, versi (v2), tanggal kirim, badge status, tombol aksi. Satu baris "Revisi diminta" (tombol "Revisi sekarang" dan sisa waktu), satu "Sampel diminta" ("Kirim sampel"), satu "Perlu konfirmasi" ("Periksa addendum"). Pada penawaran lot, tampilkan badge status tiap lot (mis. "Lot B: Menang").
+- Tab Penawaran: baris di dalam satu kompartemen. Tiap baris: kode RFQ, judul (tautan), pembeli dengan ★, total, versi (v2), tanggal kirim, badge status, tombol aksi. Satu baris "Revisi diminta" (tombol "Revisi sekarang" dan sisa waktu), satu "Sampel diminta" ("Kirim sampel"), satu "Perlu konfirmasi" ("Periksa addendum"). Pada penawaran lot, tampilkan badge status tiap lot (mis. "Lot B: Menang").
 - Tab Order: tiap baris berisi nomor order, pembeli, nilai, stepper mini 8 titik, badge status order dan **badge status dana** berdampingan (mis. "Produksi" + "Dana: Didanai"), dan milestone berikutnya. Satu baris "Menunggu pendanaan" dengan teks "Produksi dimulai setelah pembeli mendanai".
 ```
 
@@ -296,17 +310,17 @@ Susunan dua kolom: kiri 2/3, kanan 1/3.
 - Header: nomor order, pembeli, badge status order, badge status dana, tombol "Perbarui milestone".
 - Stepper tipis (Dikonfirmasi, Bahan siap, Produksi, Siap kirim, Dikirim, Diterima, QC, Selesai).
 - Kiri: "Milestone" sebagai daftar bernomor, tiap baris punya status, tanggal, foto kecil, dan keterangan pemicu dana (mis. "Bahan tiba: memicu rilis 30%"). Tombol "Unggah bukti" memakai unggah foto dan nota. Lalu "Riwayat" (timeline waktu dan pelaku), lalu "Hasil QC" bila ada (jumlah diterima per ukuran, jenis cacat) dengan tombol "Buka sengketa" bila relevan.
-- Kanan: kotak bergaris "Dana order" berisi tiga baris: Didanai Rp33.750.000; Tahap 1 (30%) Rp10.125.000, komisi Rp506.250, diterima Rp9.618.750, status "Dirilis"; Tahap 2 (70%) Rp23.625.000, status "Menunggu QC". Teks kecil di bawahnya: "Dana tahap 2 dirilis setelah QC lolos atau otomatis 5 hari kerja setelah barang diterima bila tidak ada sengketa".
+- Kanan: kompartemen bergaris "Dana order" berisi tiga baris: Didanai Rp33.750.000; Tahap 1 (30%) Rp10.125.000, komisi Rp506.250, diterima Rp9.618.750, status "Dirilis"; Tahap 2 (70%) Rp23.625.000, status "Menunggu QC". Teks kecil di bawahnya: "Dana tahap 2 dirilis setelah QC lolos atau otomatis 5 hari kerja setelah barang diterima bila tidak ada sengketa".
 - Variasi order lot: header menampilkan "Sub-order Lot B dari RFQ-0008" dengan tautan "Lihat order induk".
 - Variasi "Menunggu pendanaan": banner "Produksi dimulai setelah pembeli mendanai. Batas pendanaan 3 x 24 jam."
 ```
 
 ### P11. Dana dan pencairan
 ```
-Rancang "UMKM / Dana" (desktop 1440). Pakai P0. Halaman berbasis tabel dan angka dalam kompartemen bergaris di atas latar putih murni.
+Rancang "UMKM / Dana" (desktop 1440). Pakai P0. Halaman berbasis tabel dan angka dalam kompartemen bergaris di atas latar putih.
 
 Susunan:
-- Judul "Dana". Strip stat dalam satu kartu (anatomi Strip Stat di P0): Di escrow Rp23.625.000, Sudah dirilis Rp9.618.750, Komisi dipotong Rp506.250.
+- Judul "Dana". Strip stat dalam satu kompartemen (anatomi Strip Stat di P0): Di escrow Rp23.625.000, Sudah dirilis Rp9.618.750, Komisi dipotong Rp506.250.
 - Kotak bergaris "Rekening pencairan": bank, •••• 4821, nama pemilik, status "Terverifikasi", tombol "Ubah".
 - Tabel "Riwayat dana": tanggal, order, kejadian (Didanai, Rilis tahap 1, Rilis tahap 2, Refund, Komisi), jumlah, status. Filter ringan berdasarkan order.
 - Bagian "Order dengan dana tertahan": baris per order dengan status dana dan syarat rilis berikutnya dalam satu kalimat (mis. "Menunggu QC lolos").
@@ -319,14 +333,14 @@ Susunan:
 
 ### P12. Beranda Industri
 ```
-Rancang "Industri / Beranda" (desktop 1440, latar putih murni, kompartemen bergaris dengan sidebar kiri 240px). Pakai P0 dan pola dashboard klien Upwork.
+Rancang "Industri / Beranda" (desktop 1440, latar putih, kompartemen bergaris yang menempel). Pakai P0 dan pola dashboard klien Upwork.
 
 Susunan:
 - Baris atas: logo perusahaan 56, "Selamat pagi, PT Nusantara Logistik", tombol utama "Buat RFQ" dan tombol sekunder "Cari UMKM".
-- Strip stat dalam satu kartu (4 kolom): RFQ aktif 3, Penawaran masuk 11, Order berjalan 2, Dana di escrow Rp33.750.000.
+- Strip stat dalam satu kompartemen (4 kolom): RFQ aktif 3, Penawaran masuk 11, Order berjalan 2, Dana di escrow Rp33.750.000.
 - Dua kolom: utama 2/3, samping 1/3.
-- Utama: kartu "RFQ saya" dengan tab garis bawah (Aktif, Draft, Selesai). Tiap baris: kode, judul, jenis, penanda "Tunggal" atau "4 lot", tenggat dengan sisa hari, chip jumlah kandidat cocok, bilah tipis "Penawaran masuk 3", badge status, tombol aksi (Lihat penawaran, Bandingkan). Satu RFQ tanpa penawaran dengan tenggat dekat diberi banner amber kecil. Kartu "Perlu tindakan" (penawaran baru menunggu evaluasi, sampel menunggu penilaian, order menunggu pendanaan dengan sisa waktu, order menunggu QC) dengan ikon dan tombol teks per baris. Kartu "Order berjalan" dengan stepper mini dan badge ganda status order + status dana.
-- Samping: panel "UMKM yang disarankan" (3 mini baris: avatar, nama, badge tier persegi, ★, kecocokan, tombol "Undang"), panel "Dana escrow" (didanai, dirilis, tertahan, tautan), panel "Aktivitas terbaru" (timeline 5 kejadian dengan waktu).
+- Utama: kompartemen "RFQ saya" dengan tab garis bawah (Aktif, Draft, Selesai). Tiap baris: kode, judul, jenis, penanda "Tunggal" atau "4 lot", tenggat dengan sisa hari, chip jumlah kandidat cocok, bilah tipis "Penawaran masuk 3", badge status, tombol aksi (Lihat penawaran, Bandingkan). Satu RFQ tanpa penawaran dengan tenggat dekat diberi banner amber kecil. Kompartemen "Perlu tindakan" (penawaran baru menunggu evaluasi, sampel menunggu penilaian, order menunggu pendanaan dengan sisa waktu, order menunggu QC) dengan ikon dan tombol teks per baris. Kompartemen "Order berjalan" dengan stepper mini dan badge ganda status order + status dana.
+- Samping: kompartemen "UMKM yang disarankan" (3 mini sel: avatar, nama, badge tier, ★, kecocokan, tombol "Undang"), kompartemen "Dana escrow" (didanai, dirilis, tertahan, tautan), kompartemen "Aktivitas terbaru" (timeline 5 kejadian dengan waktu).
 ```
 
 ### P13. Wizard buat RFQ (10 langkah)
@@ -355,8 +369,8 @@ Rancang "Industri / Detail RFQ - Kandidat" (desktop 1440). Pakai P0 dan pola daf
 Susunan:
 - Header RFQ-0007: judul, badge "Dibuka", ringkasan satu baris. Tab garis bawah: Ringkasan | Kandidat (aktif) | Penawaran (11) | Tanya Jawab | Addendum.
 - Bilah urut dan filter ringan (kecocokan, Readiness, rating, jarak).
-- Rail filter kiri 260px (tier, kota, rating, kapasitas) dan daftar kandidat di kanan dalam satu kartu.
-- Tiap kandidat memakai anatomi Baris Penawaran/Kandidat di P0: avatar 56, nama UMKM (tautan), lokasi, badge tier persegi, ★ 4,7 (12 ulasan), deret 3 foto portofolio 72px, angka kecocokan besar di kanan (86), strip metrik (kapasitas 3.000 pcs/bulan, tepat waktu 92%, lead time standar, order selesai 38), baris chip alasan ("Kategori sama", "Kapasitas 2x kebutuhan", "Bordir dikuasai"), tombol "Lihat profil" dan "Undang ke RFQ".
+- Rail filter kiri 260px (tier, kota, rating, kapasitas) dan daftar kandidat di kanan dalam satu kompartemen.
+- Tiap kandidat memakai anatomi Baris Penawaran/Kandidat di P0: avatar 56, nama UMKM (tautan), lokasi, badge tier, ★ 4,7 (12 ulasan), deret 3 foto portofolio 72px, angka kecocokan besar di kanan (86), strip metrik (kapasitas 3.000 pcs/bulan, tepat waktu 92%, lead time standar, order selesai 38), baris chip alasan ("Kategori sama", "Kapasitas 2x kebutuhan", "Bordir dikuasai"), tombol "Lihat profil" dan "Undang ke RFQ".
 - Data: CV Karya Mandiri Konveksi 86, UD Sinar Jahit 82, Koperasi Penjahit Bersama 74, CV Tiga Warna Garmen 68.
 - Tautan "Lihat rincian skor" membuka panel samping berisi skor per komponen dalam daftar sederhana.
 - Variasi mode lot (RFQ-0008): tiap kandidat menampilkan chip lot yang cocok ("Cocok: Lot A, C").
@@ -371,7 +385,7 @@ Susunan:
 - Judul "Cari UMKM konveksi", kolom pencarian lebar.
 - Filter horizontal di atas hasil: layanan (Jahit CMT, Full package, Bordir, Sablon), kategori produk, kota, tier Readiness, kapasitas minimal, "Hanya yang terverifikasi". Urut: Paling relevan.
 - Strip kategori dengan ikon di atas filter (Seragam, Wearpack, Polo, Jaket, Topi, Tote bag, Bordir, Sablon).
-- Grid 4 kolom Kompartemen UMKM (anatomi di P0): foto 4:3, avatar, nama, badge tier persegi, judul 2 baris, ★ rating, footer "Kapasitas 3.000 pcs/bulan" dan "MOQ 50 pcs". Minimal 12 kompartemen, paginasi di bawah. Hover memperlihatkan tombol "Undang ke RFQ".
+- Grid 4 kolom Sel UMKM (anatomi di P0): foto 4:3, avatar, nama, badge tier, judul 2 baris, ★ rating, footer "Kapasitas 3.000 pcs/bulan" dan "MOQ 50 pcs". Minimal 12 kartu, paginasi di bawah. Hover memperlihatkan tombol "Undang ke RFQ".
 - Dari halaman profil UMKM (sudut pandang industri): tombol utama "Undang ke RFQ" yang membuka modal pilih RFQ milik pembeli (RFQ berstatus Dibuka atau Undangan).
 - Variasi hasil kosong.
 ```
@@ -383,7 +397,7 @@ Rancang "Industri / Penawaran dan Perbandingan" untuk RFQ-0007 (desktop 1440). P
 Frame 1, daftar penawaran:
 - Header RFQ dan tab "Penawaran (3)" aktif. Bilah urut (Skor evaluasi, Harga, Jadwal) dan tombol "Bandingkan" (aktif jika 2-3 dipilih, ada kotak centang di tiap baris).
 - Dua kolom: daftar 2/3 dan panel samping 1/3 (ringkasan RFQ, bobot evaluasi, tenggat revisi).
-- Tiap penawaran sebagai baris proposal di dalam kompartemen bergaris: avatar 56, nama UMKM, badge tier persegi, ★ rating, lokasi; di kanan skor evaluasi besar. Satu strip metrik 4 kolom: Total harga, Lead time dan tanggal kirim (dengan teks "Memenuhi" atau "Terlambat 8 hari"), Kesesuaian (mis. 7 dari 8), Readiness. Di bawahnya ringkasan "Deviasi: rompi memakai drill 250 gsm". Tombol "Lihat penawaran", "Shortlist", "Minta revisi".
+- Tiap penawaran sebagai baris proposal di dalam kompartemen: avatar 56, nama UMKM, badge tier, ★ rating, lokasi; di kanan skor evaluasi besar. Satu strip metrik 4 kolom: Total harga, Lead time dan tanggal kirim (dengan teks "Memenuhi" atau "Terlambat 8 hari"), Kesesuaian (mis. 7 dari 8), Readiness. Di bawahnya ringkasan "Deviasi: rompi memakai drill 250 gsm". Tombol "Lihat penawaran", "Shortlist", "Minta revisi".
 - Data: CV Karya Mandiri Konveksi Rp33.750.000; UD Sinar Jahit Rp31.900.000; Koperasi Penjahit Bersama Rp30.400.000.
 
 Frame 2, perbandingan:
@@ -395,7 +409,7 @@ Warna hanya aksen biru, tint, dan warna status.
 
 ### P17. Papan alokasi lot (mode LOT)
 ```
-Rancang "Industri / Papan Alokasi Lot" untuk RFQ-0008 (desktop 1440, latar putih murni, kompartemen bergaris dengan sidebar kiri 240px). Pakai P0. Ini layar terpenting untuk split award. Tabel garis tipis di dalam kompartemen, sel terpilih bertint biru.
+Rancang "Industri / Papan Alokasi Lot" untuk RFQ-0008 (desktop 1440, latar putih, kompartemen bergaris yang menempel). Pakai P0. Ini layar terpenting untuk split award. Tabel garis tipis di dalam kartu, sel terpilih bertint biru.
 
 Susunan:
 - Header RFQ-0008, badge "Evaluasi", ringkasan "4 lot x 50 pcs, maks 1 lot per UMKM, satu sumber kain KTC-140-NVY".
@@ -438,7 +452,7 @@ Rancang "Industri / Detail Order dan QC" (desktop 1440). Pakai P0.
 Susunan:
 - Header: nomor order, pemasok, badge status order dan badge status dana berdampingan, tombol "Unduh PO (PDF)".
 - Stepper tipis (Dikonfirmasi, Bahan siap, Produksi, Siap kirim, Dikirim, Diterima, QC, Selesai) dan timeline milestone dengan foto kecil. Pada milestone "Bahan tiba" tampil tombol "Konfirmasi dan rilis 30%" dan teks "Otomatis dirilis dalam 2 x 24 jam bila tidak ada keberatan".
-- Dua kolom: kiri ringkasan order (item, harga, jadwal, termin, status dana per tahap), kanan kotak bergaris "Penerimaan dan QC": tabel jumlah diterima per ukuran, tabel reject per jenis cacat (Jahitan, Ukuran, Noda/kain, Dekorasi, Label/packing, dan khusus mode lot "Variasi antar-lot"), hasil (Lolos / Lolos dengan catatan / Gagal), catatan, unggah foto, tombol "Simpan hasil QC". Setelah QC lolos tampil "Sisa dana Rp23.625.000 dirilis ke UMKM".
+- Dua kolom: kiri ringkasan order (item, harga, jadwal, termin, status dana per tahap), kanan kompartemen bergaris "Penerimaan dan QC": tabel jumlah diterima per ukuran, tabel reject per jenis cacat (Jahitan, Ukuran, Noda/kain, Dekorasi, Label/packing, dan khusus mode lot "Variasi antar-lot"), hasil (Lolos / Lolos dengan catatan / Gagal), catatan, unggah foto, tombol "Simpan hasil QC". Setelah QC lolos tampil "Sisa dana Rp23.625.000 dirilis ke UMKM".
 - Variasi hasil gagal: banner "Perlu rework", tombol "Minta perbaikan" dan tautan "Buka sengketa", lalu variasi QC ulang. Dana tahap 2 tetap tertahan, jelaskan di satu kalimat.
 - **Variasi order induk (RFQ-0008):** halaman "Order Induk" berisi tabel sub-order (Lot A-D: UMKM, qty, status order, status dana, hasil QC), status induk turunan ("Sebagian selesai"), dan blok "Perbandingan terhadap standar acuan" yang mencantumkan variasi warna atau ukuran antar-lot. Satu sub-order bermasalah memperlihatkan pilihan "Aktifkan cadangan", "Batalkan lot (dana tersisa dikembalikan)", "Terima jumlah parsial".
 ```
@@ -462,7 +476,7 @@ Rancang alur "Sengketa" (desktop 1440). Pakai P0. Nada tenang, jelas, tidak meny
 1. Buka sengketa: dari detail order. Pilih alasan (Tidak sesuai spesifikasi, Cacat, Terlambat, UMKM tidak aktif, Pembatalan, Pembayaran, Lainnya), pilih tuntutan (Refund penuh, Refund parsial, Rilis, Kompensasi) dengan kolom nominal, deskripsi, unggah bukti. Banner: "Dana yang belum dirilis akan dibekukan selama sengketa."
 2. Halaman sengketa SGT-0003 (order RFQ-0007, alasan Cacat, tuntutan Refund parsial): header dengan badge status, stepper tipis (Dibuka, Menunggu tanggapan, Ditelaah admin, Diputus). Dua kolom: kiri "Bukti dan tanggapan" sebagai timeline (bukti pembeli berupa foto QC dan resi, tanggapan UMKM, bukti milestone), kanan kotak "Dana dibekukan Rp23.625.000" dan teks "Pihak lawan menanggapi dalam 3 x 24 jam".
 3. Sisi penerima: pihak lawan melihat tuntutan dan tombol "Tanggapi" (form teks dan unggah bukti), serta sisa waktu.
-4. Keputusan: kartu bergaris tegas "Keputusan admin" berisi hasil (Rilis penuh / Refund penuh / Proporsional / Rework dulu), rincian nominal, alasan tertulis, dan efek pada status dana. Tanpa ilustrasi.
+4. Keputusan: kompartemen bergaris tegas "Keputusan admin" berisi hasil (Rilis penuh / Refund penuh / Proporsional / Rework dulu), rincian nominal, alasan tertulis, dan efek pada status dana. Tanpa ilustrasi.
 ```
 
 ### P23. Admin: verifikasi dan konfigurasi
@@ -475,7 +489,7 @@ Rancang "Admin" (desktop 1440). Pakai P0. Dua layar:
 
 ### P24. Admin: sengketa dan ledger escrow
 ```
-Rancang "Admin / Sengketa dan Ledger" (desktop 1440). Pakai P0. Padat informasi dalam kompartemen bergaris 1px #E5E7EB, tabel dengan garis tipis, dengan sidebar kiri 240px.
+Rancang "Admin / Sengketa dan Ledger" (desktop 1440). Pakai P0. Padat informasi dalam kompartemen bergaris, tabel dengan garis tipis.
 
 1. Antrian sengketa: tiga angka (Menunggu ditelaah 4, Rata-rata selesai 3,2 hari, Diputus bulan ini 11), tabel (nomor, order, pembuka, alasan, nominal dibekukan, sisa waktu, status, tombol "Telaah"). "Telaah" membuka halaman dua kolom: kiri ringkasan order dan bukti kedua pihak (milestone, QC, resi, tech pack, addendum, tanya jawab) dalam daftar bertab, kanan panel "Keputusan": pilihan Rilis penuh / Refund penuh / Proporsional (input nominal dengan total otomatis sama dengan dana dibekukan) / Rework dulu (tenggat baru), kolom alasan tertulis wajib, tombol "Putuskan". Modal konfirmasi menjelaskan dampak ke status dana dan skor.
 2. Ledger escrow: tabel append-only (waktu, order, tipe: Fund, Hold, Release, Refund, Fee, Adjust, jumlah, referensi milestone/QC/sengketa, pelaku sistem atau admin). Di atas tabel, tiga angka (Dana masuk, Dikeluarkan, Tertahan) dan baris pemeriksaan satu kalimat: "Dana masuk = dirilis + dikembalikan + komisi + tertahan: Seimbang" dengan tanda teks hijau, dan variasi "Selisih Rp...: perlu rekonsiliasi" berwarna merah. Tab kedua "Komisi" berisi total komisi per bulan dan tabel per order. Tanpa grafik. Tidak ada tombol untuk mengubah atau menghapus baris.
@@ -487,12 +501,12 @@ Rancang "Admin / Sengketa dan Ledger" (desktop 1440). Pakai P0. Padat informasi 
 
 ### P25. Pustaka komponen dan state
 ```
-Buat satu halaman "Library Komponen dan State" (desktop). Pakai P0. Tampilkan semua komponen beserta varian: tombol (semua tipe, hover, disabled, loading), input (default, fokus, error, disabled), select, checkbox, radio, toggle, unggah file, badge status (semua daftar di P0, termasuk status dana dan sengketa), badge ganda "status order + status dana", baris RFQ (anatomi lengkap), baris kandidat/penawaran, kartu UMKM (untuk grid direktori), panel samping, strip stat, rail filter, chip dan chip filter aktif, avatar dan logo usaha, panel "Rekam Jejak Pembeli", tab, tabel perbandingan, sel papan alokasi (default, terpilih Menang, Cadangan, peringatan), stepper wizard, stepper order, baris milestone dengan keterangan dana, banner (info, peringatan, bahaya), modal, toast, breadcrumb, paginasi. Lalu state: kosong (belum ada RFQ, belum ada penawaran, tanpa kandidat), skeleton loading, error 404 dan koneksi, banner dokumen kedaluwarsa dan ditolak, banner addendum, banner menunggu pendanaan, banner dana dibekukan, dialog konfirmasi tindakan berisiko (tarik penawaran, batalkan RFQ, batalkan order, pilih pemenang). Empty state memakai ikon outline 32px. Gunakan Auto Layout dan variants.
+Buat satu halaman "Library Komponen dan State" (desktop). Pakai P0. Tampilkan semua komponen beserta varian: tombol (semua tipe, hover, disabled, loading), input (default, fokus, error, disabled), select, checkbox, radio, toggle, unggah file, badge status (semua daftar di P0, termasuk status dana dan sengketa), badge ganda "status order + status dana", baris RFQ (anatomi lengkap), baris kandidat/penawaran, sel UMKM (untuk grid direktori), panel samping, strip stat, rail filter, chip dan chip filter aktif, avatar dan logo usaha, panel "Rekam Jejak Pembeli", tab, tabel perbandingan, sel papan alokasi (default, terpilih Menang, Cadangan, peringatan), stepper wizard, stepper order, baris milestone dengan keterangan dana, banner (info, peringatan, bahaya), modal, toast, breadcrumb, paginasi. Lalu state: kosong (belum ada RFQ, belum ada penawaran, tanpa kandidat), skeleton loading, error 404 dan koneksi, banner dokumen kedaluwarsa dan ditolak, banner addendum, banner menunggu pendanaan, banner dana dibekukan, dialog konfirmasi tindakan berisiko (tarik penawaran, batalkan RFQ, batalkan order, pilih pemenang). Empty state memakai ikon outline 32px. Gunakan Auto Layout dan variants.
 ```
 
 ### P26. Versi mobile layar kunci
 ```
-Rancang versi mobile (390 x 844) untuk peran UMKM: (1) Beranda, (2) Daftar RFQ, (3) Detail RFQ dengan tombol "Ajukan penawaran" lengket di bawah, (4) Readiness Score, (5) Form penawaran (bagian dapat dilipat), (6) Detail order dengan milestone dan status dana, (7) Unggah bukti milestone dengan kamera. Pakai P0, navigasi bawah 4 tab (Beranda, RFQ, Penawaran, Order), area sentuh minimal 44px, tabel menjadi daftar label-nilai. Padat seperti aplikasi Upwork di ponsel (kompartemen penuh lebar, chip persegi, avatar), tetapi tetap terbaca.
+Rancang versi mobile (390 x 844) untuk peran UMKM: (1) Beranda, (2) Daftar RFQ, (3) Detail RFQ dengan tombol "Ajukan penawaran" lengket di bawah, (4) Readiness Score, (5) Form penawaran (bagian dapat dilipat), (6) Detail order dengan milestone dan status dana, (7) Unggah bukti milestone dengan kamera. Pakai P0, bar atas 56 (tombol menu, logo, lonceng) dan navigasi bawah 4 tab (Beranda, RFQ, Penawaran, Order), area sentuh minimal 44px, tabel menjadi daftar label-nilai. Padat seperti aplikasi Upwork dan Fiverr di ponsel (kartu penuh lebar, chip, avatar), tetapi tetap terbaca.
 ```
 
 ---
@@ -501,12 +515,17 @@ Rancang versi mobile (390 x 844) untuk peran UMKM: (1) Beranda, (2) Daftar RFQ, 
 
 **Cek kemiripan gaya (jalankan pada layar mana pun)**
 ```
-Periksa layar ini terhadap arah gaya P0: modern industrial teknis, bersih, tenang, mudah dibaca lama. Daftar yang melanggar: layar lengang, bentuk lonjong/kapsul, latar sekunder abu-abu, kartu bertumpuk dengan bayangan, transparansi atau filter blur, navigasi utama di header, teks di bawah 13px. Perbaiki satu per satu tanpa mengubah konten inti, lalu ringkas perubahannya dalam 5 baris.
+Periksa layar ini terhadap arah gaya P0 (industrial modern): putih, kompartemen bergaris menempel, sidebar, padat tetapi rapi, mudah dibaca. Daftar yang melanggar: layar lengang, baris daftar yang membawa kurang dari 5 potong informasi, bayangan, gradien, efek kaca, pil, jarak antarkompartemen, latar abu-abu, kompartemen bersarang, navbar atas, stroke pada badge status, baris daftar tanpa padding kiri-kanan, item sidebar yang tidak sejajar, warna aksen berlebih, teks di bawah 13px. Perbaiki satu per satu tanpa mengubah konten inti, lalu ringkas perubahannya dalam 5 baris.
 ```
 
 **Layar terlalu kosong (tambah kepadatan ala Upwork/Fiverr)**
 ```
-Layar ini terlalu lengang. Latar jadikan putih murni #FFFFFF dan bagi tiap bagian dalam kompartemen bergaris 1px #E5E7EB radius 0px. Perkaya tiap baris daftar dengan metadata (meta posting, ringkasan, chip persegi, ★ rating, lokasi, badge status persegi, tombol aksi) sesuai anatomi Baris RFQ atau Kompartemen UMKM di P0. Tambahkan strip stat di atas, panel samping (ringkasan, rekam jejak, langkah berikutnya), avatar, dan foto placeholder konveksi. Tanpa bayangan dan tanpa bentuk lonjong.
+Layar ini terlalu lengang. Latar jadikan putih #FFFFFF dan bungkus tiap bagian dalam kompartemen menempel dipisah garis 1px. Perkaya tiap baris daftar dengan metadata (meta posting, ringkasan, chip, ★ rating, lokasi, badge status, tombol aksi) sesuai anatomi Baris RFQ atau Sel UMKM di P0. Tambahkan strip stat di atas, panel samping (ringkasan, rekam jejak, langkah berikutnya), avatar, dan foto placeholder konveksi. Jangan menambah gradien atau warna aksen baru.
+```
+
+**Rapikan sidebar dan padding (v4)**
+```
+Periksa sidebar dan padding layar ini. Sidebar 248px: logo 56, label peran, item menu tinggi 40 dengan padding 12, ikon 20 + jarak 12 + label sejajar, jarak antaritem 2, notifikasi dan akun di dasar. Tidak ada navbar atas. Baris daftar harus punya padding kiri-kanan 24 dan atas-bawah 20, kompartemen menempel tanpa jarak dan dipisah garis 1px, badge status hanya berlatar warna tanpa garis. Perbaiki yang menyimpang tanpa mengubah konten.
 ```
 
 **Konsistensi dengan design system**
@@ -516,7 +535,7 @@ Periksa layar ini terhadap P0. Sesuaikan warna, tipografi, spacing, radius, dan 
 
 **Terlalu ramai (rapikan)**
 ```
-Layar ini terlalu ramai. Hapus elemen yang tidak membawa informasi (dekorasi, bayangan, kartu bersarang, ikon berlebih), kelompokkan isi dalam kartu, perjelas hierarki lewat ukuran teks, ketebalan, dan spasi, dan batasi tiap baris daftar pada 5 sampai 7 potong informasi.
+Layar ini terlalu ramai. Hapus elemen yang tidak membawa informasi (dekorasi, bayangan, kompartemen bersarang, ikon berlebih), kelompokkan isi dalam kompartemen, perjelas hierarki lewat ukuran teks, ketebalan, dan spasi, dan batasi tiap baris daftar pada 5 sampai 7 potong informasi.
 ```
 
 **Perbaiki keterbacaan**
@@ -554,8 +573,8 @@ Hubungkan layar-layar berikut menjadi prototipe alur interaktif: [daftar layar].
 ## 6. Daftar periksa sebelum presentasi
 
 - [ ] Variables warna dan tipografi sudah dibuat dan dipakai di semua layar
-- [ ] Gaya konsisten: header 56px dan sidebar kiri 240px, latar putih murni dengan kompartemen bergaris 1px #E5E7EB, baris daftar padat (5 sampai 7 potong informasi), badge persegi radius 2px, satu warna aksen, tanpa bayangan kartu
-- [ ] Tidak ada layar yang terlihat lengang (cek terhadap Upwork dan Fiverr)
+- [ ] Gaya konsisten: sidebar kiri tanpa navbar atas (akun dan notifikasi di dasar sidebar), pencarian di bawah PageHeader, latar putih, kompartemen menempel dipisah garis 1px tanpa jarak, padding dalam 24 (baris daftar 24 kiri-kanan), badge status berlatar warna tanpa garis, baris daftar padat (5 sampai 7 potong informasi), satu warna aksen, tanpa gradien, kaca, dan bayangan panel
+- [ ] Tidak ada layar yang terlihat lengang, tidak ada konten yang menempel ke tepi kompartemen, item sidebar sejajar dan rapi
 - [ ] Layar inti RFQ dan penawaran (P7, P8, P13, P16) sudah rapi
 - [ ] Layar pembeda model broker (P17 papan alokasi, P19 pendanaan, P20 order induk dan QC, P22 sengketa, P24 ledger) sudah rapi
 - [ ] Data contoh konsisten (RFQ-0007, tiga penawaran, empat kandidat, dana Rp33.750.000, RFQ-0008 empat lot)

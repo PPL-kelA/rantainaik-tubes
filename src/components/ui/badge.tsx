@@ -14,6 +14,7 @@ const badgeVariants = cva(
         success: "bg-[#DCFCE7] text-[#15803D]",
         warning: "bg-[#FEF3C7] text-[#B45309]",
         destructive: "bg-[#FEE2E2] text-[#B91C1C]",
+        info: "bg-[#EFF4FE] text-[#2862E0]",
         outline: "bg-[#F1F3F5] text-[#0E1422]",
         tokyo: "bg-[#1A1B26] text-[#C0CAF5] font-mono text-[11px]",
       },
@@ -50,7 +51,8 @@ function Badge({
               (variant === "success" && "bg-[#15803D]") ||
               (variant === "warning" && "bg-[#B45309]") ||
               (variant === "destructive" && "bg-[#B91C1C]") ||
-              (variant === "default" && "bg-[#2862E0]") ||
+              ((variant === "default" || variant === "info") &&
+                "bg-[#2862E0]") ||
               "bg-current"
           )}
           aria-hidden="true"
@@ -61,4 +63,88 @@ function Badge({
   );
 }
 
-export { Badge, badgeVariants };
+export type StatusType =
+  | "VERIFIED"
+  | "PENDING"
+  | "REJECTED"
+  | "SUSPENDED"
+  | "OPEN"
+  | "CLOSED"
+  | "DRAFT"
+  | "SUBMITTED"
+  | "VALID"
+  | "EXPIRING_SOON"
+  | "EXPIRED"
+  | "COMPLETED"
+  | "IN_PROGRESS"
+  | "CANCELLED"
+  | string;
+
+export interface StatusBadgeProps extends BadgeProps {
+  status?: StatusType;
+}
+
+function getVariantFromStatus(
+  status?: string
+): VariantProps<typeof badgeVariants>["variant"] {
+  if (!status) return "default";
+  const upper = status.toUpperCase();
+  if (
+    upper === "VERIFIED" ||
+    upper === "VALID" ||
+    upper === "COMPLETED" ||
+    upper === "OPEN" ||
+    upper === "SUCCESS"
+  ) {
+    return "success";
+  }
+  if (
+    upper === "PENDING" ||
+    upper === "EXPIRING_SOON" ||
+    upper === "WARNING" ||
+    upper === "AWAITING_PAYMENT"
+  ) {
+    return "warning";
+  }
+  if (
+    upper === "REJECTED" ||
+    upper === "SUSPENDED" ||
+    upper === "EXPIRED" ||
+    upper === "CANCELLED" ||
+    upper === "DESTRUCTIVE" ||
+    upper === "FAILED"
+  ) {
+    return "destructive";
+  }
+  if (upper === "INFO" || upper === "IN_PROGRESS") {
+    return "info";
+  }
+  if (upper === "DRAFT" || upper === "CLOSED" || upper === "SECONDARY") {
+    return "secondary";
+  }
+  return "default";
+}
+
+function StatusBadge({
+  status,
+  variant,
+  children,
+  className,
+  dot = false,
+  ...props
+}: StatusBadgeProps) {
+  const resolvedVariant =
+    variant || (status ? getVariantFromStatus(status) : "default");
+  return (
+    <Badge
+      variant={resolvedVariant}
+      dot={dot}
+      className={cn("font-mono text-xs", className)}
+      {...props}
+    >
+      {children || status}
+    </Badge>
+  );
+}
+
+export { Badge, StatusBadge, badgeVariants };

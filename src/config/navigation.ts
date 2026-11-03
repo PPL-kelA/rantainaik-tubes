@@ -75,12 +75,12 @@ export const NAVIGATION_CONFIG: Record<string, NavGroup[]> = {
         },
         {
           title: "Cari RFQ",
-          href: "/umkm#cari-rfq",
+          href: "/umkm/rfq",
           icon: Search,
         },
         {
           title: "Penawaran Saya",
-          href: "/umkm#penawaran",
+          href: "/umkm/penawaran",
           icon: Briefcase,
         },
       ],
