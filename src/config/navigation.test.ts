@@ -8,6 +8,7 @@ describe("Konfigurasi Navigasi Terpusat (R1)", () => {
     const titles = nav.flatMap((g) => g.items.map((i) => i.title));
     expect(titles).toContain("Dashboard Pengadaan");
     expect(titles).toContain("RFQ Saya");
+    expect(titles).toContain("Penawaran Masuk");
     expect(titles).toContain("Cari UMKM");
     expect(titles).toContain("Order & Escrow");
     expect(titles).toContain("Profil & Legalitas");

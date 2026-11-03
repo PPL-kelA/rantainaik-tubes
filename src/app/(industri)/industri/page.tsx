@@ -10,10 +10,9 @@ import {
   Building2,
   Plus,
   Lock,
-  Search,
 } from "lucide-react";
 import { listRfqs } from "@/modules/rfq/repo";
-import { Badge, Button, PageHeader } from "@/components/ui";
+import { Button, PageHeader, SearchBar, StatusBadge } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -127,12 +126,10 @@ export default async function IndustriDashboardPage({
         />
 
         {/* In-Page Search Bar under Header */}
-        <div className="mt-5 relative w-full">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5B6475]" />
-          <input
-            type="text"
+        <div className="mt-5 w-full">
+          <SearchBar
             placeholder="Cari RFQ saya, nomor tender, atau kategori pesanan..."
-            className="h-10 w-full rounded-[4px] border border-[#8B93A1] bg-white pl-10 pr-4 text-xs sm:text-sm text-[#0E1422] placeholder:text-[#5B6475] focus:border-[#2862E0] focus:outline-none focus:ring-1 focus:ring-[#2862E0]"
+            className="w-full"
           />
         </div>
       </div>
@@ -246,7 +243,7 @@ export default async function IndustriDashboardPage({
             </div>
           </div>
 
-          {/* List RFQ dengan border divide dan padding kanan-kiri yang lega */}
+          {/* List RFQ dengan baris padding simetris 24px kiri-kanan dan 20px atas-bawah */}
           <div className="divide-y divide-[#E5E7EB]">
             {displayedRfqs.length > 0 ? (
               displayedRfqs.map((rfq) => {
@@ -257,7 +254,7 @@ export default async function IndustriDashboardPage({
                 return (
                   <div
                     key={rfq.id}
-                    className="p-6 sm:p-7 space-y-3.5 transition-colors hover:bg-[#FAFBFC]"
+                    className="px-6 py-5 space-y-3.5 transition-colors hover:bg-[#FAFBFC]"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
@@ -269,23 +266,11 @@ export default async function IndustriDashboardPage({
                         </span>
                       </div>
 
-                      <Badge
-                        variant={
-                          rfq.status === "OPEN"
-                            ? "success"
-                            : rfq.status === "DRAFT"
-                              ? "secondary"
-                              : "default"
-                        }
-                        dot
-                        className="rounded-[2px] font-mono text-[11px]"
-                      >
-                        Status: {rfq.status}
-                      </Badge>
+                      <StatusBadge status={rfq.status} />
                     </div>
 
                     <h3 className="font-heading text-base font-semibold text-[#0E1422] hover:text-[#2862E0] transition-colors">
-                      <Link href={`/umkm/rfq/${rfq.id}`}>{rfq.title}</Link>
+                      <Link href={`/industri/rfq/${rfq.id}`}>{rfq.title}</Link>
                     </h3>
 
                     <p className="text-xs sm:text-sm text-[#5B6475] leading-relaxed">
@@ -302,7 +287,7 @@ export default async function IndustriDashboardPage({
                       </span>
                     </p>
 
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-xs text-[#5B6475]">
+                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs text-[#5B6475]">
                       <span>
                         Tenggat penawaran:{" "}
                         <span className="font-medium text-[#0E1422]">
@@ -315,7 +300,7 @@ export default async function IndustriDashboardPage({
 
                       <Button variant="ghost" size="sm" asChild>
                         <Link
-                          href={`/umkm/rfq/${rfq.id}`}
+                          href={`/industri/rfq/${rfq.id}`}
                           className="flex items-center gap-1 font-semibold text-[#2862E0] hover:text-[#2858B8]"
                         >
                           Buka Detail RFQ

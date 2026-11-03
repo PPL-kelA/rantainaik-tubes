@@ -38,12 +38,17 @@ export const NAVIGATION_CONFIG: Record<string, NavGroup[]> = {
         },
         {
           title: "RFQ Saya",
-          href: "/industri#rfq",
+          href: "/industri/rfq",
           icon: FileText,
         },
         {
+          title: "Penawaran Masuk",
+          href: "/industri/penawaran",
+          icon: Briefcase,
+        },
+        {
           title: "Cari UMKM",
-          href: "/industri#mitra",
+          href: "/industri/mitra",
           icon: Search,
         },
       ],
@@ -53,7 +58,7 @@ export const NAVIGATION_CONFIG: Record<string, NavGroup[]> = {
       items: [
         {
           title: "Order & Escrow",
-          href: "/industri#order",
+          href: "/industri/order",
           icon: Layers,
         },
         {
