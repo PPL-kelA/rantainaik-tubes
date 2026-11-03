@@ -13,6 +13,7 @@ import { OrganizationProfileForm } from "@/components/domain/OrganizationProfile
 import { DocumentUploadSection } from "@/components/domain/DocumentUploadSection";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { PageHeader, Button } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -32,8 +33,8 @@ export default async function UmkmProfilePage() {
   const organization = await getUserOrganization(session.user.id);
   if (!organization) {
     return (
-      <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
-        <p className="text-sm text-[#EF4444]">
+      <div className="border border-[#E5E7EB] bg-white p-6">
+        <p className="text-sm text-[#B91C1C]">
           Data organisasi tidak ditemukan untuk akun ini.
         </p>
       </div>
@@ -148,30 +149,40 @@ export default async function UmkmProfilePage() {
   }));
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Link
-          href="/umkm"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Kembali ke Dashboard UMKM
-        </Link>
+    <div className="w-full space-y-0 divide-y divide-[#E5E7EB] border border-[#E5E7EB] bg-white">
+      {/* 1. Page Header Compartment */}
+      <div className="p-6">
+        <PageHeader
+          className="border-b-0 pb-0"
+          category="Portal Mitra UMKM Konveksi"
+          title="Profil & Portofolio Konveksi"
+          description="Kelola kapabilitas jahit, data fasilitas mesin, portofolio produk maklon, sertifikasi, serta dokumen legalitas usaha."
+          actions={
+            <Button variant="secondary" size="sm" asChild>
+              <Link
+                href="/umkm"
+                className="flex items-center gap-1.5 text-xs font-semibold rounded-[4px]"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Kembali ke Dashboard UMKM
+              </Link>
+            </Button>
+          }
+        />
       </div>
 
       {/* P4: Full Profile & Capabilities Interface */}
-      <UmkmProfileClient
-        initialProfile={serializedProfile}
-        categories={serializedCategories}
-        productionServices={serializedServices}
-        masterCertifications={serializedMasterCerts}
-      />
+      <div>
+        <UmkmProfileClient
+          initialProfile={serializedProfile}
+          categories={serializedCategories}
+          productionServices={serializedServices}
+          masterCertifications={serializedMasterCerts}
+        />
+      </div>
 
-      {/* Accordion / Bagian Dokumen Legalitas NIB / NPWP */}
-      <div className="rounded-xl border border-[#E5E7EB] bg-white p-5 shadow-sm space-y-4">
-        <h3 className="text-sm font-bold text-[#111827]">
-          Kelola Berkas Dokumen Legalitas (NIB & Izin Usaha)
-        </h3>
+      {/* Bagian Dokumen Legalitas NIB / NPWP */}
+      <div className="p-6 space-y-4">
         <DocumentUploadSection
           organizationId={organization.id}
           orgType={organization.type}
@@ -180,10 +191,7 @@ export default async function UmkmProfilePage() {
       </div>
 
       {/* Form Edit Data Umum Organisasi */}
-      <div className="rounded-xl border border-[#E5E7EB] bg-white p-5 shadow-sm space-y-4">
-        <h3 className="text-sm font-bold text-[#111827]">
-          Data Kontak & Domisili Perusahaan
-        </h3>
+      <div className="p-6 space-y-4">
         <OrganizationProfileForm organization={organization} />
       </div>
     </div>

@@ -6,13 +6,12 @@ import {
   FileText,
   Upload,
   CheckCircle2,
-  Clock,
-  XCircle,
   AlertCircle,
   ExternalLink,
   Loader2,
   ShieldAlert,
 } from "lucide-react";
+import { StatusBadge } from "@/components/ui";
 
 export interface DocumentItem {
   id: string;
@@ -139,13 +138,13 @@ export function DocumentUploadSection({
   }
 
   return (
-    <div className="space-y-6 rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
+    <div className="space-y-6 bg-white">
       <div className="border-b border-[#E5E7EB] pb-4">
-        <h2 className="text-base font-bold text-[#111827] flex items-center gap-2">
-          <FileText className="h-4 w-4 text-[#1D4ED8]" />
+        <h2 className="text-base font-semibold text-[#0E1422] flex items-center gap-2">
+          <FileText className="h-4 w-4 text-[#2862E0]" />
           Dokumen Legalitas & Verifikasi Akun
         </h2>
-        <p className="text-xs text-[#6B7280] mt-0.5">
+        <p className="text-xs text-[#5B6475] mt-0.5">
           Sesuai spesifikasi kurasi <strong>7.1</strong>, akun akan otomatis
           naik menjadi <strong className="text-[#15803D]">VERIFIED</strong>{" "}
           setelah seluruh dokumen wajib di bawah ini disetujui Admin.
@@ -154,16 +153,16 @@ export function DocumentUploadSection({
 
       {message && (
         <div
-          className={`flex items-center gap-2.5 rounded-lg p-3.5 text-xs font-medium ${
+          className={`flex items-center gap-2.5 rounded-[4px] p-3.5 text-xs font-medium border ${
             message.type === "success"
-              ? "bg-[#F0FDF4] text-[#166534] border border-[#DCFCE7]"
-              : "bg-[#FEF2F2] text-[#991B1B] border border-[#FEE2E2]"
+              ? "bg-[#F0FDF4] text-[#15803D] border-[#DCFCE7]"
+              : "bg-[#FEF2F2] text-[#B91C1C] border-[#FEE2E2]"
           }`}
         >
           {message.type === "success" ? (
-            <CheckCircle2 className="h-4 w-4 shrink-0 text-[#16A34A]" />
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-[#15803D]" />
           ) : (
-            <AlertCircle className="h-4 w-4 shrink-0 text-[#DC2626]" />
+            <AlertCircle className="h-4 w-4 shrink-0 text-[#B91C1C]" />
           )}
           <span>{message.text}</span>
         </div>
@@ -181,59 +180,48 @@ export function DocumentUploadSection({
           return (
             <div
               key={req.type}
-              className={`rounded-lg border p-4 transition-all ${
+              className={`rounded-[4px] border p-4 transition-all ${
                 matchingDoc?.status === "VERIFIED"
                   ? "border-[#BBF7D0] bg-[#F0FDF4]/50"
                   : matchingDoc?.status === "REJECTED"
                     ? "border-[#FECACA] bg-[#FEF2F2]/50"
                     : matchingDoc?.status === "PENDING"
                       ? "border-[#FDE68A] bg-[#FFFBEB]/50"
-                      : "border-[#E5E7EB] bg-[#F9FAFB]"
+                      : "border-[#E5E7EB] bg-[#FAFBFC]"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-xs font-bold text-[#111827]">
+                  <h3 className="text-xs font-semibold text-[#0E1422]">
                     {req.label}
                   </h3>
-                  <p className="text-[11px] text-[#6B7280] mt-0.5">
+                  <p className="text-[11px] text-[#5B6475] mt-0.5">
                     {req.desc}
                   </p>
                 </div>
 
                 {matchingDoc?.status === "VERIFIED" ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#DCFCE7] px-2 py-0.5 text-[10px] font-bold text-[#15803D]">
-                    <CheckCircle2 className="h-3 w-3" />
-                    Terverifikasi
-                  </span>
+                  <StatusBadge status="VERIFIED">Terverifikasi</StatusBadge>
                 ) : matchingDoc?.status === "PENDING" ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#FEF3C7] px-2 py-0.5 text-[10px] font-bold text-[#B45309]">
-                    <Clock className="h-3 w-3" />
-                    Menunggu Admin
-                  </span>
+                  <StatusBadge status="PENDING">Menunggu Admin</StatusBadge>
                 ) : matchingDoc?.status === "REJECTED" ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#FEE2E2] px-2 py-0.5 text-[10px] font-bold text-[#B91C1C]">
-                    <XCircle className="h-3 w-3" />
-                    Ditolak
-                  </span>
+                  <StatusBadge status="REJECTED">Ditolak</StatusBadge>
                 ) : (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-[#E5E7EB] px-2 py-0.5 text-[10px] font-semibold text-[#4B5563]">
-                    Belum Diunggah
-                  </span>
+                  <StatusBadge variant="secondary">Belum Diunggah</StatusBadge>
                 )}
               </div>
 
               {/* Detail file yang terunggah */}
               {matchingDoc && (
                 <div className="mt-3 flex items-center justify-between border-t border-[#E5E7EB] pt-2 text-[11px]">
-                  <span className="text-[#4B5563] truncate max-w-[180px]">
+                  <span className="text-[#5B6475] truncate max-w-[180px]">
                     📄 {matchingDoc.fileName}
                   </span>
                   <a
                     href={`/api/documents/${matchingDoc.id}/file`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 font-semibold text-[#1D4ED8] hover:underline"
+                    className="inline-flex items-center gap-1 font-semibold text-[#2862E0] hover:underline"
                   >
                     Buka Berkas <ExternalLink className="h-3 w-3" />
                   </a>
@@ -242,8 +230,8 @@ export function DocumentUploadSection({
 
               {/* Alasan Penolakan Jika Ada */}
               {matchingDoc?.status === "REJECTED" && (
-                <div className="mt-2.5 rounded border border-[#FCA5A5] bg-[#FEF2F2] p-2 text-[11px] text-[#991B1B]">
-                  <div className="flex items-center gap-1 font-bold">
+                <div className="mt-2.5 rounded-[2px] border border-[#FCA5A5] bg-[#FEF2F2] p-2 text-[11px] text-[#B91C1C]">
+                  <div className="flex items-center gap-1 font-semibold">
                     <ShieldAlert className="h-3.5 w-3.5" />
                     Alasan Penolakan:
                   </div>
@@ -259,8 +247,8 @@ export function DocumentUploadSection({
       </div>
 
       {/* Form Unggah Dokumen Baru / Unggah Ulang */}
-      <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-[#374151] mb-3">
+      <div className="rounded-[4px] border border-[#E5E7EB] bg-[#FAFBFC] p-5">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#0E1422] mb-3">
           Unggah atau Perbarui Berkas Dokumen
         </h3>
 
@@ -269,14 +257,14 @@ export function DocumentUploadSection({
           className="grid grid-cols-1 md:grid-cols-3 gap-3"
         >
           <div>
-            <label className="block text-[11px] font-semibold text-[#4B5563] mb-1">
+            <label className="block text-[11px] font-semibold text-[#5B6475] mb-1">
               Jenis Dokumen
             </label>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
               required
-              className="w-full rounded-lg border border-[#D1D5DB] bg-white px-2.5 py-1.5 text-xs text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+              className="w-full rounded-[4px] border border-[#8B93A1] bg-white px-2.5 py-1.5 text-xs text-[#0E1422] focus:border-[#2862E0] focus:outline-none focus:ring-1 focus:ring-[#2862E0]"
             >
               <option value="">-- Pilih Jenis Dokumen --</option>
               {orgType === "UMKM" ? (
@@ -302,7 +290,7 @@ export function DocumentUploadSection({
           </div>
 
           <div>
-            <label className="block text-[11px] font-semibold text-[#4B5563] mb-1">
+            <label className="block text-[11px] font-semibold text-[#5B6475] mb-1">
               Pilih Berkas (PDF, JPG, PNG, WebP ≤ 5MB)
             </label>
             <input
@@ -310,12 +298,12 @@ export function DocumentUploadSection({
               accept=".pdf,.png,.jpg,.jpeg,.webp"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
               required
-              className="w-full rounded-lg border border-[#D1D5DB] bg-white px-2 py-1 text-xs text-[#111827] file:mr-2 file:rounded file:border-0 file:bg-[#EFF6FF] file:px-2 file:py-1 file:text-[11px] file:font-semibold file:text-[#1D4ED8]"
+              className="w-full rounded-[4px] border border-[#8B93A1] bg-white px-2 py-1 text-xs text-[#0E1422] file:mr-2 file:rounded-[2px] file:border-0 file:bg-[#EFF4FE] file:px-2 file:py-1 file:text-[11px] file:font-semibold file:text-[#2862E0]"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] font-semibold text-[#4B5563] mb-1">
+            <label className="block text-[11px] font-semibold text-[#5B6475] mb-1">
               Masa Berlaku (Opsional)
             </label>
             <div className="flex gap-2">
@@ -323,12 +311,12 @@ export function DocumentUploadSection({
                 type="date"
                 value={validUntil}
                 onChange={(e) => setValidUntil(e.target.value)}
-                className="w-full rounded-lg border border-[#D1D5DB] bg-white px-2.5 py-1.5 text-xs text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#8B93A1] bg-white px-2.5 py-1.5 text-xs text-[#0E1422] focus:border-[#2862E0] focus:outline-none focus:ring-1 focus:ring-[#2862E0]"
               />
               <button
                 type="submit"
                 disabled={loading || !file || !selectedType}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-[4px] bg-[#2862E0] px-3.5 py-1.5 text-xs font-semibold text-white shadow-none hover:bg-[#2858B8] disabled:opacity-50 transition-colors"
               >
                 {loading ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />

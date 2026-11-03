@@ -2,14 +2,8 @@ import { auth } from "@/lib/auth";
 import { requireRole } from "@/modules/auth/rules";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import {
-  TrendingUp,
-  AlertTriangle,
-  ArrowRight,
-  FileCheck,
-  Search,
-} from "lucide-react";
-import { Badge, Button, PageHeader } from "@/components/ui";
+import { TrendingUp, AlertTriangle, ArrowRight, FileCheck } from "lucide-react";
+import { StatusBadge, Button, PageHeader, SearchBar } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +56,7 @@ export default async function UmkmDashboardPage() {
       )}
 
       {/* Main UMKM Portal Header (P0 Kompartemen) */}
-      <div className="p-6 sm:p-8">
+      <div className="p-6">
         <PageHeader
           className="border-b-0 pb-0"
           category="Portal Mitra UMKM Konveksi"
@@ -70,6 +64,11 @@ export default async function UmkmDashboardPage() {
           description={`Akun penawaran: ${session.user.email} · Spesialisasi: Seragam Kerja, Kemeja & Polo Maklon`}
           actions={
             <div className="flex flex-wrap items-center gap-2">
+              {isVerified ? (
+                <StatusBadge status="VERIFIED">Terverifikasi</StatusBadge>
+              ) : (
+                <StatusBadge status="PENDING">Menunggu Verifikasi</StatusBadge>
+              )}
               <Button variant="secondary" size="sm" asChild>
                 <Link
                   href="/umkm/profil"
@@ -79,24 +78,19 @@ export default async function UmkmDashboardPage() {
                   Profil & Dokumen
                 </Link>
               </Button>
-              <Badge
-                variant="default"
+              <StatusBadge
+                variant="info"
                 className="px-2.5 py-1 font-mono text-xs rounded-[2px]"
               >
                 Readiness: 68/100 (Tier B)
-              </Badge>
+              </StatusBadge>
             </div>
           }
         />
 
         {/* In-Page Search Bar under Header */}
-        <div className="mt-5 relative w-full">
-          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#5B6475]" />
-          <input
-            type="text"
-            placeholder="Cari RFQ terbuka, tender seragam kantor, atau kebutuhan maklon tekstil..."
-            className="h-10 w-full rounded-[4px] border border-[#8B93A1] bg-white pl-10 pr-4 text-xs sm:text-sm text-[#0E1422] placeholder:text-[#5B6475] focus:border-[#2862E0] focus:outline-none focus:ring-1 focus:ring-[#2862E0]"
-          />
+        <div className="mt-5">
+          <SearchBar placeholder="Cari RFQ terbuka, tender seragam kantor, atau kebutuhan maklon tekstil..." />
         </div>
       </div>
 
@@ -166,9 +160,9 @@ export default async function UmkmDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#E5E7EB]">
         {/* Kolom Kiri: RFQ Rekomendasi Terkini (Upwork Job Feed Style) */}
         <div className="lg:col-span-8 bg-white">
-          <div className="p-6 border-b border-[#E5E7EB] flex items-center justify-between">
+          <div className="px-6 py-4 border-b border-[#E5E7EB] flex items-center justify-between">
             <div>
-              <h2 className="font-heading text-base sm:text-lg font-semibold text-[#0E1422]">
+              <h2 className="font-heading text-base font-semibold text-[#0E1422]">
                 RFQ Tekstil yang Cocok Untuk Anda
               </h2>
               <p className="text-xs text-[#5B6475] mt-0.5">
@@ -176,28 +170,28 @@ export default async function UmkmDashboardPage() {
                 spesifikasi dan kapasitas konveksi Anda.
               </p>
             </div>
-            <Badge
-              variant="default"
+            <StatusBadge
+              variant="info"
               className="font-mono text-[11px] rounded-[2px]"
             >
               2 RFQ Tersedia
-            </Badge>
+            </StatusBadge>
           </div>
 
           <div className="divide-y divide-[#E5E7EB]">
-            {/* Card RFQ 1 */}
-            <div className="p-6 sm:p-7 space-y-3.5 transition-colors hover:bg-[#FAFBFC]">
+            {/* Card RFQ 1 - px-6 py-5 */}
+            <div className="px-6 py-5 space-y-3.5 transition-colors hover:bg-[#FAFBFC]">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-mono text-[11px] text-[#5B6475]">
                   Diposting 2 jam lalu · Seragam Kerja · Alokasi Tunggal
                 </span>
-                <Badge
+                <StatusBadge
                   variant="success"
                   dot
                   className="font-mono text-[11px] rounded-[2px]"
                 >
                   Kecocokan 86%
-                </Badge>
+                </StatusBadge>
               </div>
 
               <h3 className="font-heading text-base font-semibold text-[#0E1422] hover:text-[#2862E0] transition-colors">
@@ -252,19 +246,19 @@ export default async function UmkmDashboardPage() {
               </div>
             </div>
 
-            {/* Card RFQ 2 */}
-            <div className="p-6 sm:p-7 space-y-3.5 transition-colors hover:bg-[#FAFBFC]">
+            {/* Card RFQ 2 - px-6 py-5 */}
+            <div className="px-6 py-5 space-y-3.5 transition-colors hover:bg-[#FAFBFC]">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-mono text-[11px] text-[#5B6475]">
                   Diposting 1 hari lalu · Merchandise Promosi · Mode LOT (4 Lot
                   x 50 pcs)
                 </span>
-                <Badge
-                  variant="default"
+                <StatusBadge
+                  variant="info"
                   className="font-mono text-[11px] rounded-[2px]"
                 >
                   Kecocokan 81% (Lot B & D)
-                </Badge>
+                </StatusBadge>
               </div>
 
               <h3 className="font-heading text-base font-semibold text-[#0E1422] hover:text-[#2862E0] transition-colors">
@@ -313,7 +307,7 @@ export default async function UmkmDashboardPage() {
         </div>
 
         {/* Kolom Kanan: Detail Readiness Score & Verifikasi */}
-        <div className="lg:col-span-4 bg-[#FAFBFC] p-6 sm:p-7 space-y-4">
+        <div className="lg:col-span-4 bg-[#FAFBFC] p-6 space-y-4">
           <div className="space-y-3">
             <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
               Industrial Readiness Score
@@ -323,12 +317,12 @@ export default async function UmkmDashboardPage() {
                 68
               </span>
               <span className="font-mono text-xs text-[#5B6475]">/ 100</span>
-              <Badge
-                variant="default"
+              <StatusBadge
+                variant="info"
                 className="ml-auto rounded-[2px] font-mono text-[11px]"
               >
                 Siap Kemitraan
-              </Badge>
+              </StatusBadge>
             </div>
           </div>
 

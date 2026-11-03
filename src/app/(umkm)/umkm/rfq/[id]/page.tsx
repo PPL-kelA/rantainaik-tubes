@@ -1,4 +1,6 @@
 import { auth } from "@/lib/auth";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { redirect, notFound } from "next/navigation";
 import { findRfqById, findRfqByNumber } from "@/modules/rfq/repo";
 import { canAccessRfq, RfqVisibility } from "@/modules/rfq/rules";
@@ -34,12 +36,37 @@ export default async function UmkmRfqDetailPage({
   // Validasi visibilitas R-06
   if (!canAccessRfq(rfq.visibility as RfqVisibility, userOrgId, invitedIds)) {
     return (
-      <div className="mx-auto max-w-4xl py-12 px-4 text-center">
-        <h1 className="text-xl font-bold text-[#111827]">Akses Terbatas</h1>
-        <p className="mt-2 text-sm text-[#6B7280]">
-          RFQ ini bersifat UNDANGAN dan hanya dapat diakses oleh UMKM yang
-          terdaftar dalam undangan.
-        </p>
+      <div className="w-full space-y-0 divide-y divide-[#E5E7EB] border border-[#E5E7EB] bg-white">
+        <div className="p-6 sm:p-8 space-y-4">
+          <nav className="flex items-center gap-2 text-xs text-[#5B6475]">
+            <Link
+              href="/umkm"
+              className="flex items-center gap-1 hover:text-[#0E1422] transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Dashboard UMKM
+            </Link>
+            <span>/</span>
+            <span className="font-semibold text-[#0E1422]">Detail RFQ</span>
+          </nav>
+          <h1 className="font-heading text-xl font-semibold tracking-tight text-[#0E1422]">
+            Akses Terbatas
+          </h1>
+        </div>
+        <div className="p-8 text-center space-y-3">
+          <p className="text-sm text-[#5B6475]">
+            RFQ ini bersifat UNDANGAN dan hanya dapat diakses oleh UMKM yang
+            terdaftar dalam undangan.
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/umkm"
+              className="inline-flex items-center justify-center rounded-[4px] bg-[#2862E0] px-4 py-2 text-xs font-semibold text-white hover:bg-[#2858B8] transition-colors"
+            >
+              Kembali ke Beranda UMKM
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }

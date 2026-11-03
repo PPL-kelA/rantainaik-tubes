@@ -19,6 +19,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { askQuestionAction } from "@/modules/rfq/actions";
+import { StatusBadge } from "@/components/ui";
 
 export interface SerializedRfqItemSize {
   id: string;
@@ -173,17 +174,9 @@ export function RfqDetailClient({ rfq, userRole }: RfqDetailClientProps) {
               <span className="font-mono text-xs font-semibold text-[#2862E0] bg-[#EFF4FE] px-2 py-0.5 rounded-[2px]">
                 {rfq.rfqNumber}
               </span>
-              <span
-                className={`font-mono text-[11px] font-medium px-2 py-0.5 rounded-[2px] ${
-                  rfq.status === "OPEN"
-                    ? "bg-[#DCFCE7] text-[#15803D]"
-                    : "bg-[#F1F3F5] text-[#4B5563]"
-                }`}
-              >
-                {rfq.status === "OPEN"
-                  ? "Dibuka untuk Penawaran"
-                  : `Status: ${rfq.status}`}
-              </span>
+              <StatusBadge status={rfq.status}>
+                {rfq.status === "OPEN" ? "Dibuka untuk Penawaran" : rfq.status}
+              </StatusBadge>
               <span className="font-mono text-[11px] bg-[#F1F3F5] text-[#374151] px-2 py-0.5 rounded-[2px]">
                 Kategori {rfq.categoryType}
               </span>
@@ -640,10 +633,10 @@ export function RfqDetailClient({ rfq, userRole }: RfqDetailClientProps) {
                 )}
 
                 {/* Daftar Q&A */}
-                <div className="divide-y divide-[#E5E7EB]">
+                <div className="divide-y divide-[#E5E7EB] rounded-[4px] border border-[#E5E7EB] bg-white overflow-hidden">
                   {rfq.questions.length > 0 ? (
                     rfq.questions.map((q: SerializedRfqQuestion) => (
-                      <div key={q.id} className="py-4 space-y-2 text-xs">
+                      <div key={q.id} className="px-6 py-5 space-y-2 text-xs">
                         <div className="flex items-center justify-between text-[#5B6475]">
                           <span className="font-semibold text-[#0E1422]">
                             Penanya Anonim (Mitra UMKM)
@@ -671,7 +664,7 @@ export function RfqDetailClient({ rfq, userRole }: RfqDetailClientProps) {
                       </div>
                     ))
                   ) : (
-                    <p className="py-6 text-center text-xs text-[#5B6475]">
+                    <p className="px-6 py-5 text-center text-xs text-[#5B6475]">
                       Belum ada pertanyaan yang diajukan untuk RFQ ini.
                     </p>
                   )}
@@ -699,7 +692,7 @@ export function RfqDetailClient({ rfq, userRole }: RfqDetailClientProps) {
                     rfq.addendums.map((add: SerializedRfqAddendum) => (
                       <div
                         key={add.id}
-                        className="rounded-[4px] border border-[#E5E7EB] bg-[#FAFBFC] p-4 text-xs space-y-2"
+                        className="rounded-[4px] border border-[#E5E7EB] bg-[#FAFBFC] px-6 py-5 text-xs space-y-2"
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-mono font-semibold text-[#2862E0] bg-[#EFF4FE] px-2 py-0.5 rounded-[2px]">
@@ -723,7 +716,7 @@ export function RfqDetailClient({ rfq, userRole }: RfqDetailClientProps) {
                       </div>
                     ))
                   ) : (
-                    <p className="py-6 text-center text-xs text-[#5B6475]">
+                    <p className="px-6 py-5 text-center text-xs text-[#5B6475]">
                       Belum ada addendum yang diterbitkan untuk RFQ ini.
                     </p>
                   )}
@@ -780,11 +773,9 @@ export function RfqDetailClient({ rfq, userRole }: RfqDetailClientProps) {
               </div>
 
               <div className="divide-y divide-[#E5E7EB] border-t border-[#E5E7EB] pt-2">
-                <div className="py-2 flex justify-between">
+                <div className="py-2 flex items-center justify-between">
                   <span className="text-[#5B6475]">Status Verifikasi:</span>
-                  <span className="font-medium text-[#15803D] flex items-center gap-1">
-                    <ShieldCheck className="h-3.5 w-3.5" /> Terverifikasi
-                  </span>
+                  <StatusBadge status="VERIFIED" />
                 </div>
                 <div className="py-2 flex justify-between">
                   <span className="text-[#5B6475]">Didanai Penuh:</span>

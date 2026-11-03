@@ -22,12 +22,17 @@ export function AppSidebar({ onCloseMobile, className }: AppSidebarProps) {
   const groups: NavGroup[] = getNavigationForRole(role);
 
   const isActive = (href: string) => {
+    if (!pathname) return false;
     if (href === "/") return pathname === "/";
     if (href.includes("#")) {
-      const [base] = href.split("#");
-      return pathname === base;
+      return false;
     }
-    return pathname === href || pathname?.startsWith(`${href}/`);
+    // Root dashboard: hanya aktif jika exact match (mencegah aktif saat membuka /umkm/readiness, /umkm/profil, dll.)
+    const isRootDashboard = ["/umkm", "/industri", "/admin"].includes(href);
+    if (isRootDashboard) {
+      return pathname === href;
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   return (
@@ -150,10 +155,10 @@ export function AppSidebar({ onCloseMobile, className }: AppSidebarProps) {
         </div>
 
         {/* 3. Navigation Groups & Links */}
-        <nav className="space-y-4 px-3 py-3" aria-label="Navigasi Utama">
+        <nav className="space-y-5 px-3 py-4" aria-label="Navigasi Utama">
           {groups.map((group, groupIdx) => (
             <div key={groupIdx} className="space-y-1">
-              <p className="px-2 font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5B6475]">
+              <p className="px-3 font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-[#8B93A1]">
                 {group.label}
               </p>
               <ul className="space-y-0.5">
@@ -165,11 +170,12 @@ export function AppSidebar({ onCloseMobile, className }: AppSidebarProps) {
                       <Link
                         href={item.href}
                         onClick={onCloseMobile}
+                        data-active={active}
                         className={cn(
-                          "group flex items-center justify-between rounded-[4px] px-2.5 py-2 text-xs font-medium transition-colors",
+                          "group flex items-center justify-between rounded-[4px] px-3 py-2 text-xs font-medium transition-colors border-l-2",
                           active
-                            ? "bg-[#EFF4FE] font-semibold text-[#2862E0] border-l-2 border-[#2862E0]"
-                            : "text-[#5B6475] hover:bg-[#FAFBFC] hover:text-[#0E1422]"
+                            ? "bg-[#EFF4FE] font-semibold text-[#2862E0] border-[#2862E0]"
+                            : "border-transparent text-[#5B6475] hover:bg-[#FAFBFC] hover:text-[#0E1422]"
                         )}
                       >
                         <div className="flex items-center gap-2.5 truncate">

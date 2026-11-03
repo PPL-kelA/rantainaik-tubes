@@ -6,6 +6,7 @@ import { getReadinessDashboardData } from "@/modules/readiness/service";
 import { ReadinessClient } from "./ReadinessClient";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { PageHeader, Button } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -25,8 +26,8 @@ export default async function UmkmReadinessPage() {
   const organization = await getUserOrganization(session.user.id);
   if (!organization) {
     return (
-      <div className="rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
-        <p className="text-sm text-[#EF4444]">
+      <div className="border border-[#E5E7EB] bg-white p-6">
+        <p className="text-sm text-[#B91C1C]">
           Data organisasi konveksi tidak ditemukan untuk akun ini.
         </p>
       </div>
@@ -36,18 +37,32 @@ export default async function UmkmReadinessPage() {
   const readinessData = await getReadinessDashboardData(organization.id);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Link
-          href="/umkm"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4B5563] hover:text-[#1D4ED8] transition-colors"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Kembali ke Dashboard UMKM
-        </Link>
+    <div className="w-full space-y-0 divide-y divide-[#E5E7EB] border border-[#E5E7EB] bg-white">
+      {/* 1. Page Header Compartment */}
+      <div className="p-6">
+        <PageHeader
+          className="border-b-0 pb-0"
+          category="Portal Mitra UMKM Konveksi"
+          title="Skor Kesiapan Industri"
+          description="Indeks kesiapan industri 0-100 berbasis 6 pilar kualifikasi (legalitas, fasilitas mesin, SOP QC, sertifikasi, keuangan, dan rekam jejak pengadaan)."
+          actions={
+            <Button variant="secondary" size="sm" asChild>
+              <Link
+                href="/umkm"
+                className="flex items-center gap-1.5 text-xs font-semibold rounded-[4px]"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Kembali ke Dashboard UMKM
+              </Link>
+            </Button>
+          }
+        />
       </div>
 
-      <ReadinessClient initialData={readinessData} />
+      {/* Main Readiness Interactive Interface */}
+      <div>
+        <ReadinessClient initialData={readinessData} />
+      </div>
     </div>
   );
 }

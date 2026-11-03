@@ -155,16 +155,28 @@ import { PageHeader, Button } from "@/components/ui";
 - **Sekunder**: Latar `#FFFFFF`, border 1px `#8B93A1`, teks `#0E1422`, radius 4px, hover `#FAFBFC`.
 - **Destructive**: Latar `#B91C1C`, teks putih, radius 4px, hover `#991B1B`.
 
-### 3.4 Badge Status (Persegi Radius 2px)
-Badge berpenampilan teknis, persegi dengan radius 2px, tidak berbentuk lonjong atau bundar:
+### 3.4 Badge Status (`StatusBadge` & `Badge`)
+Badge berpenampilan teknis, persegi dengan radius 2px (`rounded-[2px]`), tidak berbentuk lonjong atau bundar. `StatusBadge` menggunakan latar warna solid lembut tanpa garis tepi (*borderless* / `border-0`) untuk merepresentasikan status secara tegas:
 ```tsx
-<span className="inline-flex items-center gap-1.5 rounded-[2px] border border-[#DCFCE7] bg-[#F0FDF4] px-2 py-0.5 text-xs font-medium text-[#15803D]">
-  <CheckCircle className="h-3 w-3" />
-  Terverifikasi
-</span>
+import { StatusBadge } from "@/components/ui";
+
+<StatusBadge status="VERIFIED">Terverifikasi</StatusBadge>
+<StatusBadge status="PENDING" dot>Menunggu Tinjauan</StatusBadge>
 ```
 
-### 3.5 Tab Bergaya Garis Bawah
+### 3.5 Input Pencarian Dalam-Halaman (`SearchBar`)
+Input pencarian standar ditempatkan tepat di bawah `PageHeader` pada halaman daftar/feed, tanpa mengotori header/navbar utama:
+```tsx
+import { SearchBar } from "@/components/ui";
+
+<SearchBar
+  placeholder="Cari RFQ terbuka, tender seragam kantor, atau kebutuhan maklon tekstil..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+/>
+```
+
+### 3.6 Tab Bergaya Garis Bawah
 Tab berbentuk garis bawah horizontal dengan indikator angka di samping label:
 ```tsx
 <div className="flex border-b border-[#E5E7EB] gap-6 text-sm">
