@@ -321,13 +321,13 @@ export function AdminConfigPanel({
   };
 
   return (
-    <div className="space-y-6 rounded-xl border border-[#E5E7EB] bg-white p-6 shadow-sm">
-      <div className="border-b border-[#E5E7EB] pb-4">
-        <h2 className="text-base font-bold text-[#111827] flex items-center gap-2">
-          <Settings2 className="h-5 w-5 text-[#1D4ED8]" />
+    <div className="bg-white p-6">
+      <div className="border-b border-[#E5E7EB] pb-4 mb-6">
+        <h2 className="text-base font-bold text-[#0E1422] flex items-center gap-2">
+          <Settings2 className="h-5 w-5 text-[#2862E0]" />
           Konfigurasi Platform & Master Data (P23.2)
         </h2>
-        <p className="text-xs text-[#6B7280] mt-0.5">
+        <p className="text-xs text-[#5B6475] mt-0.5">
           Seluruh parameter operasional dibaca langsung dari database tanpa
           hard-coding. Setiap modifikasi diaudit secara append-only.
         </p>
@@ -335,7 +335,7 @@ export function AdminConfigPanel({
 
       {message && (
         <div
-          className={`flex items-center gap-2.5 rounded-lg p-3.5 text-xs font-medium ${
+          className={`flex items-center gap-2.5 rounded-[4px] p-3.5 text-xs font-medium ${
             message.type === "success"
               ? "bg-[#F0FDF4] text-[#166534] border border-[#DCFCE7]"
               : "bg-[#FEF2F2] text-[#991B1B] border border-[#FEE2E2]"
@@ -428,7 +428,7 @@ export function AdminConfigPanel({
       {/* Tab 1: Bobot Readiness */}
       {activeTab === "readiness" && (
         <div className="space-y-5">
-          <div className="flex items-center justify-between bg-[#F9FAFB] p-3.5 rounded-lg border border-[#E5E7EB]">
+          <div className="flex items-center justify-between bg-[#F9FAFB] p-3.5 rounded-[4px] border border-[#E5E7EB]">
             <div>
               <span className="text-xs font-bold text-[#111827]">
                 Validasi Total Bobot Readiness
@@ -439,10 +439,10 @@ export function AdminConfigPanel({
             </div>
             <div className="flex items-center gap-2">
               <span
-                className={`font-mono text-sm font-bold px-3 py-1 rounded-full border ${
+                className={`font-mono text-sm font-semibold px-3 py-1 rounded-[2px] ${
                   readinessTotal === 100
-                    ? "bg-[#DCFCE7] text-[#15803D] border-[#BBF7D0]"
-                    : "bg-[#FEE2E2] text-[#B91C1C] border-[#FECACA]"
+                    ? "bg-[#DCFCE7] text-[#15803D]"
+                    : "bg-[#FEE2E2] text-[#B91C1C]"
                 }`}
               >
                 Total: {readinessTotal} / 100
@@ -467,7 +467,7 @@ export function AdminConfigPanel({
                     legalitas: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 20 poin
@@ -490,7 +490,7 @@ export function AdminConfigPanel({
                     fasilitas: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 20 poin
@@ -510,7 +510,7 @@ export function AdminConfigPanel({
                 onChange={(e) =>
                   setReadiness({ ...readiness, mutu: Number(e.target.value) })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 20 poin
@@ -533,7 +533,7 @@ export function AdminConfigPanel({
                     rekamJejak: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 20 poin
@@ -556,7 +556,7 @@ export function AdminConfigPanel({
                     administrasi: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 10 poin
@@ -579,7 +579,7 @@ export function AdminConfigPanel({
                     finansial: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 10 poin
@@ -592,7 +592,7 @@ export function AdminConfigPanel({
               type="button"
               onClick={handleResetReadiness}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3.5 py-2 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#D1D5DB] bg-white px-3.5 py-2 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB] transition-colors"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               Pulihkan Default
@@ -602,7 +602,7 @@ export function AdminConfigPanel({
               type="button"
               onClick={handleSaveReadiness}
               disabled={loading || readinessTotal !== 100}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
             >
               <Save className="h-3.5 w-3.5" />
               Simpan Bobot Readiness
@@ -614,7 +614,7 @@ export function AdminConfigPanel({
       {/* Tab 2: Bobot Matching */}
       {activeTab === "matching" && (
         <div className="space-y-5">
-          <div className="flex items-center justify-between bg-[#F9FAFB] p-3.5 rounded-lg border border-[#E5E7EB]">
+          <div className="flex items-center justify-between bg-[#F9FAFB] p-3.5 rounded-[4px] border border-[#E5E7EB]">
             <div>
               <span className="text-xs font-bold text-[#111827]">
                 Validasi Total Bobot Matching
@@ -625,10 +625,10 @@ export function AdminConfigPanel({
             </div>
             <div className="flex items-center gap-2">
               <span
-                className={`font-mono text-sm font-bold px-3 py-1 rounded-full border ${
+                className={`font-mono text-sm font-semibold px-3 py-1 rounded-[2px] ${
                   matchingTotal === 100
-                    ? "bg-[#DCFCE7] text-[#15803D] border-[#BBF7D0]"
-                    : "bg-[#FEE2E2] text-[#B91C1C] border-[#FECACA]"
+                    ? "bg-[#DCFCE7] text-[#15803D]"
+                    : "bg-[#FEE2E2] text-[#B91C1C]"
                 }`}
               >
                 Total: {matchingTotal} / 100
@@ -649,7 +649,7 @@ export function AdminConfigPanel({
                 onChange={(e) =>
                   setMatching({ ...matching, kategori: Number(e.target.value) })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 25 poin
@@ -671,7 +671,7 @@ export function AdminConfigPanel({
                     kapasitas: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 20 poin
@@ -693,7 +693,7 @@ export function AdminConfigPanel({
                     bahanDekorasi: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 15 poin
@@ -712,7 +712,7 @@ export function AdminConfigPanel({
                 onChange={(e) =>
                   setMatching({ ...matching, leadTime: Number(e.target.value) })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 10 poin
@@ -731,7 +731,7 @@ export function AdminConfigPanel({
                 onChange={(e) =>
                   setMatching({ ...matching, lokasi: Number(e.target.value) })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 10 poin
@@ -753,7 +753,7 @@ export function AdminConfigPanel({
                     readiness: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 10 poin
@@ -772,7 +772,7 @@ export function AdminConfigPanel({
                 onChange={(e) =>
                   setMatching({ ...matching, reputasi: Number(e.target.value) })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 10 poin
@@ -785,7 +785,7 @@ export function AdminConfigPanel({
               type="button"
               onClick={handleResetMatching}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3.5 py-2 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#D1D5DB] bg-white px-3.5 py-2 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB] transition-colors"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               Pulihkan Default
@@ -795,7 +795,7 @@ export function AdminConfigPanel({
               type="button"
               onClick={handleSaveMatching}
               disabled={loading || matchingTotal !== 100}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
             >
               <Save className="h-3.5 w-3.5" />
               Simpan Bobot Matching
@@ -823,7 +823,7 @@ export function AdminConfigPanel({
                     commissionPercent: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Dipotong saat rilis escrow (Default: 5%)
@@ -845,7 +845,7 @@ export function AdminConfigPanel({
                       minLots: Number(e.target.value),
                     })
                   }
-                  className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                  className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
                   placeholder="Min"
                 />
                 <span className="text-xs text-[#6B7280]">-</span>
@@ -859,7 +859,7 @@ export function AdminConfigPanel({
                       maxLots: Number(e.target.value),
                     })
                   }
-                  className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                  className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
                   placeholder="Maks"
                 />
               </div>
@@ -882,7 +882,7 @@ export function AdminConfigPanel({
                     minLotQty: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Batas aman produksi UMKM (Default: 20 pcs)
@@ -903,7 +903,7 @@ export function AdminConfigPanel({
                     fundingDeadlineHours: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Default: 72 jam (3 x 24 jam)
@@ -924,7 +924,7 @@ export function AdminConfigPanel({
                     autoConfirmMaterialHours: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Pemicu rilis termin 1 (Default: 48 jam)
@@ -945,7 +945,7 @@ export function AdminConfigPanel({
                     autoConfirmQcDays: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Pemicu rilis termin 2 (Default: 5 hari)
@@ -966,7 +966,7 @@ export function AdminConfigPanel({
                     umkmInactivityGraceHours: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Batas sengketa UMKM mangkir (Default: 72 jam)
@@ -987,7 +987,7 @@ export function AdminConfigPanel({
                     disputeClaimWindowDays: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Setelah barang diterima (Default: 5 hari)
@@ -1009,7 +1009,7 @@ export function AdminConfigPanel({
                     cancellationFeePercent: Number(e.target.value),
                   })
                 }
-                className="w-full rounded-lg border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
+                className="w-full rounded-[4px] border border-[#D1D5DB] px-3 py-2 text-sm text-[#111827] focus:border-[#1D4ED8] focus:outline-none"
               />
               <span className="text-[10px] text-[#6B7280]">
                 Pembatalan sepihak sebelum bahan (Default: 2%)
@@ -1018,7 +1018,7 @@ export function AdminConfigPanel({
           </div>
 
           {/* Matriks Kompensasi Pembatalan (Spec 7.12.4) */}
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-3">
+          <div className="rounded-[4px] border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-3">
             <h3 className="text-xs font-bold text-[#111827] uppercase tracking-wider">
               Tabel Matriks Kompensasi Pembatalan (Spec 7.12.4)
             </h3>
@@ -1051,7 +1051,7 @@ export function AdminConfigPanel({
               type="button"
               onClick={handleResetPlatform}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[#D1D5DB] bg-white px-3.5 py-2 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-[4px] border border-[#D1D5DB] bg-white px-3.5 py-2 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB] transition-colors"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               Pulihkan Default
@@ -1061,7 +1061,7 @@ export function AdminConfigPanel({
               type="button"
               onClick={handleSavePlatform}
               disabled={loading}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50 transition-colors"
             >
               <Save className="h-3.5 w-3.5" />
               Simpan Parameter Platform
@@ -1073,7 +1073,7 @@ export function AdminConfigPanel({
       {/* Tab 4: Aturan Rekomendasi */}
       {activeTab === "recommendations" && (
         <div className="space-y-5">
-          <div className="overflow-x-auto rounded-lg border border-[#E5E7EB]">
+          <div className="overflow-x-auto rounded-[4px] border border-[#E5E7EB]">
             <table className="w-full text-left text-xs text-[#4B5563]">
               <thead className="bg-[#F9FAFB] text-[10px] font-semibold uppercase text-[#6B7280] border-b border-[#E5E7EB]">
                 <tr>
@@ -1132,7 +1132,7 @@ export function AdminConfigPanel({
           </div>
 
           {/* Form Tambah Aturan Baru */}
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-3">
+          <div className="rounded-[4px] border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-3">
             <h4 className="text-xs font-bold text-[#111827]">
               Tambah Aturan Rekomendasi Baru
             </h4>
@@ -1255,7 +1255,7 @@ export function AdminConfigPanel({
                 {categories.map((parent) => (
                   <div
                     key={parent.id}
-                    className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-3"
+                    className="rounded-[4px] border border-[#E5E7EB] bg-[#F9FAFB] p-3"
                   >
                     <div className="font-bold text-xs text-[#111827] flex items-center justify-between">
                       <span>📁 {parent.name}</span>
@@ -1396,7 +1396,7 @@ export function AdminConfigPanel({
             {certifications.map((c) => (
               <div
                 key={c.id}
-                className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-1.5"
+                className="rounded-[4px] border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-1.5"
               >
                 <div className="flex items-start justify-between">
                   <h4 className="font-bold text-xs text-[#111827]">{c.name}</h4>
@@ -1415,7 +1415,7 @@ export function AdminConfigPanel({
           </div>
 
           {/* Form Tambah Sertifikasi Baru */}
-          <div className="rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-3">
+          <div className="rounded-[4px] border border-[#E5E7EB] bg-[#F9FAFB] p-4 space-y-3">
             <h4 className="text-xs font-bold text-[#111827]">
               Tambah Standar Uji / Sertifikasi Tekstil Baru
             </h4>
@@ -1462,7 +1462,7 @@ export function AdminConfigPanel({
       {/* Confirmation Modal */}
       {confirmModal?.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl border border-[#E5E7EB] space-y-4">
+          <div className="w-full max-w-md rounded-[4px] bg-white p-6 border border-[#E5E7EB] space-y-4">
             <div className="flex items-center gap-2.5 text-[#111827]">
               <AlertTriangle className="h-5 w-5 text-[#D97706]" />
               <h3 className="text-sm font-bold">{confirmModal.title}</h3>
@@ -1475,7 +1475,7 @@ export function AdminConfigPanel({
                 type="button"
                 disabled={loading}
                 onClick={() => setConfirmModal(null)}
-                className="rounded-lg border border-[#D1D5DB] px-3.5 py-1.5 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB]"
+                className="rounded-[4px] border border-[#D1D5DB] px-3.5 py-1.5 text-xs font-semibold text-[#4B5563] hover:bg-[#F9FAFB]"
               >
                 Batal
               </button>
@@ -1486,7 +1486,7 @@ export function AdminConfigPanel({
                   await confirmModal.onConfirm();
                   setConfirmModal(null);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-[#1D4ED8] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-[4px] bg-[#1D4ED8] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1E40AF] disabled:opacity-50"
               >
                 {loading ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
