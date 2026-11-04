@@ -121,13 +121,13 @@ export const NAVIGATION_CONFIG: Record<string, NavGroup[]> = {
           icon: LayoutDashboard,
         },
         {
-          title: "Verifikasi Akun",
-          href: "/admin#verifikasi",
+          title: "Verifikasi Akun & Dokumen",
+          href: "/admin/verifikasi",
           icon: ShieldCheck,
         },
         {
           title: "Mediasi Sengketa",
-          href: "/admin#sengketa",
+          href: "/admin/sengketa",
           icon: Scale,
         },
       ],
@@ -137,12 +137,12 @@ export const NAVIGATION_CONFIG: Record<string, NavGroup[]> = {
       items: [
         {
           title: "Ledger Escrow",
-          href: "/admin#ledger",
+          href: "/admin/ledger",
           icon: FolderKanban,
         },
         {
           title: "Konfigurasi Master Data",
-          href: "/admin#konfigurasi",
+          href: "/admin/konfigurasi",
           icon: Settings,
         },
       ],

@@ -31,7 +31,7 @@ describe("Konfigurasi Navigasi Terpusat (R1)", () => {
     expect(nav.length).toBeGreaterThan(0);
     const titles = nav.flatMap((g) => g.items.map((i) => i.title));
     expect(titles).toContain("Dashboard Admin");
-    expect(titles).toContain("Verifikasi Akun");
+    expect(titles).toContain("Verifikasi Akun & Dokumen");
     expect(titles).toContain("Mediasi Sengketa");
     expect(titles).toContain("Ledger Escrow");
     expect(titles).toContain("Konfigurasi Master Data");
