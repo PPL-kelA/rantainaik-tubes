@@ -1,10 +1,8 @@
-# rantainaik
+# RantaiNaik
 Develop by
 - Kalingga Rafif | Project Manager
 - Rahmawati Suci | UI/UX Designer
 --------
-# RantaiNaik
-
 Platform pengadaan tekstil B2B (model broker) yang menghubungkan industri/pembeli dengan UMKM konveksi: RFQ berbasis item (tunggal atau lot), penawaran terstruktur, scoring kesiapan (Readiness Score), dan perlindungan pembayaran escrow berbasis milestone.
 
 ---
