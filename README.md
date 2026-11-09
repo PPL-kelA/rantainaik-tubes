@@ -98,4 +98,4 @@ Aplikasi menggunakan tema **P0 (Industrial / Upwork-like)**:
 - **Aksen Utama**: Biru baja `#1D4ED8` (hover `#1E40AF`, tint `#EFF6FF`)
 - **Tipografi**: Inter (isi) dan IBM Plex Mono (nomor RFQ/Order)
 - **Navigasi Shell**: Header sticky 64px, lebar konten maksimum 1200px.
->>>>>>> develop
+
