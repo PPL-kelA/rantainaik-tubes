@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/lib/auth";
 import {
   register,
   requestPasswordReset,
@@ -76,6 +77,14 @@ export async function resetPasswordAction(formData: unknown) {
 
 export async function verifyUserAction(targetUserId: string) {
   try {
+    // Audit F1: aksi ini hanya untuk ADMIN
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") {
+      return {
+        success: false,
+        error: "Akses ditolak: Hanya Admin yang berhak memverifikasi akun.",
+      };
+    }
     const result = await verifyUserAccount(targetUserId);
     revalidatePath("/admin");
     return { success: true, message: result.message };
@@ -89,6 +98,14 @@ export async function verifyUserAction(targetUserId: string) {
 
 export async function suspendUserAction(targetUserId: string) {
   try {
+    // Audit F1: aksi ini hanya untuk ADMIN
+    const session = await auth();
+    if (session?.user?.role !== "ADMIN") {
+      return {
+        success: false,
+        error: "Akses ditolak: Hanya Admin yang berhak menangguhkan akun.",
+      };
+    }
     const result = await suspendUserAccount(targetUserId);
     revalidatePath("/admin");
     return { success: true, message: result.message };

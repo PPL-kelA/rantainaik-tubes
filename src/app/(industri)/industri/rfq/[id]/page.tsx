@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import { findRfqById, findRfqByNumber } from "@/modules/rfq/repo";
+import { canViewIndustryRfq } from "@/modules/rfq/ownership";
 import {
   IndustriRfqDetailClient,
   SerializedRfq,
@@ -32,6 +33,17 @@ export default async function IndustriRfqDetailPage({
   }
 
   if (!rfq) {
+    notFound();
+  }
+
+  // Audit F2: hanya pemilik RFQ (atau ADMIN) yang boleh melihat detail
+  if (
+    !canViewIndustryRfq(
+      rfq.industryOrgId,
+      session.user.organizationId || "",
+      session.user.role
+    )
+  ) {
     notFound();
   }
 

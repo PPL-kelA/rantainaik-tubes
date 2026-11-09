@@ -259,9 +259,21 @@ export async function askQuestion(
 
 export async function answerQuestion(
   data: z.infer<typeof answerQuestionSchema>,
-  _industryOrgId: string,
+  industryOrgId: string,
   actorId?: string | null
 ) {
+  // Audit F3: hanya pemilik RFQ yang boleh menjawab pertanyaannya
+  const question = await repo.findRfqByQuestionId(data.questionId);
+  if (!question) {
+    throw new Error("Pertanyaan tidak ditemukan");
+  }
+
+  if (question.rfq.industryOrgId !== industryOrgId) {
+    throw new Error(
+      "Anda tidak memiliki hak akses untuk menjawab pertanyaan pada RFQ ini"
+    );
+  }
+
   const updated = await repo.answerQuestion(data.questionId, data.answer);
 
   await audit({

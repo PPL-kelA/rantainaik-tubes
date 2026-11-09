@@ -321,6 +321,19 @@ export async function createQuestion(
   });
 }
 
+export async function findRfqByQuestionId(questionId: string) {
+  return db.rfqQuestion.findUnique({
+    where: { id: questionId },
+    select: {
+      id: true,
+      rfqId: true,
+      rfq: {
+        select: { industryOrgId: true },
+      },
+    },
+  });
+}
+
 export async function answerQuestion(questionId: string, answer: string) {
   return db.rfqQuestion.update({
     where: { id: questionId },
