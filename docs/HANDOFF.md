@@ -2,11 +2,14 @@
 
 > File ini adalah **memori bersama** antar sesi dan antar akun. Agen membacanya di awal sesi dan memperbaruinya di akhir sesi (`/handoff`). Tulis ringkas dan konkret.
 
-**Terakhir diperbarui:** 2026-11-04, oleh: Antigravity (AI Assistant)
-**Branch aktif:** feat/redesign-ui(PBI-107)
-**Fase / sprint:** Sprint 2 (Visual Redesign R2: Halaman ADMIN, INDUSTRI, & UMKM - PBI-107)
+**Terakhir diperbarui:** 2026-11-09, oleh: Hermes (security audit session)
+**Branch aktif:** fix/security-audit-f1-f3 (dari main)
+**Fase / sprint:** Security audit F1-F3 (di atas Sprint 2)
 
 ## Status ringkas
+- **Audit keamanan scoped (kebocoran data) dijalankan** — laporan: `~/security-audit-skill/rantainaik-tubes/run-1/REPORT.md`. Diperbaiki: F1 guard ADMIN di `verifyUserAction`/`suspendUserAction` (src/modules/auth/actions.ts); F2 ownership check detail RFQ industri via `canViewIndustryRfq` (src/modules/rfq/ownership.ts, dipakai di src/app/(industri)/industri/rfq/[id]/page.tsx); F3 `answerQuestion` kini verifikasi pemilik RFQ via `repo.findRfqByQuestionId` (src/modules/rfq/service.ts, repo.ts). 11 unit test baru; suite 88 test lulus.
+- **Belum diperbaiki (temuan audit)**: F4 login tanpa cek status akun (SUSPENDED bisa masuk, sesi lama tak diputus); F5 `uploadDocumentAction` menerima organizationId dari formData client; F6 reset token plaintext + console.log + dikembalikan service.
+- **Catatan lingkungan**: `pnpm run test` paralel sering OOM di Windows ini (juga terjadi di main sebelum perubahan); pakai `pnpm vitest run --fileParallelism=false`. `pnpm run lint` gagal pre-existing (folder .agents/skills kena eslint, banyak file lama tak lolos prettier) — bukan regresi perubahan ini; eslint pada src/ bersih.
 - Redesain Sistem Visual R2 (Kelompok ADMIN, Kelompok INDUSTRI, & Kelompok UMKM Selesai 100%):
   - **Arah Visual & Layout Kompartemen Bergaris (Seamless 1px Hairline #E5E7EB)**:
     - Latar putih murni `#FFFFFF` di seluruh antarmuka Admin, Industri, dan UMKM, tanpa kartu mengambang (`shadow-*`), tanpa latar abu-abu/gradien, dan tanpa celah renggang (*gap*) antar-kompartemen.
