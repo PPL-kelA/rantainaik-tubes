@@ -2,6 +2,7 @@
 Develop by
 - Kalingga Rafif | Project Manager / Full-Stack dev
 - Rahmawati Suci | UI/UX Designer
+- Dhimas Aqillah | UI/UX Designer
 --------
 Platform pengadaan tekstil B2B (model broker) yang menghubungkan industri/pembeli dengan UMKM konveksi: RFQ berbasis item (tunggal atau lot), penawaran terstruktur, scoring kesiapan (Readiness Score), dan perlindungan pembayaran escrow berbasis milestone.
 
