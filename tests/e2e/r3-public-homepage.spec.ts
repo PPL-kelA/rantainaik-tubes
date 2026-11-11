@@ -222,17 +222,37 @@ test.describe("R3: Homepage Publik RantaiNaik & PublicLayout", () => {
     expect(devBadgeCount).toBeGreaterThanOrEqual(2);
 
     // Verifikasi 12 bagian urut
-    await expect(page.getByRole("region", { name: "Pengumuman" })).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Pengumuman" })
+    ).toBeVisible();
     await expect(page.getByRole("banner")).toBeVisible(); // PublicNavbar
-    await expect(page.getByRole("region", { name: "Hero Pengenalan RantaiNaik" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Statistik Metrik Transaksi" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Pelaku Industri dan UMKM Mitra" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Contoh Alur Pengadaan" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Fitur Unggulan Platform" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Pilihan Peran Pengguna" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Alur Cara Kerja Pengadaan" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Pusat Sumber Belajar dan Panduan" })).toBeVisible();
-    await expect(page.getByRole("region", { name: "Panggilan Aksi Pengadaan" })).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Hero Pengenalan RantaiNaik" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Statistik Metrik Transaksi" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Pelaku Industri dan UMKM Mitra" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Contoh Alur Pengadaan" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Fitur Unggulan Platform" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Pilihan Peran Pengguna" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Alur Cara Kerja Pengadaan" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Pusat Sumber Belajar dan Panduan" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: "Panggilan Aksi Pengadaan" })
+    ).toBeVisible();
     await expect(page.locator("footer")).toBeVisible();
   });
 
@@ -243,25 +263,35 @@ test.describe("R3: Homepage Publik RantaiNaik & PublicLayout", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/login");
 
-    await expect(page.getByRole("heading", { name: "Masuk ke Akun" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Masuk ke Akun" })
+    ).toBeVisible();
     // Navbar publik terlihat
     await expect(page.getByRole("banner")).toBeVisible();
     // Sidebar tidak ada
     expect(await page.locator("aside").count()).toBe(0);
 
     let hasHorizontalScroll = await page.evaluate(() => {
-      return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+      return (
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth
+      );
     });
     expect(hasHorizontalScroll).toBe(false);
 
     // 2. /register
     await page.goto("/register");
-    await expect(page.getByRole("heading", { name: "Langkah 1: Pilih Peran Anda" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Langkah 1: Pilih Peran Anda" })
+    ).toBeVisible();
     await expect(page.getByRole("banner")).toBeVisible();
     expect(await page.locator("aside").count()).toBe(0);
 
     hasHorizontalScroll = await page.evaluate(() => {
-      return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+      return (
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth
+      );
     });
     expect(hasHorizontalScroll).toBe(false);
   });
