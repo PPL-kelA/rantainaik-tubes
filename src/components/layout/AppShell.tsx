@@ -15,21 +15,16 @@ export function AppShell({ children }: AppShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
 
-  // Auth pages (login, register, reset-password, verifikasi-pending) are rendered standalone without sidebar
-  const isAuthPage =
+  // Public and Auth pages are rendered standalone without sidebar
+  const isPublicPage =
+    pathname === "/" ||
     pathname?.startsWith("/login") ||
     pathname?.startsWith("/register") ||
     pathname?.startsWith("/reset-password") ||
     pathname?.startsWith("/verifikasi-pending");
 
-  if (isAuthPage) {
-    return (
-      <div className="min-h-screen bg-white text-[#0E1422] selection:bg-[#EFF4FE] selection:text-[#2862E0]">
-        <main className="flex min-h-screen items-center justify-center p-4 sm:p-6">
-          {children}
-        </main>
-      </div>
-    );
+  if (isPublicPage) {
+    return <>{children}</>;
   }
 
   return (

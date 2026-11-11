@@ -80,7 +80,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-full max-w-[960px] py-6 sm:py-8">
+    <div className="w-full max-w-[960px] mx-auto py-8 sm:py-12 px-4 sm:px-6">
       <div>
         {/* Step Indicator Header (Strictly no pill) */}
         <div className="mb-6 flex items-center justify-between border-b border-[#E5E7EB] pb-4">

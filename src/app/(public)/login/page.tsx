@@ -85,7 +85,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-[1020px] py-4 sm:py-8">
+    <div className="w-full max-w-[1020px] mx-auto py-8 sm:py-12 px-4 sm:px-6">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
         {/* Left Column: Context, Trust Signals & Dev Demo */}
         <div className="md:col-span-5 space-y-6">

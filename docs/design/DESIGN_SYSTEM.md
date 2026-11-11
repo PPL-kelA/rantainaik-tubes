@@ -210,7 +210,88 @@ Tabel dengan pembatas baris tipis 1px `#E5E7EB`, header latar `#FAFBFC`, teks mo
 
 ---
 
-## 4. Larangan Tegas (Anti-Patterns)
+## 4. Komponen Landing & Layout Publik (R3)
+
+Homepage publik RantaiNaik menggunakan **PublicLayout** yang terpisah dari `AppShell`. Halaman publik berada di route group `(public)` dan **tidak memiliki sidebar**.
+
+### 4.1 Arsitektur Route Group
+
+```
+RootLayout (src/app/layout.tsx — hanya SessionProviderWrapper)
+  ├── (public)/layout.tsx → PublicLayout (AnnouncementBar + PublicNavbar + children + PublicFooter)
+  │     ├── page.tsx          — homepage 12-bagian
+  │     ├── login/page.tsx
+  │     ├── register/page.tsx
+  │     ├── reset-password/page.tsx
+  │     └── verifikasi-pending/page.tsx
+  ├── (admin)/layout.tsx   → AppShell (dengan sidebar admin)
+  ├── (industri)/layout.tsx → AppShell (dengan sidebar industri)
+  └── (umkm)/layout.tsx    → AppShell (dengan sidebar UMKM)
+```
+
+### 4.2 PublicLayout (`src/components/layout/PublicLayout.tsx`)
+
+Layout publik menggunakan **navbar atas sticky** (bukan sidebar). Navbar 64px putih, garis bawah 1px `#E5E7EB`, menempel di atas saat scroll.
+
+```tsx
+import PublicLayout from "@/components/layout/PublicLayout";
+
+// Digunakan di src/app/(public)/layout.tsx:
+export default function Layout({ children }) {
+  return <PublicLayout>{children}</PublicLayout>;
+}
+```
+
+### 4.3 Komponen Landing (`src/components/landing/`)
+
+Semua diekspor dari `src/components/landing/index.ts`:
+
+| Komponen | Deskripsi |
+|---|---|
+| `AnnouncementBar` | Pita tipis 40px yang bisa ditutup, satu kalimat + tautan |
+| `PublicNavbar` | Navbar 64px sticky; menu dropdown keyboard-navigable; hamburger di bawah 1024px |
+| `NavDropdown` | Panel dropdown putih bergaris 2-kolom, keyboard (Esc, panah, Tab) |
+| `MobileSheet` | Sheet layar penuh hamburger; accordion grup; kunci scroll body; Esc/tombol close |
+| `Hero` | Pita gelap `#0E1422`; H1 fluid `clamp(32px,5vw,56px)`; pratinjau RFQ statis di kanan |
+| `TrustStrip` | 4 sel angka metrik dipisah garis; label "Data contoh" |
+| `PartnerWall` | Grid 6-kolom nama usaha contoh bergaya teks; label "Data contoh" |
+| `UseCases` | 3 sel cerita; angka metrik mono 40px; label "Data contoh" |
+| `FeatureTabs` | Daftar tab vertikal kiri + panel kanan; blok kode Tokyo Night; accordion di mobile |
+| `TwoPaths` | 2 kompartemen berdampingan: Untuk Industri & Untuk UMKM |
+| `HowItWorks` | 4 langkah bernomor mono 01-04 dalam grid 4 sel dengan garis |
+| `Resources` | 4 sel sumber belajar dengan tautan |
+| `CTABand` | Pita putih; judul + satu kalimat + 2 tombol |
+| `PublicFooter` | Pita gelap `#0E1422`; 5-kolom desktop; accordion mobile |
+
+### 4.4 Aturan Konten Landing
+
+- **Data contoh wajib berlabel** `"Data contoh"` — tidak ada angka nyata atau logo pelanggan asli.
+- **Escrow belum aktif** — selalu tampilkan badge `"Dalam pengembangan"`, jangan tulis seolah dana benar-benar dipegang.
+- **Pita gelap diizinkan dua kali**: Hero (`#0E1422`) dan Footer (`#0E1422`) sebagai pengecualian landing.
+- **Pola latar hero**: grid tipis solid `#2A3142` — bukan gradien.
+- Di dalam pita gelap: teks putih, kontras ≥ 4.5:1, garis pembagi `#2A3142`.
+
+### 4.5 Container & Padding Halaman Publik
+
+| Properti | Nilai |
+|---|---|
+| `max-width` container | 1280px, `mx-auto` |
+| Padding horizontal | 16px (<640px) · 24px (640–1023px) · 32px (≥1024px) |
+| Padding vertikal bagian | 64px mobile · 80px tablet · 96px desktop |
+| Jarak judul ke isi | 32–48px |
+| Padding sel grid | 24px (20px mobile) |
+
+### 4.6 Komponen Baru yang Ditambahkan ke Sistem
+
+Komponen-komponen ini dibuat baru selama R3 dan mengikuti token yang sama:
+
+- **`NavDropdown`** — panel floating dengan `shadow-[0_4px_16px_rgba(14,20,34,0.08)]`, keyboard-navigable (ARIA `role="menu"`)
+- **`MobileSheet`** — drawer layar penuh, `position:fixed inset-0`, tanpa backdrop blur, kunci scroll body, `role="dialog"` dengan `aria-modal="true"`
+- **`FeatureTabs`** — tab vertikal desktop / accordion mobile; tab aktif dengan garis kiri 2px `#2862E0`; blok kode Tokyo Night dengan `overflow-x-auto`
+
+---
+
+## 5. Larangan Tegas (Anti-Patterns)
 
 - ❌ **Dilarang elemen berbentuk kapsul / lonjong**: Jangan memakai sudut bulat penuh pada tombol, tab, badge, status, atau filter chip.
 - ❌ **Dilarang latar sekunder di seluruh halaman**: Kanvas utama harus putih murni `#FFFFFF`.

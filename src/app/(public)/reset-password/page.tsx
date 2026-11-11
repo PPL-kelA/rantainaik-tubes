@@ -82,7 +82,7 @@ function ResetPasswordForm() {
   };
 
   return (
-    <div className="w-full max-w-[480px] py-8">
+    <div className="w-full max-w-[480px] mx-auto py-12 px-4">
       <Panel className="p-6 sm:p-7">
         <div className="flex items-center gap-3 border-b border-[#E5E7EB] pb-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-[#EFF4FE] text-[#2862E0] border border-[#BFDBFE]">
