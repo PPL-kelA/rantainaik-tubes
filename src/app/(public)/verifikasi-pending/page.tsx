@@ -21,7 +21,7 @@ async function VerificationPendingContent({
   const org = params.org;
 
   return (
-    <div className="w-full max-w-[760px] py-8">
+    <div className="w-full max-w-[760px] mx-auto py-12 px-4">
       <div className="space-y-6">
         {/* Main Status Panel (Strictly no pill) */}
         <Panel className="p-6 sm:p-8">
